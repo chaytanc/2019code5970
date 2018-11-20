@@ -1,15 +1,14 @@
 import wpilib
 from wpilib.buttons.joystickbutton import JoystickButton
 import sys
-sys.path.append('C:/Users/Beavertronics/Desktop/2018Workstation/2018code5970/drivingcode/robot_py_modules')
 
-from variable_declarations import VariableDec    #Assign variables for encoders, motors, pistons etc. to use in robot.py and RobotPyModules 
+from left_motors import Left_Motors
+from right_motors import Right_Motors 
 
-import sys
 
 #sys.path.append('./robot_py_modules/pneumatics') #Linux RobotPyModules path
 sys.path.append('C:/Users/Beavertronics/Desktop/2018Workstation/2018code5970/drivingcode/robot_py_modules') #Windows RobotPyModules path
-import autonomous_movement
+from autonomous_movement import AutoMovement()
 
 #sys.path.insert(0, here + '/../vision')
 #Windows path
@@ -21,7 +20,7 @@ import autonomous_movement
 #import re
 #import argparse
 
-class AutoVision(VariableDec):
+class AutoVision():
     '''
     Control vision for better autonomous movement [DISABLED]
     '''

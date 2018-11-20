@@ -3,9 +3,14 @@ from wpilib.buttons.joystickbutton import JoystickButton
 import sys
 sys.path.append('C:/Users/Beavertronics/Desktop/2018Workstation/2018code5970/drivingcode/robot_py_modules')
 
-from variable_declarations import VariableDec    #Assign variables for encoders, motors, pistons etc. to use in robot.py and RobotPyModules 
 
-class Pneuma(VariableDec):
+
+class Pneuma():
+    #*********Robot-Side Initialization***************
+    def __init__(self):
+            #Initialize Pneumatics[pistons]
+            pistonL = wpilib.Solenoid(2)
+            pistonR = wpilib.Solenoid(3)
     '''
     Compress air for pistons?
     '''

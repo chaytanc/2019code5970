@@ -3,9 +3,17 @@ from wpilib.buttons.joystickbutton import JoystickButton
 import sys
 sys.path.append('C:/Users/Beavertronics/Desktop/2018Workstation/2018code5970/drivingcode/robot_py_modules')
 
-from variable_declarations import VariableDec    #Assign variables for encoders, motors, pistons etc. to use in robot.py and RobotPyModules 
 
-class ShiftGears(VariableDec):
+class ShiftGears():
+    #*********Robot-Side Initialization***************
+    def __init__(self):
+            #Initialize Shifter
+            shiftL = wpilib.Solenoid(0)
+            shiftR = wpilib.Solenoid(1)
+            
+            #Initialize Shifter[pop motors]
+            #pop_motor = []
+            #pop_motor.append(wpilib.VictorSP(7))
     '''
     Control shifters
     '''

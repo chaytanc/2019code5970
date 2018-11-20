@@ -3,9 +3,13 @@ from wpilib.buttons.joystickbutton import JoystickButton
 import sys
 sys.path.append('C:/Users/Beavertronics/Desktop/2018Workstation/2018code5970/drivingcode/robot_py_modules')
 
-from variable_declarations import VariableDec    #Assign variables for encoders, motors, pistons etc. to use in robot.py and RobotPyModules 
 
-class GteenMotor(VariableDec):
+class GteenMotor():
+#*********Robot-Side Initialization***************
+    def __init__(self):
+            #Initialize GteenMotorControl
+            Gteen_motor = []
+            Gteen_motor.append(wpilib.VictorSP(8))
     '''
     Control autonomous turns?
     '''

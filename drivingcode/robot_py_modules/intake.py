@@ -4,9 +4,13 @@ import sys
 
 sys.path.append('C:/Users/Beavertronics/Desktop/2018Workstation/2018code5970/drivingcode/RobotPyModules')
 
-from variable_declarations import VariableDec    #Assign variables for encoders, motors, pistons etc. to use in robot.py and RobotPyModules 
 
-class CubeIntake(VariableDec):
+class CubeIntake():
+    #*********Robot-Side Initialization***************
+    def __init__(self):
+        #Initialize Intake motors (missing?)
+        #CubeIntakeL_motor = []
+        #CubeIntakeR_motor = []
     '''
     Control intake motors & pistons
     '''

@@ -3,12 +3,19 @@ from wpilib.buttons.joystickbutton import JoystickButton
 import sys
 sys.path.append('C:/Users/Beavertronics/Desktop/2018Workstation/2018code5970/drivingcode/robot_py_modules')
 
-from variable_declarations import VariableDec    #Assign variables for encoders, motors, pistons etc. to use in robot.py and RobotPyModules 
+from left_motors import Left_Motors
+from right_motors import Right_Motors
 
-class AutoMovement(VariableDec):
+class AutoMovement():
+    #*********Robot-Side Initialization***************
+    def __init__(self):
+        #Initialize Ultrasonic sensors
+        #Ultra = wpilib.AnalogInput(3)
+        Gyroo = wpilib.ADXRS450_Gyro()
     '''
     Functions for autonomous movement of drivetrain (moving, turning, etc.)
     ''' 
+    
     def drive_forward(self,distance,direction):
         self.Lcoder.reset()
         if direction =="Forward":
