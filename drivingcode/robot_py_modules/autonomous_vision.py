@@ -8,7 +8,7 @@ from right_motors import Right_Motors
 
 #sys.path.append('./robot_py_modules/pneumatics') #Linux RobotPyModules path
 sys.path.append('C:/Users/Beavertronics/Desktop/2018Workstation/2018code5970/drivingcode/robot_py_modules') #Windows RobotPyModules path
-from autonomous_movement import AutoMovement()
+from autonomous_movement import AutoMovement
 
 #sys.path.insert(0, here + '/../vision')
 #Windows path

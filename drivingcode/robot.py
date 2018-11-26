@@ -14,9 +14,8 @@ import math
 #Linux RobotPyModules path
 #sys.path.append('./RobotPyModules/Pneumatics') 
 #Windows RobotPyModules path
-sys.path.append('C:/Users/Beavertronics/Desktop/2018Workstation/2018code5970/drivingcode/robot_py_modules') 
-#Windows RobotPyModules path
-sys.path.append('C:/Users/Beavertronics/Desktop/2018Workstation/2018code5970/drivingcode/robot_py_modules/add-ons') 
+sys.path.append('C:/Users/Beavertronics/Desktop/2019code5970/drivingcode/robot_py_modules') 
+
 
 # Subsidiary objects on the robot. Ex: Cube Intake from 2017/18 season
 from left_motors import Left_Motors
@@ -24,7 +23,7 @@ from right_motors import Right_Motors
 from autonomous_movement import AutoMovement     #Functions for autonomous movement of drivetrain (moving, turning, etc.)
 from autonomous_vision import AutoVision      #Control vision for better autonomous movement [DISABLED]
 from winch import Winch    #Control winches for climber & intake
-from guillotine_motor import GTeenMotor       #Control 2017 guillotine motor
+from guillotine_motor import GteenMotor       #Control 2017 guillotine motor
 from intake import CubeIntake                  #Control intake motors & pistons
 from pneumatics import Pneuma              #Initialize pneumatics
 from shifter import ShiftGears                 #Control shifters
@@ -89,40 +88,42 @@ Gyroo = wpilib.ADXRS450_Gyro()
 #***************Driverstation Initialization******************
 ### THIS IS PROBABLY VERY MESSED UP DUE TO NAMING CHANGES
 
-#Initialize Joystick Drive[steering] controls
-throttle = wpilib.Joystick(0)
-steering = wpilib.Joystick(1)
-Gteencont = wpilib.Joystick(2)
 
-#Initialize Joystick ClimberIntakeWinch controls
-UpIntakeWinch = JoystickButton(Gteencont, 5)
-DownIntakeWinch = JoystickButton(Gteencont, 6)
-ClimberWinch = JoystickButton(Gteencont, 1)
-
-#Initialize Joystick Intake controls
-CubeIntakeUp1 = JoystickButton(Gteencont,3)
-#CubeIntakeDown1 = JoystickButton(Gteencont, 4)
-CubeIntakeUp2 =JoystickButton(throttle,3)
-#CubeIntakeDown2 =JoystickButton(throttle,4)
-
-#Initialize Joystick Pneumatic[pistons] controls
-pn_button_L = JoystickButton(steering, 1)
-pn_button_R = JoystickButton(throttle, 1)
-
-#Initialize Joystick Shifter controls
-pop = JoystickButton(steering, 5)#Y
-
-
-
-#Initialize Xbox controls (unused?)
-xbox = wpilib.XboxController(4)
-#throttle = wpilib.XboxController(4)
-#steering = wpilib.XboxController(4)
-        pop = JoystickButton(xbox, 3)
-        #pop = JoystickButton(xbox, 3)#Y
 
 class BeaverTronicsRobot(wpilib.IterativeRobot): #VariableDec,
     def robotInit(self):
+    
+        #Initialize Joystick Drive[steering] controls
+        throttle = wpilib.Joystick(0)
+        steering = wpilib.Joystick(1)
+        Gteencont = wpilib.Joystick(2)
+
+        #Initialize Joystick ClimberIntakeWinch controls
+        UpIntakeWinch = JoystickButton(Gteencont, 5)
+        DownIntakeWinch = JoystickButton(Gteencont, 6)
+        ClimberWinch = JoystickButton(Gteencont, 1)
+
+        #Initialize Joystick Intake controls
+        CubeIntakeUp1 = JoystickButton(Gteencont,3)
+        #CubeIntakeDown1 = JoystickButton(Gteencont, 4)
+        CubeIntakeUp2 =JoystickButton(throttle,3)
+        #CubeIntakeDown2 =JoystickButton(throttle,4)
+
+        #Initialize Joystick Pneumatic[pistons] controls
+        pn_button_L = JoystickButton(steering, 1)
+        pn_button_R = JoystickButton(throttle, 1)
+
+        #Initialize Joystick Shifter controls
+        pop = JoystickButton(steering, 5)#Y
+
+
+
+        #Initialize Xbox controls (unused?)
+        xbox = wpilib.XboxController(4)
+        #throttle = wpilib.XboxController(4)
+        #steering = wpilib.XboxController(4)
+        pop = JoystickButton(xbox, 3)
+        #pop = JoystickButton(xbox, 3)#Y
     
         """
         This function is called upon program startup and
@@ -132,7 +133,7 @@ class BeaverTronicsRobot(wpilib.IterativeRobot): #VariableDec,
         #*************************Modules******************************
 
 
-        #TeleOP modules
+        #TeleOP instances of classes
         self.winch = Winch()
         self.gtn = GteenMotor()
         self.intk = CubeIntake()
@@ -178,13 +179,14 @@ class BeaverTronicsRobot(wpilib.IterativeRobot): #VariableDec,
         data = wpilib.DriverStation.getInstance().getGameSpecificMessage()
         
     def autonomousPeriodic(self):
-        print("got to 288")
-        if self.auto_loop_counter < 300:
+        print("auto_loop_counter: ")
+        print(auto_loop_counter)
+        if auto_loop_counter < 300:
             self.setDriveMotors(-.25, .25)
         else:
             self.setDriveMotors(0, 0)
-        self.auto_loop_counter = self.auto_loop_counter+1
-        #data = wpilib.DriverStation.getInstance().getGameSpecificMessage()
+        auto_loop_counter =+1
+        data = wpilib.DriverStation.getInstance().getGameSpecificMessage()
         #self.automvmnt.drive_forward(5000,'Backward')
         #self.setDriveMotors(.10,.10)
         #if data.find("R",0,0) == 0:
@@ -208,13 +210,13 @@ class BeaverTronicsRobot(wpilib.IterativeRobot): #VariableDec,
         #Each iteration may create new class; add if statements to fix?
         """This function is called periodically during operator control."""
         self.drivetrainMotorControl()#driving motors
-        #self.intk.InCube()#intake/outake
+        self.intk.InCube()#intake/outake
         self.shftrs.Pop() #shifters
         self.gtn.Gteen()#raise and lower Gteen
         self.winch.updown_intake()#raise and lower intake
         self.pn.pistons()
         self.winch.climber_func()
-        print("left encoder value "+str(self.Lcoder.get()))
+        #print("left encoder value "+str(self.Lcoder.get()))
         #print("right encoder value "+str(self.Rcoder.get()))
     
     def testPeriodic(self):
@@ -236,4 +238,4 @@ class BeaverTronicsRobot(wpilib.IterativeRobot): #VariableDec,
                
 if __name__ == "__main__":
     wpilib.run(BeaverTronicsRobot)
-    self.vrbls.VariableList()
+    #self.vrbls.VariableList()

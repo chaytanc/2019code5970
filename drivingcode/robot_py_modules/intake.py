@@ -11,9 +11,9 @@ class CubeIntake():
         #Initialize Intake motors (missing?)
         #CubeIntakeL_motor = []
         #CubeIntakeR_motor = []
-    '''
-    Control intake motors & pistons
-    '''
+        '''
+        Control intake motors & pistons
+        '''
     
     def InCube(self):#intake function
         if self.CubeIntakeUp1.get() or self.CubeIntakeUp2.get():
