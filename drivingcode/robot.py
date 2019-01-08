@@ -37,6 +37,11 @@ from pneumatics import Pneuma
 from shifter import ShiftGears                 
 #Import controls
 from controller import Controller               
+# Encoders
+from encoders import Encoders
+# Motors
+from left_motors import Left_Motors
+from right_motors import Right_Motors
 
 # These were commented because initializing variables outside the 
 # BeaverTronicsRobot class fails with the wpilib loop thing 
@@ -102,15 +107,16 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
         self.throttle = wpilib.Joystick(0)
         self.steering = wpilib.Joystick(1)
 
-        #Initialize Joystick Pneumatic[piston] controls
+        ### Is this for Arcade? Steering and throttle aren't separate on tank
+        #Initialize Joystick Pneumatic[pistons] controls
         #pn_button_L = JoystickButton(self.steering, 1)
         #pn_button_R = JoystickButton(self.throttle, 1)
 
         #Initialize Joystick Shifter controls
-        pop = JoystickButton(steering, 5)#Y
+        pop = JoystickButton(self.steering, 5)#Y
 
         #Initialize Xbox controls (unused?)
-        xbox = wpilib.XboxController(4)
+        #xbox = wpilib.XboxController(4)
         #self.throttle = wpilib.XboxController(4)
         #self.steering = wpilib.XboxController(4)
         #pop = JoystickButton(xbox, 3)
@@ -124,7 +130,7 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
         #PID equation variables
         current_velocity_left = 0.0
         current_velocity_right = 0.0
-
+        
         #set threshold velocity error for accumulating integral values
         self.integral_value_filter = 100.0 
         
@@ -171,14 +177,14 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 
 
         #TeleOP instances of classes
-        self.wnch = Winch()
-        self.gtn = GteenMotor()
-        self.intk = CubeIntake()
+        self.winch = Winch()
+        self.gteen = GteenMotor()
+        self.intake = CubeIntake()
         self.pn = Pneuma()
-        self.shftrs = ShiftGears()
-        self.encdrs = Encoders()
-        self.lft = Left_Motors()
-        self.rght = Right_Motors()
+        self.shifters = ShiftGears()
+        self.encoders = Encoders()
+        self.left = Left_Motors()
+        self.right = Right_Motors()
         
         
         #Autonomous 
@@ -186,24 +192,24 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
         self.autovsn = AutoVision()
 
     def setDriveMotors(self, leftspeed, rightspeed):
-        for motor in self.rght.right_motors:
+        for motor in self.right.right_motors:
             # One of these should be positive
             motor.set(leftspeed*-1)
-        for motor in self.lft.left_motors:
+        for motor in self.left.left_motors:
             motor.set(rightspeed*-1)
             
     def autonomousInit(self):
         """This function is run once each time the robot enters autonomous mode."""
-        #self.Lcoder = self.encdrs.Lcoder
-        #self.Rcoder = self.encdrs.Rcoder
-        #self.Gcoder = self.encdrs.Gcoder
+        #self.Lcoder = self.encoders.Lcoder
+        #self.Rcoder = self.encoders.Rcoder
+        #self.Gcoder = self.encoders.Gcoder
         # Declaring and Using "Lcoder", "Rcoder", and "Gcoder" leads to 
 		# name errors on lines 223 and 225, where "Lcoder is not defined"
         
         self.auto_loop_counter = 0
-        self.encdrs.Lcoder.reset()
-        self.encdrs.Rcoder.reset()
-        self.encdrs.Gcoder.reset()
+        self.encoders.Lcoder.reset()
+        self.encoders.Rcoder.reset()
+        self.encoders.Gcoder.reset()
         self.stage = 0
         data = wpilib.DriverStation.getInstance().getGameSpecificMessage()
         
@@ -217,12 +223,12 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
             self.setDriveMotors(-.25, .25)
             
 			# error_left = current left velocity - target left velocity
-            self.error_left = abs(self.encdrs.Lcoder.get()) - 100 
+            self.error_left = abs(self.encoders.Lcoder.get()) - 100 
             # target velocity will be determined based on gear box ratio 
 			# and conversions of whatever units its in to whatever we want
 
 			# error_right = current right velocity - target right velocity
-            self.error_right = abs(self.encdrs.Rcoder.get()) - 100 
+            self.error_right = abs(self.encoders.Rcoder.get()) - 100 
                 
             # define threshold for accumulating total error
             if self.error_left < self.integral_value_filter \
@@ -315,15 +321,15 @@ and self.error_left != 0:
     def teleopPeriodic(self):
         #Each iteration may create new class; add if statements to fix?
         """This function is called periodically during operator control."""
-		#driving motors
+	#driving motors
         self.drivetrainMotorControl()
-		#intake/outake
-        self.intk.InCube()
-		#shifters
-        self.shftrs.Pop() 
-		#raise and lower Gteen
-        self.gtn.Gteen()
-		#raise and lower intake
+	#intake/outake
+        self.intake.InCube()
+	#shifters
+        self.shifters.Pop() 
+	#raise and lower Gteen
+        self.gteen.Gteen()
+	#raise and lower intake
         self.winch.updown_intake()
         self.pn.pistons()
         self.winch.climber_func()

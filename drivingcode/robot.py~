@@ -99,12 +99,13 @@ class BeaverTronicsRobot(wpilib.IterativeRobot): #VariableDec,
         self.throttle = wpilib.Joystick(0)
         self.steering = wpilib.Joystick(1)
 
+        ### Is this for Arcade? Steering and throttle aren't separate on tank
         #Initialize Joystick Pneumatic[pistons] controls
         #pn_button_L = JoystickButton(self.steering, 1)
         #pn_button_R = JoystickButton(self.throttle, 1)
 
         #Initialize Xbox controls (unused?)
-        xbox = wpilib.XboxController(4)
+        #xbox = wpilib.XboxController(4)
         #self.throttle = wpilib.XboxController(4)
         #self.steering = wpilib.XboxController(4)
         #pop = JoystickButton(xbox, 3)

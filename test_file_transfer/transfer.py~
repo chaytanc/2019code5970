@@ -1,0 +1,9 @@
+print("Hello")
+
+def print_hello_func():
+    print("Hello function with one indent")
+
+    while 1:
+        print("Hello func with two indents (in a while loop)")
+
+print_hello_func()

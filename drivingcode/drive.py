@@ -1,5 +1,5 @@
 # vim: set sw=4 sts=4 fileencoding=utf-8:
-# Sets joysticks up and stuff
+# Sets joysticks up and type of drive
 """
 Will be called each time that the robot needs to move during teleop
 """
@@ -48,6 +48,7 @@ def splitArcadeConstantRadius(steering,power,squared_input):
 
     return [left_power,right_power]
 
-def tankdrive(left,right):
+def tankdrive(left, right):
+    # Left input is negative
     left *= -1
     return [left, right]
