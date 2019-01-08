@@ -19,22 +19,28 @@ import math
 #Windows RobotPyModules path
 sys.path.append('C:/Users/Beavertronics/Desktop/2019code5970/drivingcode/robot_py_modules') 
 
-
 # Subsidiary objects on the robot. Ex: Cube Intake from 2017/18 season
-from left_motors import Left_Motors
-from right_motors import Right_Motors
-from autonomous_movement import AutoMovement     #Functions for autonomous movement of drivetrain (moving, turning, etc.)
-from autonomous_vision import AutoVision      #Control vision for better autonomous movement [DISABLED]
-from winch import Winch    #Control winches for climber & intake
-from guillotine_motor import GteenMotor       #Control 2017 guillotine motor
-from intake import CubeIntake                  #Control intake motors & pistons
-from pneumatics import Pneuma              #Initialize pneumatics
-from shifter import ShiftGears                 #Control shifters
-from controller import Controller               #Import controls
-from encoders import Encoders
 
+#Functions for autonomous movement of drivetrain (moving, turning, etc.)
+from autonomous_movement import AutoMovement    
+#Control vision for better autonomous movement [DISABLED]
+from autonomous_vision import AutoVision      
+#Control winches for climber & intake
+from winch import Winch    
+#Control 2017 guillotine motor
+from guillotine_motor import GteenMotor       
+#Control intake motors & pistons
+from intake import CubeIntake                  
+#Initialize pneumatics
+from pneumatics import Pneuma              
+#Control shifters
+from shifter import ShiftGears                 
+#Import controls
+from controller import Controller               
 
-
+# These were commented because initializing variables outside the 
+# BeaverTronicsRobot class fails with the wpilib loop thing 
+# (which runs at the bottom).
 '''
 ClimberWinch_motor = []
 ClimberWinch_motor.append(wpilib.Spark(6))
@@ -85,23 +91,23 @@ shiftR = wpilib.Solenoid(1)
 #Ultra = wpilib.AnalogInput(3)
 Gyroo = wpilib.ADXRS450_Gyro()
 '''
-
-
 #***************Driverstation Initialization******************
 ### THIS IS PROBABLY VERY MESSED UP DUE TO NAMING CHANGES
 
+class BeaverTronicsRobot(wpilib.IterativeRobot): 
 
-
-class BeaverTronicsRobot(wpilib.IterativeRobot): #VariableDec,
     def robotInit(self):
     
         #Initialize Joystick Drive[steering] controls
         self.throttle = wpilib.Joystick(0)
         self.steering = wpilib.Joystick(1)
 
-        #Initialize Joystick Pneumatic[pistons] controls
+        #Initialize Joystick Pneumatic[piston] controls
         #pn_button_L = JoystickButton(self.steering, 1)
         #pn_button_R = JoystickButton(self.throttle, 1)
+
+        #Initialize Joystick Shifter controls
+        pop = JoystickButton(steering, 5)#Y
 
         #Initialize Xbox controls (unused?)
         xbox = wpilib.XboxController(4)
@@ -118,8 +124,9 @@ class BeaverTronicsRobot(wpilib.IterativeRobot): #VariableDec,
         #PID equation variables
         current_velocity_left = 0.0
         current_velocity_right = 0.0
-        
-        self.integral_value_filter = 100.0 #set threshold velocity error for accumulating integral values
+
+        #set threshold velocity error for accumulating integral values
+        self.integral_value_filter = 100.0 
         
         self.error_total_left = 0.0
         self.error_total_right = 0.0
@@ -190,7 +197,8 @@ class BeaverTronicsRobot(wpilib.IterativeRobot): #VariableDec,
         #self.Lcoder = self.encdrs.Lcoder
         #self.Rcoder = self.encdrs.Rcoder
         #self.Gcoder = self.encdrs.Gcoder
-        #Declaring and Using "Lcoder", "Rcoder", and "Gcoder" leads to nameerrors on lines 223 and 225, where "Lcoder is not defined"
+        # Declaring and Using "Lcoder", "Rcoder", and "Gcoder" leads to 
+		# name errors on lines 223 and 225, where "Lcoder is not defined"
         
         self.auto_loop_counter = 0
         self.encdrs.Lcoder.reset()
@@ -203,16 +211,22 @@ class BeaverTronicsRobot(wpilib.IterativeRobot): #VariableDec,
    
         print("auto_loop_counter: ")
         print(self.auto_loop_counter)
-        ### The loop counter doesn't count the time, it counts iterations through autonomousPeriodic.
+        ### The loop counter doesn't count the time, 
+		# it counts iterations through autonomousPeriodic.??
         if self.auto_loop_counter < 300:
             self.setDriveMotors(-.25, .25)
             
-            self.error_left = abs(self.encdrs.Lcoder.get()) - 100 #error_left = current left velocity - target left velocity
-            # target velocity will be determined based on gear box ratio and conversions of whatever units its in to whatever we want
-            self.error_right = abs(self.encdrs.Rcoder.get()) - 100 #error_right = current right velocity - target right velocity
+			# error_left = current left velocity - target left velocity
+            self.error_left = abs(self.encdrs.Lcoder.get()) - 100 
+            # target velocity will be determined based on gear box ratio 
+			# and conversions of whatever units its in to whatever we want
+
+			# error_right = current right velocity - target right velocity
+            self.error_right = abs(self.encdrs.Rcoder.get()) - 100 
                 
-            #define threshold for accumulating total error
-            if self.error_left < self.integral_value_filter and self.error_left != 0:
+            # define threshold for accumulating total error
+            if self.error_left < self.integral_value_filter \
+and self.error_left != 0:
                 self.error_total_left += self.error_left
             else:
                 self.error_total_left = 0
@@ -223,7 +237,7 @@ class BeaverTronicsRobot(wpilib.IterativeRobot): #VariableDec,
                 self.error_total_right = 0
                     
                     
-            #set maximum value for total error
+            # set maximum value for total error
             if self.error_total_left > 50/self.ki:
                 self.error_total_left = 50/self.ki
                 
@@ -231,14 +245,14 @@ class BeaverTronicsRobot(wpilib.IterativeRobot): #VariableDec,
                 self.error_total_right = 50/self.ki
                 
                 
-            #derivative value becomes 0 when target velocity is reached
+            # derivative value becomes 0 when target velocity is reached
             if self.error_left == 0:
                 derivative_left = 0
                 
             if self.error_right == 0:
                 derivative_right = 0
                     
-            #variables for PID equation
+            # variables for PID equation
             proportion_left = self.error_left * self.kp
             proportion_right = self.error_right * self.kp
             integral_left = self.error_total_left * self.ki
@@ -247,25 +261,29 @@ class BeaverTronicsRobot(wpilib.IterativeRobot): #VariableDec,
             derivative_right = (self.error_right - self.error_previous_right) * self.kd
                 
                 
-            #set current error as previous error for next loop
+            # set current error as previous error for next loop
             self.error_previous_left = self.error_left
             self.error_previous_right = self.error_right
                 
             #PID equation:
-            #set velocity to sum of "error between current and target velocity", "sum of previous errors within threshold" and "change in error"
-            current_velocity_left = proportion_left + integral_left + derivative_left
-            current_velocity_right = proportion_right + integral_right + derivative_right
+            # set velocity to sum of "error between current and target velocity"
+			#  "sum of previous errors within threshold" and "change in error"
+            current_velocity_left = (proportion_left + 
+				integral_left + derivative_left)
+            current_velocity_right = (proportion_right + 
+				integral_right + derivative_right)
                 
-            #INSERT IF STATEMENT TO SET current_velocity_left AND current_velocity_right TO 0 WHEN POWER IS OFF
+            # INSERT IF STATEMENT TO SET current_velocity_left AND 
+			# current_velocity_right TO 0 WHEN POWER IS OFF
                 
-            #ensure motor speed never set to negative value
+            # ensure motor speed never set to negative value
             if current_velocity_left < 0:
                 current_velocity_left = 0
                 
             if current_velocity_right < 0:
                 current_velocity_right = 0
                 
-            #set motor speed to PID calculated values
+            # set motor speed to PID calculated values
             self.setDriveMotors(current_velocity_left, current_velocity_right)
                 
             time.sleep(0.2)
@@ -274,6 +292,7 @@ class BeaverTronicsRobot(wpilib.IterativeRobot): #VariableDec,
             self.setDriveMotors(0, 0)
         self.auto_loop_counter +=1
         data = wpilib.DriverStation.getInstance().getGameSpecificMessage()
+		### Test these, see what it does, determine if necessary
         #self.automvmnt.drive_forward(5000,'Backward')
         #self.setDriveMotors(.10,.10)
         #if data.find("R",0,0) == 0:
@@ -292,19 +311,24 @@ class BeaverTronicsRobot(wpilib.IterativeRobot): #VariableDec,
             #self.automvmnt.drive_forward(self.distance,'Forward')
         #else:
             #self.automvmnt.drive_forward(7000,'Forward')
-            
+
     def teleopPeriodic(self):
         #Each iteration may create new class; add if statements to fix?
         """This function is called periodically during operator control."""
-        self.drivetrainMotorControl()#driving motors
-        self.intk.InCube()#intake/outake
-        self.shftrs.Pop() #shifters
-        self.gtn.Gteen()#raise and lower Gteen
-        self.wnch.updown_intake()#raise and lower intake
+		#driving motors
+        self.drivetrainMotorControl()
+		#intake/outake
+        self.intk.InCube()
+		#shifters
+        self.shftrs.Pop() 
+		#raise and lower Gteen
+        self.gtn.Gteen()
+		#raise and lower intake
+        self.winch.updown_intake()
         self.pn.pistons()
-        self.wnch.climber_func()
-        print("left encoder value "+str(self.encdrs.Lcoder.get()))
-        print("right encoder value "+str(self.encdrs.Rcoder.get()))
+        self.winch.climber_func()
+        #print("left encoder value: "+str(self.Lcoder.get()))
+        #print("right encoder value: "+str(self.Rcoder.get()))
     
     def testPeriodic(self):
         """This function is called periodically during test mode."""
@@ -325,4 +349,3 @@ class BeaverTronicsRobot(wpilib.IterativeRobot): #VariableDec,
                
 if __name__ == "__main__":
     wpilib.run(BeaverTronicsRobot)
-    #self.vrbls.VariableList()

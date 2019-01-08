@@ -3,7 +3,7 @@ import wpilib
 from wpilib.buttons.joystickbutton import JoystickButton
 import sys
 sys.path.append('C:/Users/Beavertronics/Desktop/2018Workstation/2018code5970/drivingcode/robot_py_modules')
-    
+			    
 
 class Winch():
     def __init__(self):
@@ -21,7 +21,8 @@ class Winch():
     '''
     Control winches for climber & intake
     '''
-    def updown_intake(self):#intake winch function
+    #intake winch function
+    def updown_intake(self):
         if self.UpIntakeWinch.get():
             for motor in self.IntakeWinch_motor:
                 motor.set(0.25)
@@ -32,7 +33,8 @@ class Winch():
             for motor in self.IntakeWinch_motor:
                 motor.set(0)
                 
-    def climber_func(self):#Climber winch function
+   #Climber winch function 
+    def climber_func(self):
         if self.ClimberWinch.get():
             for motor in self.ClimberWinch_motor:
                 motor.set(0.25)
