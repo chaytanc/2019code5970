@@ -47,6 +47,7 @@ class CubeIntake():
             for motor in self.CubeIntakeR_motor:
                 motor.set(0)
                 
+	### Should this be in autonomous movement
     def pinser(self,state):
         self.auto_loop_counter = 0
         while self.auto_loop_counter <= 50:
