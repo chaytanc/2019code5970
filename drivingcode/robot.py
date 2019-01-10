@@ -15,7 +15,7 @@ import math
 
 #here = os.path.dirname(os.path.realpath(__file__))
 #Linux RobotPyModules path
-#sys.path.append('./RobotPyModules/Pneumatics') 
+sys.path.append('./robot_py_modules') 
 #Windows RobotPyModules path
 sys.path.append('C:/Users/Beavertronics/Desktop/2019code5970/drivingcode/robot_py_modules') 
 
