@@ -191,6 +191,7 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
         self.automvmnt = AutoMovement()
         self.autovsn = AutoVision()
 
+
     def setDriveMotors(self, leftspeed, rightspeed):
         for motor in self.right.right_motors:
             # One of these should be positive
@@ -222,6 +223,7 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
         if self.auto_loop_counter < 300:
             self.setDriveMotors(-.25, .25)
             
+            '''
 			# error_left = current left velocity - target left velocity
             self.error_left = abs(self.encoders.Lcoder.get()) - 100 
             # target velocity will be determined based on gear box ratio 
@@ -241,6 +243,7 @@ and self.error_left != 0:
                 self.error_total_right += self.error_right
             else:
                 self.error_total_right = 0
+            '''
                     
                     
             # set maximum value for total error
