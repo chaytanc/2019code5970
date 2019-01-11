@@ -117,7 +117,8 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 
         #Initialize Xbox controls (unused?)
         #xbox = wpilib.XboxController(4)
-        #self.throttle = wpilib.XboxController(4)
+        #self.throttle = wpilib.XboxController(4) 
+       
         #self.steering = wpilib.XboxController(4)
         #pop = JoystickButton(xbox, 3)
         #pop = JoystickButton(xbox, 3)#Y
@@ -237,7 +238,8 @@ and self.error_left != 0:
             else:
                 self.error_total_left = 0
                     
-            if self.error_right < self.integral_value_filter and self.error_right != 0:
+            if self.error_right < self.integral_value_filter \
+and self.error_right != 0:
                 self.error_total_right += self.error_right
             else:
                 self.error_total_right = 0
@@ -263,8 +265,10 @@ and self.error_left != 0:
             proportion_right = self.error_right * self.kp
             integral_left = self.error_total_left * self.ki
             integral_right = self.error_total_right * self.ki
-            derivative_left = (self.error_left - self.error_previous_left) * self.kd
-            derivative_right = (self.error_right - self.error_previous_right) * self.kd
+            derivative_left = (self.error_left - self.error_previous_left) \
+* self.kd
+            derivative_right = (self.error_right - self.error_previous_right) \
+* self.kd
                 
                 
             # set current error as previous error for next loop
