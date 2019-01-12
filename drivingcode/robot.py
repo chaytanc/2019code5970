@@ -182,7 +182,6 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
         self.gteen = GteenMotor()
         self.intake = CubeIntake()
         self.pn = Pneuma()
-        self.shifters = ShiftGears()
         self.encoders = Encoders()
         self.left = Left_Motors()
         self.right = Right_Motors()
@@ -333,7 +332,7 @@ and self.error_right != 0:
 	#intake/outake
         self.intake.InCube()
 	#shifters
-        self.shifters.Pop() 
+        ### moved to pneumatics self.shifters.Pop() 
 	#raise and lower Gteen
         self.gteen.Gteen()
 	#raise and lower intake
