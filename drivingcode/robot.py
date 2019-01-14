@@ -285,7 +285,7 @@ and self.error_right != 0:
             current_velocity_right = (proportion_right + 
 				integral_right + derivative_right)
                 
-            # INSERT IF STATEMENT TO SET current_velocity_left AND 
+            ### INSERT IF STATEMENT TO SET current_velocity_left AND 
 			# current_velocity_right TO 0 WHEN POWER IS OFF
                 
             # ensure motor speed never set to negative value
@@ -294,6 +294,19 @@ and self.error_right != 0:
                 
             if current_velocity_right < 0:
                 current_velocity_right = 0
+#########################################################################
+# Calling PID loop from separate file, 1/13/19 Lolly
+			### Need to fill in args
+			### Need to set vars once for left and once for right
+			pid = Pid_Loop()	
+			error = pid.get_error()
+			total_error = pid.set_total_error()
+			max_error = pid.set_max_error()
+			proportion = pid.set_proportion()
+			integral = pid.set_integral()
+			derivative = pid.set_derivative()
+			previous_error = pid.set_previous_error()
+			###right_velocity = pid.get_velocity()
                 
             # set motor speed to PID calculated values
             self.setDriveMotors(current_velocity_left, current_velocity_right)
