@@ -7,6 +7,7 @@ class Right_Motors():
     
     #Initialize Right motors
     right_motors = []
-    right_motors.append(wpilib.VictorSP(3))
-    right_motors.append(wpilib.VictorSP(4))
-    right_motors.append(wpilib.VictorSP(5))
+	# I think you pass in the pdp channel to this??
+    right_motors.append(wpilib.VictorSP(2))
+    right_motors.append(wpilib.VictorSP(1))
+    right_motors.append(wpilib.VictorSP(0))

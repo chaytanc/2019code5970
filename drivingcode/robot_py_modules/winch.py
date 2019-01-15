@@ -9,6 +9,7 @@ class Winch():
     def __init__(self):
      #Initialize ClimberIntakeWinch motors
         self.ClimberWinch_motor = []
+		### Wrong; no sparks
         self.ClimberWinch_motor.append(wpilib.Spark(6))
         self.ClimberWinch_motor = []
         self.ClimberWinch_motor.append(wpilib.Spark(7))

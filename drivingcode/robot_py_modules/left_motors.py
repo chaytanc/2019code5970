@@ -7,7 +7,7 @@ class Left_Motors():
  
     #Initialize Left motors
     left_motors = []
-    left_motors.append(wpilib.VictorSP(0))
-    left_motors.append(wpilib.VictorSP(1))
-    left_motors.append(wpilib.VictorSP(2))
+    left_motors.append(wpilib.VictorSP(13))
+    left_motors.append(wpilib.VictorSP(14))
+    left_motors.append(wpilib.VictorSP(15))
                 

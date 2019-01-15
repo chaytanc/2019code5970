@@ -103,26 +103,27 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 
     def robotInit(self):
     
-        #Initialize Joystick Drive[steering] controls
-        self.throttle = wpilib.Joystick(0)
-        self.steering = wpilib.Joystick(1)
+        #Initialize Joystick Drive[throttleRight] controls
+        self.throttleLeft = wpilib.Joystick(0)
+        self.throttleRight = wpilib.Joystick(1)
 
-        ### Is this for Arcade? Steering and throttle aren't separate on tank
+        ### Is this for Arcade? Steering and throttleLeft aren't separate on tank
         #Initialize Joystick Pneumatic[pistons] controls
-        #pn_button_L = JoystickButton(self.steering, 1)
-        #pn_button_R = JoystickButton(self.throttle, 1)
+        #pn_button_L = JoystickButton(self.throttleRight, 1)
+        #pn_button_R = JoystickButton(self.throttleLeft, 1)
 
         #Initialize Joystick Shifter controls
-        pop = JoystickButton(self.steering, 5)#Y
+        pop = JoystickButton(self.throttleRight, 5)#Y
 
         #Initialize Xbox controls (unused?)
         #xbox = wpilib.XboxController(4)
-        #self.throttle = wpilib.XboxController(4) 
+        #self.throttleLeft = wpilib.XboxController(4) 
        
-        #self.steering = wpilib.XboxController(4)
+        #self.throttleRight = wpilib.XboxController(4)
         #pop = JoystickButton(xbox, 3)
         #pop = JoystickButton(xbox, 3)#Y
     
+###############################################################################
         #experimental constants for PID equation to be tuned
         self.kp = 1.0 
         self.ki = 1.0
@@ -163,7 +164,15 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
                 
         self.ClimberWinch = JoystickButton(self.Gteencont, 1)
         
+        self.ClimberWinch_motor = []JoystickButton(self.Gteencont, 5)
+
+        self.IntakeWinch_motor = []
+        self.IntakeWinch_motor.append(wpilib.VictorSP(9))
+                
+        self.ClimberWinch = JoystickButton(self.Gteencont, 1)
+        
         self.ClimberWinch_motor = []
+
         self.ClimberWinch_motor.append(wpilib.Spark(6))
         self.ClimberWinch_motor = []
         self.ClimberWinch_motor.append(wpilib.Spark(7))
@@ -208,9 +217,9 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 		# name errors on lines 223 and 225, where "Lcoder is not defined"
         
         self.auto_loop_counter = 0
-        self.encoders.Lcoder.reset()
-        self.encoders.Rcoder.reset()
-        self.encoders.Gcoder.reset()
+        self.Lcoder.reset()
+        self.Rcoder.reset()
+        self.Gcoder.reset()
         self.stage = 0
         data = wpilib.DriverStation.getInstance().getGameSpecificMessage()
         
@@ -363,8 +372,8 @@ and self.error_right != 0:
         #left = self.xbox.getRawAxis(5)
         #right = self.xbox.getRawAxis(1)
         
-        left = self.throttle.getY()
-        right = self.steering.getY()
+        left = self.throttleLeft.getY()
+        right = self.throttleRight.getY()
         
         drive_powers = drive.tankdrive(right*-1, left*-1)
         self.leftspeeds = drive_powers[0]

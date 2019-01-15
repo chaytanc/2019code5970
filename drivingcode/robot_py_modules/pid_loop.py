@@ -37,6 +37,11 @@ class Pid_Loop():
         return error
         
     def set_total_error(self, error, total_error=None):
+		### This fix for mutable defaults may not be necessary; if you want the
+		### val to be 0 every new time func is called in a loop for example,
+		### then you need this. If you just want it to be 0 at beginning def of
+		### func then just the default is needed. The below catch may also turn
+		### none type args passed in into 0 which may be desirable.
 		if total_error is None:
 			total_error = 0
         if error < self.integral_value_filter and error != 0:
