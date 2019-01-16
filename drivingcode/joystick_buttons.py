@@ -25,5 +25,5 @@
 		# Low rocket eject position 
 	# XYAB Buttons control arm position for intake:
 		# Cargo and HP preset intake position
-		# Straight up position/starting position
+#		# Straight up position/starting position
 	# Stick on xbox maybe continuously vary position of arm???
