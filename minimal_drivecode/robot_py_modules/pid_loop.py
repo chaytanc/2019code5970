@@ -5,6 +5,7 @@ class Pid_Loop():
         self.kp = 1.0 
         self.ki = 1.0
         self.kd = 1.0
+		self.error = 0
         
         #PID equation variables
 		### Same question as below with proportion_left etc values
@@ -81,10 +82,6 @@ class Pid_Loop():
 		else:
 			derivative = error - previous_error \ kd
 		return derivative
-
-	def set_previous_error(self, error):
-		previous_error = error
-		return previous_error
 
 	def get_velocity(self, power_state, proportion, integral, derivative):
 		#if power_state = off:
