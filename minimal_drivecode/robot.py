@@ -55,62 +55,62 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
         
         #Autonomous modules
 
-		# Joystick buttons, when pressed do some function in other files
+	# Joystick buttons, when pressed do some function in other files
             
     def autonomousInit(self):
         """This function is run once each time the robot enters autonomous mode."""
-		# Set up encoders
+	# Set up encoders
 
-		# Loop counter to stop/start auto?
+	# Loop counter to stop/start auto?
 
-		# Reset encoders (zero them) upon init
+	# Reset encoders (zero them) upon init
 		
-		# Get Driverstation data from field
+	# Get Driverstation data from field
         data = wpilib.DriverStation.getInstance().getGameSpecificMessage()
 		self.error = 0
 		self.total_error = 0
         
     def autonomousPeriodic(self):
    
-		# Begin auto loop counter for controlling auto? Loop if less than x val
+	# Begin auto loop counter for controlling auto? Loop if less than x val
         if self.auto_loop_counter < 300:
             self.setDriveMotors(-.25, .25)
 			
-			# Get inputs for PID
+	    # Get inputs for PID
             
-			# PID loop for target velocity on each side of drivetrain in auto
-			# Input: target pathway (Noah code)
-			pid = Pid_Loop()	
-			previous_error = self.error 
-			self.error = pid.get_error()
-			self.total_error = pid.set_total_error(self.error, self.total_error)
-			max_error = pid.set_max_error()
-			proportion = pid.set_proportion()
-			integral = pid.set_integral()
-			derivative = pid.set_derivative(self.error, self.kd, previous_error)
-			###right_velocity = pid.get_velocity()
+	    # PID loop for target velocity on each side of drivetrain in auto
+	    # Input: target pathway (Noah code)
+	    pid = Pid_Loop()	
+	    previous_error = self.error 
+	    self.error = pid.get_error()
+	    self.total_error = pid.set_total_error(self.error, self.total_error)
+            proportion = pid.set_proportion()
+	    max_error = pid.set_max_error()
+	    integral = pid.set_integral()
+	    derivative = pid.set_derivative(self.error, self.kd, previous_error)
+	    ###right_velocity = pid.get_velocity()
                 
-			# Outputs for PID
+	    # Outputs for PID
 	
             # set motor speed to PID outputs 
 
             time.sleep(0.2)
           
         else:
-			### now diff file set_drive_motors()
-			# set drive motors to zero if auto counter is done
+	    ### now diff file set_drive_motors()
+	    # set drive motors to zero if auto counter is done
 
         self.auto_loop_counter +=1
-		# Why is this necessary?
+	# Why is this necessary?
         data = wpilib.DriverStation.getInstance().getGameSpecificMessage()
 
     def teleopPeriodic(self):
         """This function is called periodically during operator control."""
-		# set speed of motors based on joysticks
-		teleop_motor_control.py
-		#intake/outakes
-		#shifters
-		# any lineup code used for teleop 
+	# set speed of motors based on joysticks
+	teleop_motor_control.py
+	#intake/outakes
+	#shifters
+	# any lineup code used for teleop 
     
     def testPeriodic(self):
         """This function is called periodically during test mode."""

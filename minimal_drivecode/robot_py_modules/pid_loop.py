@@ -4,8 +4,13 @@ class Pid_Loop():
         print(" Init ")
         self.kp = 1.0 
         self.ki = 1.0
-        self.kd = 1.0
-		self.error = 0
+        self.kd = 0.0
+	
+        ###is self.error necessary?
+        self.error = 0 
+
+        ###ask loli about max_error
+        self.max_error = 50/self.ki
         
         #PID equation variables
 		### Same question as below with proportion_left etc values
@@ -48,38 +53,37 @@ class Pid_Loop():
 	# check_max_error or something
     def set_max_error(self, error, total_error):
         # Max error is 50 / self.ki
-        if total_error > 50/self.ki:
-                total_error = 50/self.ki
+        if total_error > self.max_error:
+            total_error = self.max_error
         return total_error
 
-	def set_proportion(self, error, kp=1): #put experimental default for kp etc
-		if kp is None:
-			kp = 1 #default val	
-		proportion = error * kp
-		return proportion
+    def set_proportion(self, error, kp=1): #put experimental default for kp etc
+	if kp is None:
+	    kp = 1 #default val	
+	    proportion = error * kp
+            return proportion
 		
-	def set_integral(self, total_error, ki=1):
-		if ki is None:
-			ki = 1	
-		integral = total_error * ki
-		return integral
+    def set_integral(self, total_error, ki=1):
+	if ki is None:
+	    ki = 1	
+	integral = total_error * ki
+	return integral
 
-	### Should kd etc be this default?
-	def set_derivative(self, error, kd=1, previous_error=None):
-		if previous_error is None:
-			previous_error = 0
-		if kd is None:
-			kd = 1
-		if error == 0:
-			derivative = 0
-		else:
-			derivative = error - previous_error \ kd
-		return derivative
+    def set_derivative(self, error, kd=1, previous_error=None):
+	if previous_error is None:
+	    previous_error = 0
+	if kd is None:
+	    kd = 0
+	if error == 0:
+	    derivative = 0
+	else:
+	    derivative = error - previous_error * kd
+	    return derivative
 
-	def get_velocity(self, power_state, proportion, integral, derivative):
-		#if power_state = off:
-			#velocity = 0
-		else:
-			velocity = proportion + integral + derivative
-		return velocity
+    def get_velocity(self, power_state, proportion, integral, derivative):
+	#if power_state = off:
+	#velocity = 0
+	else:
+	    velocity = proportion + integral + derivative
+	    return velocity
         
