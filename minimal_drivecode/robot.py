@@ -68,6 +68,7 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 		# Get Driverstation data from field
         data = wpilib.DriverStation.getInstance().getGameSpecificMessage()
 		self.error = 0
+		self.total_error = 0
         
     def autonomousPeriodic(self):
    
@@ -82,11 +83,11 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 			pid = Pid_Loop()	
 			previous_error = self.error 
 			self.error = pid.get_error()
-			total_error = pid.set_total_error()
+			self.total_error = pid.set_total_error(self.error, self.total_error)
 			max_error = pid.set_max_error()
 			proportion = pid.set_proportion()
 			integral = pid.set_integral()
-			derivative = pid.set_derivative(error, self.kd, previous_error)
+			derivative = pid.set_derivative(self.error, self.kd, previous_error)
 			###right_velocity = pid.get_velocity()
                 
 			# Outputs for PID
