@@ -6,8 +6,10 @@ from wpilib.buttons.joystickbutton import JoystickButton
 class Left_Motors():
  
     #Initialize Left motors
-    left_motors = []
-    left_motors.append(wpilib.VictorSP(13))
-    left_motors.append(wpilib.VictorSP(14))
-    left_motors.append(wpilib.VictorSP(15))
+    left_front = (wpilib.VictorSP(0))
+    left_mid = (wpilib.VictorSP(1))
+    left_rear = (wpilib.VictorSP(2))
+	left_motor_group = wpilib.SpeedControllerGroup(
+		left_front, left_mid, left_rear)
+
                 
