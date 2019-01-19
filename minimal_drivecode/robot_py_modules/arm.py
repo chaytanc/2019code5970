@@ -1,4 +1,4 @@
-# vim: set sw=4 sts=4 fileencoding=utf-8:
+# vim: set sw=4 noet ts=4 fileencoding=utf-8:
 
 # Control game pieces with arm
 

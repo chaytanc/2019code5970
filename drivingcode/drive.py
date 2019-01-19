@@ -1,4 +1,5 @@
-# vim: set sw=4 sts=4 fileencoding=utf-8:
+# vim: set sw=4 noet ts=4 fileencoding=utf-8:
+
 # Sets joysticks up and type of drive
 """
 Will be called each time that the robot needs to move during teleop

@@ -1,5 +1,6 @@
-# vim: set sw=4 sts=4 fileencoding=utf-8:
 #!/usr/bin/env python3
+# vim: set sw=4 noet ts=4 fileencoding=utf-8:
+
 
 # Robotics specifc libraries
 import wpilib

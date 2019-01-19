@@ -1,3 +1,5 @@
+# vim: set sw=4 noet ts=4 fileencoding=utf-8:
+
 import wpilib
 
 # Sets driving mode to tank drive, should be periodically called

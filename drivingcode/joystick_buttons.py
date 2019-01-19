@@ -1,4 +1,5 @@
-# vim: set sw=4 sts=4 fileencoding=utf-8:
+# vim: set sw=4 noet ts=4 fileencoding=utf-8:
+
 
 ### Import all specific functions tied to buttons!?
 # Assign all buttons to functions when button is pressed

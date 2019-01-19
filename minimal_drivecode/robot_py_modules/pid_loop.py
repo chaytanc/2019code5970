@@ -1,4 +1,5 @@
-# vim: set sw=4 ts=4 fileencoding=utf-8:
+# vim: set sw=4 noet ts=4 fileencoding=utf-8:
+
 class Pid_Loop():
 	def __init__():
 		print(" Init ")
