@@ -1,0 +1,16 @@
+import wpilib
+import ctre
+import left_motors
+import right_motors
+
+class Motors():
+	def __init__():
+		left_motors = left_motors.Right_Motors.left_motor_group
+		right_motors = right_motors.Right_Motors.right_motor_group
+	
+#class Arm_Motors():
+	
+	#left_intake = ctre.WPI_VictorSPX(canbusportthing)
+	#right_intake = ctre.WPI_VictorSPX(canbusportthing)
+
+

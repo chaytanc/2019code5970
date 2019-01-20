@@ -1,6 +1,18 @@
 # vim: set sw=4 noet ts=4 fileencoding=utf-8:
 
 # Control game pieces with arm
+class Arm():
+	def __init__():
+		print("init")
+		
+	def cargo_intake(self, button, motor):
+		if button.get():
+			set_arm_position(intake)
+			motor.set(1)
+
+	def cargo_eject(self, button, motor):
+		if button.get():
+			motor.set(-1)
 
 # Initialize motors for controlling arm
 # Initialize buttons here or import this and assign buttons there?
