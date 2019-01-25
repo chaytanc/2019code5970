@@ -13,9 +13,8 @@ import sys
 import math
 
 #Linux path
-sys.path.append('./robot_py_modules') 
-sys.path.append('./robot_logic') 
-sys.path.append('./motors') 
+sys.path.append('./modules') 
+sys.path.append('./logic') 
 
 #Windows RobotPyModules path
 sys.path.append('C:/Users/Beavertronics/Desktop/2019code5970/drivingcode/\
@@ -23,59 +22,75 @@ robot_py_modules')
 sys.path.append('C:/Users/Beavertronics/Desktop/2019code5970/drivingcode/\
 robot_logic') 
 
+#RoboRIO path
+sys.path.insert(0, '/home/lvuser/py/modules')
+sys.path.insert(0, '/home/lvuser/py/logic')
+
 # Subsidiary objects on the robot. Ex: Cube Intake from 2017/18 season
 #from pneumatics import Pneuma			  
 #from encoders import Encoders
-#from left_motors import Left_Motors
-#from right_motors import Right_Motors
-import left_motors as lm
-import right_motors as rm
-import drive
-import joysticks
+###
+#import left_motors as lm
+#import right_motors as rm
+###
+from left_motors import Left_Motors
+from right_motors import Right_Motors
+#import arm_motors as am
+import tank
+import joysticks as js
 
 class BeaverTronicsRobot(wpilib.IterativeRobot): 
 
 	def robotInit(self):
 
-		# TeleOP instances of classes
+		# Instances of classes
+
+		# Motors
+		left_motors_instance = Left_Motors()
+		right_motors_instance = Right_Motors()
+		left_motors = left_motors_instance.left_motor_group
+		right_motors = right_motors_instance.right_motor_group
+		#am = am.Arm_Motors()
+		#left_intake = am.left_intake
+		#right_intake = am.right_intake
+		
+		# Modules
 		#self.pn = Pneuma()
 		#self.encoders = Encoders()
-		left_motors = lm.Left_Motors()
-		right_motors = rm.Right_Motors()
-		self.left_motors = left_motors.left_motor_group
-		self.right_motors = right_motors.right_motor_group
-		#self.left_motors = Motors.init_motors.left_motors
-		#self.right_motors = Motors.init_motors.right_motors
+		#self.arm = arm.Arm()
 		
+
 		# Autonomous modules
 
 		# Tank Drive mode
-		joystick = joysticks.Joystick()
-		self.lj = joystick.lj
-		self.rj = joystick.rj
-		self.drive = drive.set_tank_drive(self.left_motors, self.right_motors)
+		self.lj = js.My_Joystick(0)
+		self.rj = js.My_Joystick(1)
+
+		self.drive = tank.set_tank_drive(left_motors, right_motors)
 
 		# Joystick buttons, when pressed do some function in other files
-#		cargo_eject_butt = joysticks.set_button(self.lj, 0)
-#		ramp_deploy_butt = joysticks.set_button(self.lj, 1)
-#		ramp_up_butt = joysticks.set_button(self.lj, 2)
+#		cargo_eject_butt = js.set_button(self.lj, 0)
+#		ramp_deploy_butt = js.set_button(self.lj, 1)
+#		ramp_up_butt = js.set_button(self.lj, 2)
 #
-#		hp_eject_butt = joysticks.set_button(self.rj, 0)
-#		lineup_butt = joysticks.set_button(self.rj, 4)
-#		highgear_butt = joysticks.set_button(self.lj, 4)
+#		hp_eject_butt = js.set_button(self.rj, 0)
+#		lineup_butt = js.set_button(self.rj, 4)
+#		highgear_butt = js.set_button(self.lj, 4)
 		
 		
 		
 			
 	def autonomousInit(self):
-		"""This function is run once each time the robot enters autonomous mode."""
-	# Set up encoders
+		"""This function is run once each time the robot enters 
+		autonomous mode."""
 
-	# Loop counter to stop/start auto?
+		# Set up encoders
 
-	# Reset encoders (zero them) upon init
+		# Loop counter to stop/start auto?
+
+		# Reset encoders (zero them) upon init
 		
-	# Get Driverstation data from field
+		# Get Driverstation data from field
 		data = wpilib.DriverStation.getInstance().getGameSpecificMessage()
 		self.error = 0
 		self.total_error = 0
@@ -107,7 +122,6 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 			time.sleep(0.2)
 		  
 		else:
-			### now diff file set_drive_motors()
 			# set drive motors to zero if auto counter is done
 	
 			self.auto_loop_counter +=1
@@ -118,14 +132,19 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 		"""This function is called periodically during operator control."""
 
 		# Set speed of motors based on joysticks
-		drive.set_tank_speed(self.lj, self.rj, self.drive)
+		tank.set_tank_speed(self.lj, self.rj, self.drive)
 
 		# Executing button functions
-		#joysticks.execute_button(cargo_eject_butt, arm.cargo_eject(), xxxargs) 
-		#joysticks.execute_button(ramp_deploy_butt, arm.ramp_deploy(), xxxargs)
+		#js.do(cargo_eject_butt, arm.cargo_eject(), xxxargs) 
+		#js.do(ramp_deploy_butt, arm.ramp_deploy(), xxxargs)
 		### etc
 
 		#intake/outakes
+		### Test this later
+		#js.do(
+		#	cargo_intake_butt, arm.cargo_intake, self.intake_motor_group) 
+
+		
 
 		#shifters
 

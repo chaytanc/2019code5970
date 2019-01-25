@@ -4,18 +4,17 @@ import wpilib
 ### Import all specific functions tied to buttons!?
 # Assign all buttons to functions when button is pressed
 
-class Joystick():	
-	def __init__(self):
-		self.lj = wpilib.Joystick(0)
-		self.rj = wpilib.Joystick(1)
-	
-		# If looping through this is too taxing just do this func
-		# a million times, once per button assigned
-	def set_button(joystick, button_number):
-		button = wpilib.buttons.JoystickButton(joystick, button_number)
+class My_Joystick(wpilib.Joystick):	
+
+	# If looping through this is too taxing just do this func
+	# a million times, once per button assigned
+	# Used to set variables to reference specific buttons
+	def set_button(self, button_number):
+		button = wpilib.buttons.JoystickButton(self, button_number)
 		return button
 	
-	def execute_button(button, func, *args):
+	# Used to do functions when a button is pressed
+	def do(self, button, func, *args):
 		if button.get():
 			func(*args)
 
