@@ -1,0 +1,7 @@
+__pycache__/
+pip_cache/
+opkg_cache/
+
+# I have no idea what the below are doing
+*.py[cod]
+*$py.class

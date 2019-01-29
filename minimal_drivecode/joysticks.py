@@ -1,8 +1,9 @@
 # vim: set sw=4 noet ts=4 fileencoding=utf-8:
 import wpilib
 
-### Import all specific functions tied to buttons!?
 # Assign all buttons to functions when button is pressed
+# This class is obsolete when using scheduler because "do" is execute and 
+# the set_button inconvience can be handled by importing better
 
 class My_Joystick(wpilib.Joystick):	
 
