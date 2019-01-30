@@ -24,7 +24,6 @@ class EncoderCheck(Command):
 	
 	def isFinished(self):
 		"""Make this return true when this Command no longer needs to run execute()"""
-		return False #loop until robot is powered off
 
 	def end(self):
 		"""Called once after isFinished returns true"""
@@ -33,3 +32,4 @@ class EncoderCheck(Command):
 		"""Called when another command which requires one or more of the same subsystems is scheduled to run"""
 
 	
+
