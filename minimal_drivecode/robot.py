@@ -3,6 +3,7 @@
 
 # Robotics specifc libraries
 import wpilib
+from wpilib.command import Scheduler
 from wpilib.buttons.joystickbutton import JoystickButton
 import time
 from networktables import NetworkTables
@@ -35,30 +36,13 @@ from right_motors import Right_Motors
 class BeaverTronicsRobot(wpilib.IterativeRobot): 
 
 	def robotInit(self):
-
 		# Instances of classes
 
 		# Subsystems
-		drivetrain = Drivetrain()
+		self.drivetrain = Drivetrain(self)
 
 		# OI
-		oi = OI()
-
-		# Motors
-		### Dunno if necessary, motors will be passed into set_speed command
-		#left_motors_instance = Left_Motors()
-		#right_motors_instance = Right_Motors()
-		#left_motors = left_motors_instance.left_motor_group
-		#right_motors = right_motors_instance.right_motor_group
-
-		# Autonomous modules
-
-		# Tank Drive mode
-		# Joysticks are made when used in commands (namely set_speed)
-		#self.lj = js.My_Joystick(0)
-		#self.rj = js.My_Joystick(1)
-
-		# Joystick buttons are no longer initialized here but in OI
+		self.oi = OI(self)
 		
 	def autonomousInit(self):
 		# Set up encoders
@@ -76,7 +60,16 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 		Scheduler.getInstance().run()
 	
 	def testPeriodic(self):
-		"""This function is called periodically during test mode."""
+		return None
+
+	def disabledInit(self):
+		return None
+	
+	def disabledPeriodic(self):
+		return None
+
+	def robotPeriodic(self):
+		return None
 	
 if __name__ == "__main__":
 	wpilib.run(BeaverTronicsRobot)

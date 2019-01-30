@@ -8,13 +8,17 @@ class Do_Tank_Drive(Command):
 
 	def __init__(self, robot):
 		# Recognize as a wpilib command
+		print("***********************")
+		print(str(robot))
+		print("***********************")
 		super().__init__()
 
 		# an instance of BeaverTronicsRobot from robot.py containing its
 		# instance of drivetrain
 		self.robot_dt = robot.drivetrain
-		left_joy = self.robot_dt.oi.left_joy
-		right_joy = self.robot_dt.oi.right_joy
+		self.requires(self.robot_dt)
+		self.left_joy = robot.oi.left_joy
+		self.right_joy = robot.oi.right_joy
 	
 	def initialize(self):
 		"""Called just before this Command runs the first time"""
@@ -22,7 +26,8 @@ class Do_Tank_Drive(Command):
 	
 	def execute(self):
 		# Continuously sets motor speed to joystick inputs w/ Scheduler
-		self.robot_dt.set_tank_speed(left_joy, right_joy, self.robot_dt.drive)
+		self.robot_dt.set_tank_speed(
+			self.left_joy, self.right_joy, self.robot_dt.drive)
 	
 	def isFinished(self):
 		# This is how running tank driving is prioritized
