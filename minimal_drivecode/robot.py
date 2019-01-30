@@ -53,7 +53,9 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 		# Initialize pid variables
 		
 	def autonomousPeriodic(self):
-		pid_loop.do_pid_loop()
+		###Commented out temporarily
+		#pid_loop.do_pid_loop()
+		return None
 
 	def teleopPeriodic(self):
 	# Before, button functions were executed here. Now scheduler will do that
