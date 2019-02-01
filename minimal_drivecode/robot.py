@@ -28,11 +28,12 @@ sys.path.insert(0, '/home/lvuser/py/subsystems')
 sys.path.insert(0, '/home/lvuser/py/commands')
 
 # Subsidiary objects on the robot. Ex: Cube Intake from 2017/18 season
-from oi import OI
+
 from drivetrain import Drivetrain
 from left_motors import Left_Motors
 from right_motors import Right_Motors
-
+#from encoders import Encoders
+from oi import OI
 class BeaverTronicsRobot(wpilib.IterativeRobot): 
 
 	def robotInit(self):
@@ -40,9 +41,14 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 
 		# Subsystems
 		self.drivetrain = Drivetrain(self)
+		
+		# Encoders
+		#self.encoders = Encoders(self)
 
 		# OI
 		self.oi = OI(self)
+
+	
 		
 	def autonomousInit(self):
 		# Set up encoders
