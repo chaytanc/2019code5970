@@ -61,12 +61,13 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 	def autonomousPeriodic(self):
 		###Commented out temporarily
 		#pid_loop.do_pid_loop()
+		print("auto_loop")
 		return None
 
 	def teleopPeriodic(self):
 	# Before, button functions were executed here. Now scheduler will do that
 		Scheduler.getInstance().run()
-	
+
 	def testPeriodic(self):
 		return None
 

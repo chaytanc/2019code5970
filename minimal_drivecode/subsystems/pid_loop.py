@@ -121,6 +121,7 @@ def do_pid_loop():
 		  
 	else:
 		# set drive motors to zero if auto counter is done
+		return None
 
 	self.auto_loop_counter +=1
 	# Why is this necessary?
