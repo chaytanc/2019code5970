@@ -3,6 +3,9 @@
 import wpilib
 import wpilib.drive
 from wpilib.command import Command
+#import sys
+#sys.path.append('../oi')
+#from oi import OI
 
 class Do_Tank_Drive(Command):
 
@@ -16,9 +19,11 @@ class Do_Tank_Drive(Command):
 		# an instance of BeaverTronicsRobot from robot.py containing its
 		# instance of drivetrain
 		self.robot_dt = robot.drivetrain
+		#self.oi = OI(self)
 		self.requires(self.robot_dt)
 		self.left_joy = robot.oi.left_joy
 		self.right_joy = robot.oi.right_joy
+
 	
 	def initialize(self):
 		"""Called just before this Command runs the first time"""
@@ -28,7 +33,9 @@ class Do_Tank_Drive(Command):
 		# Continuously sets motor speed to joystick inputs w/ Scheduler
 		self.robot_dt.set_tank_speed(
 			self.left_joy, self.right_joy, self.robot_dt.drive)
-	
+
+
+
 	def isFinished(self):
 		# This is how running tank driving is prioritized
 		# In other words, runs til interrupted

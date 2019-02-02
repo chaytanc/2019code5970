@@ -1,3 +1,5 @@
+# vim: set sw=4 noet ts=4 fileencoding=utf-8:
+
 import wpilib
 from wpilib.drive import DifferentialDrive
 from wpilib.command import Subsystem
@@ -22,15 +24,7 @@ class Drivetrain(Subsystem):
 		left_motors = left_motors_instance.left_motor_group
 		right_motors = right_motors_instance.right_motor_group
 
-		'''
-		#Initialize Encoders
-		right_encoder = wpilib.Encoder(2,3)
-		left_encoder = wpilib.Encoder(0,1)
-		arm_encoder = wpilib.Encoder(4,5)
-		'''
-		#Rcoder = wpilib.Encoder(2,3)
-		#Lcoder = wpilib.Encoder(0,1)
-		#Gcoder = wpilib.Encoder(4,5)
+		self.right_encoder = wpilib.Encoder(0,1)
 	
 		# Set the drive train to use tank drive, self because used in commands
 		self.drive = self.set_drivetrain_type(
@@ -53,6 +47,7 @@ class Drivetrain(Subsystem):
 		print("left_speed: " + str(left_speed))
 		drive.tankDrive(left_speed, right_speed)
 
+
 	def stop_robot(self, drive):
 		drive.tankDrive(0,0)
 
@@ -65,9 +60,9 @@ class Drivetrain(Subsystem):
 	
 	# Get encoder direction:	
 	def get_direction(self):
-		#direction = encoder.getDirection()
-		#return direction  
-		print(str("direction"))
+		direction = self.right_encoder.getDirection()
+		print(direction)
+		return direction  
 	
 
 		

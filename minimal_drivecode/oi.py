@@ -1,5 +1,8 @@
+# vim: set sw=4 noet ts=4 fileencoding=utf-8:
+
 import wpilib
 from wpilib.buttons import JoystickButton
+from wpilib.buttons import Trigger
 
 from sys import path
 path.append('../commands')
@@ -25,12 +28,12 @@ class OI():
 		rtop1 = JoystickButton(self.right_joy, 1)
 		rtop2 = JoystickButton(self.right_joy, 2)
 		rtop3 = JoystickButton(self.right_joy, 3)
-		rtrig0 = JoystickButton(self.right_joy, 4)
 
- 		# Activating port 4 on Joystick 0 triggers EncoderCheck                
-		ltrig0.whenPressed(EncoderCheck(robot))
-                
-
+               
+		#ltrig0.whenPressed(EncoderCheck(robot))
+		ltrig0.toggleWhenActive(EncoderCheck(robot))
+                    
+	# Why inherit the robot created in robot.py?
 
 
 
