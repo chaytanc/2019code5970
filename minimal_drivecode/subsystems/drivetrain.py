@@ -8,7 +8,8 @@ from right_motors import Right_Motors
 from sys import path
 path.append('../commands')
 from do_tank_drive import Do_Tank_Drive
-from encoder_check import EncoderCheck
+from do_encoder_check import Do_Encoder_Check
+
 
 class Drivetrain(Subsystem):
 	def __init__(self, robot):
@@ -21,15 +22,15 @@ class Drivetrain(Subsystem):
 		# Init motors here or import from robot.py
 		left_motors_instance = Left_Motors()
 		right_motors_instance = Right_Motors()
-		left_motors = left_motors_instance.left_motor_group
-		right_motors = right_motors_instance.right_motor_group
+		self.left_motors = left_motors_instance.left_motor_group
+		self.right_motors = right_motors_instance.right_motor_group
 
 		self.right_encoder = wpilib.Encoder(0,1)
 	
 		# Set the drive train to use tank drive, self because used in commands
 		self.drive = self.set_drivetrain_type(
-			DifferentialDrive, left_motors, right_motors)
-
+			DifferentialDrive, self.left_motors, self.right_motors)
+        
 		self.robot = robot
 
 	def initDefaultCommand(self):
@@ -44,25 +45,19 @@ class Drivetrain(Subsystem):
 	def set_tank_speed(self, left_joy, right_joy, drive=DifferentialDrive):
 		left_speed = left_joy.getY()
 		right_speed = right_joy.getY()
-		print("left_speed: " + str(left_speed))
 		drive.tankDrive(left_speed, right_speed)
 
 
 	def stop_robot(self, drive):
 		drive.tankDrive(0,0)
-
-	# Function to get encoder values:
-		# 
-		
-	# Function to reset encoder values:
-		# set encoder value to zero
-		# encoder.reset()
 	
-	# Get encoder direction:	
+	# Get encoder direction:
+	def reset(self):
+		self.right_encoder.reset()
+
 	def get_direction(self):
-		direction = self.right_encoder.getDirection()
-		print(direction)
-		return direction  
+		return(self.right_encoder.getDirection())
+
 	
 
 		

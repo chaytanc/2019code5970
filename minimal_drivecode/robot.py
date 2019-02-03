@@ -4,6 +4,8 @@
 # Robotics specifc libraries
 import wpilib
 from wpilib.command import Scheduler
+# for Automous Scheduler
+# from commands.autonomous import Autonomous
 from wpilib.buttons.joystickbutton import JoystickButton
 import time
 from networktables import NetworkTables
@@ -36,20 +38,26 @@ from right_motors import Right_Motors
 #from encoders import Encoders
 from oi import OI
 
+from oi_buttons import OI_Buttons
+
 class BeaverTronicsRobot(wpilib.IterativeRobot): 
 
 	def robotInit(self):
 		# Instances of classes
 
-		# Subsystems
+		# instantiate Subsystems
 		self.drivetrain = Drivetrain(self)
-		self.arm = Arm(self)
+		#self.arm = Arm(self)
 		
-		# Encoders
+		# instantiate Encoders
 		#self.encoders = Encoders(self)
 
-		# OI
+		# instantiate OI
 		self.oi = OI(self)
+		self.oi_buttons = OI_Buttons(self)
+
+		# instantiate Autonomous scheduler
+		#self.autonomousCommand = Autonomous(self)
 		
 	def autonomousInit(self):
 		# Set up encoders
@@ -58,12 +66,16 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 		# Get Driverstation data from field
 		data = wpilib.DriverStation.getInstance().getGameSpecificMessage()
 		# Initialize pid variables
+
+		# Autonomous Scheduler
+		# self.autonomousCommand.start()
 		
 	def autonomousPeriodic(self):
 		### Commented out temporarily
 		#pid_loop.do_pid_loop()
-		print("auto_loop")
-		return None
+		#print("auto_loop")
+		#return None
+		Scheduler.getInstance().run()
 
 	def teleopPeriodic(self):
 	# Before, button functions were executed here. Now scheduler will do that

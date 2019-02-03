@@ -3,25 +3,36 @@
 import wpilib
 from wpilib.command import Command
 
-class EncoderCheck(Command):
+class Do_Encoder_Check(Command):
 	"""
 	Check and return values from encoder 
 	"""
 
 	def __init__(self, robot):
+		
 		super().__init__()
-
 		self.robot = robot
-		self.requires(self.robot.drivetrain)
+		self.robot_dt = robot.drivetrain
+
+		self.requires(self.robot_dt)
 		self.setTimeout(1)
-	
+
+		self.left_joy = robot.oi.left_joy
+		self.right_joy = robot.oi.right_joy
 	def initialize(self):
 		"""Called just before this Command runs the first time"""
+		self.robot_dt.reset()
 
 	def execute(self):
 		"""Called repeatedly when this Command is scheduled to run"""
-		self.robot.drivetrain.get_direction()
+		# Print return value here, as get_direction() may be used for both encoders, which would require two returns
+		print(self.robot_dt.get_direction())
+		
 		# Get encoder values 
+
+		# Required periodical call to Differential Drive
+		self.robot_dt.set_tank_speed(
+			self.left_joy, self.right_joy, self.robot_dt.drive)
 	
 	def isFinished(self):
 		"""Make this return true when this Command no longer needs to run execute()"""
@@ -29,8 +40,8 @@ class EncoderCheck(Command):
 
 	def end(self):
 		"""Called once after isFinished returns true"""
-		print(str("finished"))
-		# insert code to reset encoder
+		return None
+
 
 	def interrupted(self):
 		"""Called when another command which requires one or more of the same subsystems is scheduled to run"""
