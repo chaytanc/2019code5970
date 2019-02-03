@@ -8,7 +8,7 @@ from right_motors import Right_Motors
 from sys import path
 path.append('../commands')
 from do_tank_drive import Do_Tank_Drive
-from encoder_check import Do_Encoder_Check
+from do_encoder_check import Do_Encoder_Check
 
 
 class Drivetrain(Subsystem):

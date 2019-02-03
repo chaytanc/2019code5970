@@ -8,7 +8,7 @@ from wpilib.buttons import Trigger
 from sys import path
 path.append('../commands')
 
-from encoder_check import Do_Encoder_Check
+from do_encoder_check import Do_Encoder_Check
 
 '''
 Because commands need to call differential drive, they need access to joystick instances from oi.py

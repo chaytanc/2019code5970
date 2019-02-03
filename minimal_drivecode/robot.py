@@ -47,7 +47,7 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 
 		# instantiate Subsystems
 		self.drivetrain = Drivetrain(self)
-		self.arm = Arm(self)
+		#self.arm = Arm(self)
 		
 		# instantiate Encoders
 		#self.encoders = Encoders(self)
