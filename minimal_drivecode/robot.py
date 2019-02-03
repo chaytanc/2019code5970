@@ -32,11 +32,14 @@ sys.path.insert(0, '/home/lvuser/py/commands')
 # Subsidiary objects on the robot. Ex: Cube Intake from 2017/18 season
 
 from drivetrain import Drivetrain
+from arm import Arm
 from left_motors import Left_Motors
 from right_motors import Right_Motors
 #from encoders import Encoders
 from oi import OI
+
 from oi_buttons import OI_Buttons
+
 class BeaverTronicsRobot(wpilib.IterativeRobot): 
 
 	def robotInit(self):
@@ -44,6 +47,7 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 
 		# instantiate Subsystems
 		self.drivetrain = Drivetrain(self)
+		self.arm = Arm(self)
 		
 		# instantiate Encoders
 		#self.encoders = Encoders(self)
@@ -67,7 +71,7 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 		# self.autonomousCommand.start()
 		
 	def autonomousPeriodic(self):
-		###Commented out temporarily
+		### Commented out temporarily
 		#pid_loop.do_pid_loop()
 		#print("auto_loop")
 		#return None

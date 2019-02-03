@@ -13,9 +13,12 @@ class OI():
 
 		self.left_joy = wpilib.Joystick(0)	
 		self.right_joy = wpilib.Joystick(1)	
-		# First character indicates self.right or self.left, second indicates position,
+		
+		# First character indicates self.right or self.left, 
+		# second indicates position,
 		# third indicates which button of the position specified
 		# Ex: ltop0 is self.left top 0 
+
 		ltop1 = JoystickButton(self.left_joy, 1)
 		ltop2 = JoystickButton(self.left_joy, 2)
 		ltop3 = JoystickButton(self.left_joy, 3)
