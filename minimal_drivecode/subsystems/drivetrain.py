@@ -41,7 +41,7 @@ class Drivetrain(Subsystem):
 		drive = drivetrain_type(left_motors, right_motors)
 		return drive
 
-	def set_tank_speed(self, left_joy, right_joy, drive):
+	def set_tank_speed(self, left_joy, right_joy, drive=DifferentialDrive):
 		left_speed = left_joy.getY()
 		right_speed = right_joy.getY()
 		print("left_speed: " + str(left_speed))
