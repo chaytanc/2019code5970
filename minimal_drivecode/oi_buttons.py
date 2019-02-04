@@ -21,8 +21,7 @@ be instantiate in oi.py, such as whenPressed() or toggleWhenActive()
 class OI_Buttons():
 	def __init__(self, robot):
 
-		self.oi = OI(self)
-
+		#self.oi = OI(self)
                
 		self.oi.ltrig0.whenPressed(Do_Encoder_Check(robot))
 

@@ -2,6 +2,8 @@
 
 import wpilib
 from wpilib.command import Command
+import sys
+sys.path.append('..')
 
 class Do_Encoder_Check(Command):
 	"""
@@ -11,14 +13,16 @@ class Do_Encoder_Check(Command):
 	def __init__(self, robot):
 		
 		super().__init__()
-		self.robot = robot
+		#self.rb = robot
 		self.robot_dt = robot.drivetrain
 
 		self.requires(self.robot_dt)
+		#self.requires(self.rb)
 		self.setTimeout(1)
 
-		self.left_joy = robot.oi.left_joy
-		self.right_joy = robot.oi.right_joy
+		self.left_joy = robot.left_joy
+		self.right_joy = robot.right_joy
+
 	def initialize(self):
 		"""Called just before this Command runs the first time"""
 		self.robot_dt.reset()

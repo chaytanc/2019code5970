@@ -21,8 +21,8 @@ class Do_Tank_Drive(Command):
 		self.robot_dt = robot.drivetrain
 		#self.oi = OI(self)
 		self.requires(self.robot_dt)
-		self.left_joy = robot.oi.left_joy
-		self.right_joy = robot.oi.right_joy
+		self.left_joy = robot.left_joy
+		self.right_joy = robot.right_joy
 
 	
 	def initialize(self):
