@@ -32,21 +32,12 @@ class OI():
 		rtop1 = JoystickButton(self.right_joy, 1)
 		rtop2 = JoystickButton(self.right_joy, 2)
 		rtop3 = JoystickButton(self.right_joy, 3)
-		#self.press_buttons(ltrig0, Do_Encoder_Check, robot)
 		ltrig0.whenPressed(Do_Encoder_Check(robot))
 
-	#def press_buttons(self, button, func, arg):
-		#button.whenPressed(func(arg))
-
-	@classmethod
-	def get_left_joy(self):
-		left_joy = wpilib.Joystick(0)	
-		return left_joy
-
-	@classmethod
-	def get_right_joy(self):
-		right_joy = wpilib.Joystick(1)	
-		return right_joy
+	#@classmethod
+	#def get_left_joy(self):
+		#left_joy = wpilib.Joystick(0)	
+		#return left_joy
 				
 
 		

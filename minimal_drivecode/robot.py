@@ -53,8 +53,9 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 		#self.encoders = Encoders(self)
 
 		# Instantiate Joysticks
-		self.left_joy = OI.get_left_joy()
-		self.right_joy = OI.get_right_joy()
+		self.left_joy = wpilib.Joystick(0) 
+		self.right_joy = wpilib.Joystick(1) 
+
 		# instantiate OI
 		self.oi = OI(self)
 		#self.oi_buttons = OI_Buttons(self)
