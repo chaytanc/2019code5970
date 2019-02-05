@@ -13,9 +13,6 @@ path.append('../commands')
 class OI():
 	def __init__(self, robot):
 
-		#self.left_joy = wpilib.Joystick(0) 	
-		#self.right_joy = wpilib.Joystick(1) 	
-		
 		self.left_joy = robot.left_joy 
 		self.right_joy = robot.right_joy 
 
@@ -34,12 +31,9 @@ class OI():
 		rtop3 = JoystickButton(self.right_joy, 3)
 		ltrig0.whenPressed(Do_Encoder_Check(robot))
 
-	#@classmethod
-	#def get_left_joy(self):
-		#left_joy = wpilib.Joystick(0)	
-		#return left_joy
-				
-
+		xbox = robot.xbox
+		if xbox.getAPressed():
+			Do_Cargo_Eject_Pos(robot)
 		
 
                     

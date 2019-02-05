@@ -18,15 +18,16 @@ class Drivetrain(Subsystem):
 		super().__init__()
 		print("$$$$$$$$$$$$$$")
 	
-		# Init motors here or import from robot.py
+		# Motors
 		left_motors_instance = Left_Motors()
 		right_motors_instance = Right_Motors()
 		self.left_motors = left_motors_instance.left_motor_group
 		self.right_motors = right_motors_instance.right_motor_group
 
-		self.right_encoder = wpilib.Encoder(0,1)
+		# Encoders
+		self.right_encoder = wpilib.Encoder(#DIO Ports??)
 	
-		# Set the drive train to use tank drive, self because used in commands
+		# Tank Drive Drivetrain
 		self.drive = self.set_drivetrain_type(
 			DifferentialDrive, self.left_motors, self.right_motors)
         
@@ -50,10 +51,10 @@ class Drivetrain(Subsystem):
 	def stop_robot(self, drive):
 		drive.tankDrive(0,0)
 	
-	# Get encoder direction:
-	def reset(self):
+	def reset_encoder(self):
 		self.right_encoder.reset()
 
+	# Get encoder direction:
 	def get_direction(self):
 		return(self.right_encoder.getDirection())
 

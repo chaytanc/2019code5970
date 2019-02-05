@@ -1,6 +1,7 @@
 # vim: set sw=4 noet ts=4 fileencoding=utf-8:
+import wpilib.command
 
-class Pid_Loop():
+class Pid_Loop(Subsytem):
 	def __init__():
 		print(" Init ")
 		self.kp = 1.0
@@ -9,9 +10,6 @@ class Pid_Loop():
 
 		###is self.error necessary?
 		self.error = 0
-
-		###ask loli about max_error
-		self.max_error = 50/self.ki
 
 		#PID equation variables
 				### Same question as below with proportion_left etc values
@@ -51,16 +49,18 @@ class Pid_Loop():
 
 		return total_error
 
-	### I think this should say max_error = 50/self.ki and then do a
-		# check_max_error or something
-	def set_max_error(self, error, total_error):
-		# Max error is 50 / self.ki
-		if total_error > self.max_error:
-			total_error = self.max_error
+	def set_max_error(self, ki):
+		max_error = 50 / ki
+		return max_error
 
+	# Uses max error to redefine total_error
+	def new_total_error(self, error, max_error, total_error):
+		if total_error > max_error:
+			total_error = max_error
 		return total_error
 
-	def set_proportion(self, error, kp=1): #put experimental default for kp etc
+	#put experimental default for kp etc
+	def set_proportion(self, error, kp=1): 
 		if kp is None:
 			kp = 1 #default val
 
@@ -79,7 +79,7 @@ class Pid_Loop():
 			previous_error = 0
 
 		if kd is None:
-			kd = 0
+			kd = 1
 
 		if error == 0:
 			derivative = 0
@@ -89,6 +89,8 @@ class Pid_Loop():
 		return derivative
 
 	def get_velocity(self, power_state, proportion, integral, derivative):
+		### Don't have a powerstate thing yet. probably accesible through wpilib
+		### class function
 		if power_state == off:
 			velocity = 0
 		else:
@@ -96,21 +98,26 @@ class Pid_Loop():
 
 		return velocity
 
-def do_pid_loop():
+def do_pid_loop(side, encoder_val, error, total_error, kp, ki, kd):
 	# Get inputs for PID (encoder stuff)
 
 	if self.auto_loop_counter < 300:
 		
 		# PID loop for target velocity on each side of drivetrain in auto
 		# Input: target pathway (Noah code)
+		# OR Input: Target arm velocity
 		pid = Pid_Loop()	
 		previous_error = self.error 
-		self.error = pid.get_error()
-		self.total_error = pid.set_total_error(self.error, self.total_error)
-		proportion = pid.set_proportion()
-		max_error = pid.set_max_error()
-		integral = pid.set_integral()
-		derivative = pid.set_derivative(self.error, self.kd, previous_error)
+		self.error = pid.get_error(side, encoder_val)
+		self.total_error = pid.set_total_error(error, total_error)
+		max_error = pid.set_max_error(ki)
+		new_total_error = pid.new_total_error(error, max_error, total_error)
+		kp = pid.kp
+		proportion = pid.set_proportion(error, kp)
+		ki = pid.ki
+		integral = pid.set_integral(error, ki)
+		kd = pid.kd
+		derivative = pid.set_derivative(error, kd, previous_error)
 		###right_velocity = pid.get_velocity()
 				
 		# Outputs for PID
