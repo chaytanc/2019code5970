@@ -9,7 +9,7 @@ class Right_Motors():
 		#Initialize Right motors
 		right_front = (wpilib.VictorSP(0))
 		right_mid = (wpilib.VictorSP(1))
-		right_rear = (wpilib.VictorSP(3))
+		right_rear = (wpilib.VictorSP(2))
 		self.right_motor_group = wpilib.SpeedControllerGroup(
 			right_front, right_mid, right_rear)
 

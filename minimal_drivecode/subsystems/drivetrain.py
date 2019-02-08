@@ -5,6 +5,8 @@ from wpilib.drive import DifferentialDrive
 from wpilib.command import Subsystem
 from left_motors import Left_Motors
 from right_motors import Right_Motors
+from arm_motors import Arm_Motors
+from cargo_motors import Cargo_Motors
 from sys import path
 path.append('../commands')
 from do_tank_drive import Do_Tank_Drive
@@ -26,9 +28,17 @@ class Drivetrain(Subsystem):
 		self.left_motors = left_motors_instance.left_motor_group
 		self.right_motors = right_motors_instance.right_motor_group
 
+		arm_motors_instance = Arm_Motors()
+		self.left_arm_motors = arm_motors_instance.left_arm_motor
+		self.right_arm_motors = arm_motors_instance.right_arm_motor
+
+		cargo_motors_instance = Cargo_Motors()
+		self.cargo_motors = cargo_motors_instance.cargo_m
+
 		# Encoders
 		self.left_drive_encoder = wpilib.Encoder(2,3)#DIO Ports??
 		self.right_drive_encoder = wpilib.Encoder(4,5)#DIO Ports??
+		self.arm_encoder = wpilib.Encoder(6,7)#DIO Ports??
 
 		# Instantiate robot
 		self.robot_instance = robot
@@ -51,6 +61,14 @@ class Drivetrain(Subsystem):
 		left_speed = left_joy.getY()
 		right_speed = right_joy.getY()
 		drive.tankDrive(left_speed, right_speed)
+	
+	def motor_test_max_speed(self):
+		self.left_arm_motors.set(1)
+		#self.right_arm_motors.set(-1)
+
+	def cargo_intake_test(self, third_joy, drive=DifferentialDrive):
+		third_speed = third_joy.getY()
+		self.cargo_motors.set(third_speed)
 
 
 	def stop_robot(self, drive):
@@ -61,7 +79,11 @@ class Drivetrain(Subsystem):
 
 	# Get encoder direction:
 	def get_direction(self):
-		return(self.left_drive_encoder.getDirection())
+		return(self.arm_encoder.getDirection())
+
+	# Get encoder rate:
+	def get_rate(self):
+		return(self.arm_encoder.getRate())
 
 	def sin_relative_angle(self,current_angle, desired_angle):
 		current_angle_radians = current_angle * math.pi/180

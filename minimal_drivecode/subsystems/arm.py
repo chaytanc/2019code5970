@@ -25,7 +25,7 @@ class Arm(Subsystem):
 		self.l_arm_encoder = My_Arm_Encoder(0,1)
 		self.direction = self.l_arm_encoder.getDirection()
 
-		self.max_click_rate = #XXX clicks/second, find/estimate
+		#self.max_click_rate = #XXX clicks/second, find/estimate
 
 		# Limit_switches arg=dio
 		self.limit_switch = wpilib.DigitalInput(6)

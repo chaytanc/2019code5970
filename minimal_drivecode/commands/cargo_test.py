@@ -7,13 +7,11 @@ from wpilib.command import Command
 #sys.path.append('../oi')
 #from oi import OI
 
-class Do_Tank_Drive(Command):
+class Cargo_Test(Command):
 
 	def __init__(self, robot):
 		# Recognize as a wpilib command
-		print("***********************")
-		print(str(robot))
-		print("***********************")
+
 		super().__init__()
 
 		# an instance of BeaverTronicsRobot from robot.py containing its
@@ -21,8 +19,6 @@ class Do_Tank_Drive(Command):
 		self.robot_dt = robot.drivetrain
 		#self.oi = OI(self)
 		self.requires(self.robot_dt)
-		self.left_joy = robot.left_joy
-		self.right_joy = robot.right_joy
 		self.third_joy = robot.third_joy
 
 	
@@ -32,13 +28,8 @@ class Do_Tank_Drive(Command):
 	
 	def execute(self):
 		# Continuously sets motor speed to joystick inputs w/ Scheduler
-		self.robot_dt.set_tank_speed(
-			self.left_joy, self.right_joy, self.robot_dt.drive)
-
-		self.robot_dt.cargo_intake_test(self.third_joy, self.robot_dt.drive)
-		# Currently cannot find way to reference left_speed in drivetrain.py
-		# Using left_joy as functional substitute
-		print("left_speed: " + str(self.left_joy.getY()))
+		self.robot_dt.cargo_intake_test(
+			self.third_joy, self.robot_dt.drive)
 
 
 	def isFinished(self):

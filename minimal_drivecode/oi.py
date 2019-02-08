@@ -9,12 +9,15 @@ path.append('../commands')
 
 from do_encoder_check import Do_Encoder_Check
 from do_pid_loop import Do_Pid_Loop
+from do_motor_rate_test import Do_Motor_Rate_Test
+from cargo_test import Cargo_Test
 
 class OI():
 	def __init__(self, robot):
 
 		self.left_joy = robot.left_joy 
 		self.right_joy = robot.right_joy 
+		self.third_joy = robot.third_joy
 
 		# First character indicates self.right or self.left, 
 		# second indicates position,
@@ -25,13 +28,20 @@ class OI():
 		ltop2 = JoystickButton(self.left_joy, 2)
 		ltop3 = JoystickButton(self.left_joy, 3)
 		ltrig0 = JoystickButton(self.left_joy, 4)
+		ltrig1 = JoystickButton(self.left_joy, 5)
 
 		rtop1 = JoystickButton(self.right_joy, 1)
 		rtop2 = JoystickButton(self.right_joy, 2)
 		rtop3 = JoystickButton(self.right_joy, 3)
 		rtrig0 = JoystickButton(self.right_joy, 4)
 
+		thirdtop1 = JoystickButton(self.third_joy, 1)
+		thirdtop2 = JoystickButton(self.third_joy, 2)
+		thirdtop3 = JoystickButton(self.third_joy, 3)
+
+
 		ltrig0.whenPressed(Do_Encoder_Check(robot))
+		ltrig1.whenPressed(Do_Motor_Rate_Test(robot))
 		rtrig0.whenPressed(Do_Pid_Loop(robot))	
 
 		xbox = robot.xbox

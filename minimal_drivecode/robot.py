@@ -31,10 +31,14 @@ sys.path.insert(0, '/home/lvuser/py/commands')
 
 # Subsidiary objects on the robot. Ex: Cube Intake from 2017/18 season
 
-from drivetrain import Drivetrain
 #from arm import Arm
 from left_motors import Left_Motors
 from right_motors import Right_Motors
+from arm_motors import Arm_Motors
+from cargo_motors import Cargo_Motors
+
+
+from drivetrain import Drivetrain
 #from encoders import Encoders
 from oi import OI
 
@@ -54,7 +58,8 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 
 		# Instantiate Joysticks
 		self.left_joy = wpilib.Joystick(0) 
-		self.right_joy = wpilib.Joystick(1) 
+		self.right_joy = wpilib.Joystick(1)
+		self.third_joy = wpilib.Joystick(2)
 		
 		# Instantiate Xbox
 		self.xbox = wpilib.XboxController(2)

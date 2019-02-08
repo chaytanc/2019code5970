@@ -5,7 +5,7 @@ from wpilib.command import Command
 import sys
 sys.path.append('..')
 
-class Do_Encoder_Check(Command):
+class Do_Motor_Rate_Test(Command):
 	"""
 	Check and return values from encoder 
 	"""
@@ -18,23 +18,24 @@ class Do_Encoder_Check(Command):
 
 		self.requires(self.robot_dt)
 		#self.requires(self.rb)
-		self.setTimeout(1)
+		self.setTimeout(0.1)
 
 		self.left_joy = robot.left_joy
 		self.right_joy = robot.right_joy
-
-		self.left_e = self.robot_dt.left_drive_encoder
+		
+		# Motor Encoder Here
+		self.motor_e = self.robot_dt.arm_encoder
 
 	def initialize(self):
 		"""Called just before this Command runs the first time"""
-		self.left_e.reset()
+		self.motor_e.reset()
 
 	def execute(self):
 		"""Called repeatedly when this Command is scheduled to run"""
-		# Print return value here, as get_direction() may be used for both encoders, which would require two returns
-		print(self.robot_dt.get_rate())
-		print(self.robot_dt.sin_relative_angle(45, 35))
-		# Get encoder values 
+
+
+		self.robot_dt.motor_test_max_speed()
+		print(self.robot_dt.get_direction())
 
 		# Required periodical call to Differential Drive
 		self.robot_dt.set_tank_speed(
