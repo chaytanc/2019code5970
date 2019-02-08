@@ -30,8 +30,8 @@ class Do_Cargo_Eject_Pos(Command):
 			encoder_kp,
 			encoder_ki,
 			encoder_kd,
-			# Get distance gets arm distance to target spot
-			self.robot.arm.l_arm_encoder.getDistance(),
+			# Gets arm encoder clicks per second
+			self.robot.arm.l_arm_encoder.getRate(),
 			### setmotors or something to rotate arm
 			### cargo_eject both moves are and ejects cargo automatically
 			### set_cargo_eject just moves the arm

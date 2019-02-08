@@ -1,6 +1,7 @@
 # vim: set sw=4 noet ts=4 fileencoding=utf-8:
-from wpilib.command import PIDSubsystem
+
 from arm_motors import Arm_Motors
+from encoder import My_Arm_Encoder
 
 # Control game pieces with arm
 # Arm subsystem should contain arm commands to be called by scheduler.
@@ -21,23 +22,20 @@ class Arm(Subsystem):
 		r_arm_motor = arm_motors_instance.right_motor
 
 		# Encoders
-		self.l_arm_encoder = wpilib.Encoder(0,1)
+		self.l_arm_encoder = My_Arm_Encoder(0,1)
 		self.direction = self.l_arm_encoder.getDirection()
-		# encoder.setDistancePerPulse
-		# (based on manufacturer rating and gear reduct.)
-		#self.l_arm_encoder.setDistancePerPulse(XXX)
 
 		self.max_click_rate = #XXX clicks/second, find/estimate
 
-		# Limit_switches
-		self.limit_switch = wpilib.DigitalInput(XXX # DIO Port) 
+		# Limit_switches arg=dio
+		self.limit_switch = wpilib.DigitalInput(6)
 
 	#def cargo_intake(self, motor):
 		#self.set_arm_position(intake)
 		#motor.set(1)
 
+	# The rate is of clicks/sec NOT dist/second! See subsystems/encoder.py
 	def get_click_rate(self):
-		#XXX The rate is of distance/second NOT clicks/second!
 		rate = self.l_arm_encoder.getRate()
 
 	# Converts encoder rate of clicks per second to -1 to 1 scale
@@ -54,10 +52,7 @@ class Arm(Subsystem):
 		self.r_arm_motor(motor_voltage * (direction))
 			
 	# Actually ejects ball. Arm must be set correctly beforehand
-	def cargo_eject(self, motor, dist_from_target=None, direction=None):
-		# Doesn't set arm automatically if below is commented
-		#self.set_cargo_eject(dist_from_target, direction)
-
+	def cargo_eject(self, motor):
 		# Cargo ball motor
 		motor.set(-1)
 
