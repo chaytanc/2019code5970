@@ -23,9 +23,11 @@ class Do_Encoder_Check(Command):
 		self.left_joy = robot.left_joy
 		self.right_joy = robot.right_joy
 
+		self.left_e = self.robot_dt.left_drive_encoder
+
 	def initialize(self):
 		"""Called just before this Command runs the first time"""
-		self.robot_dt.reset()
+		self.left_e.reset()
 
 	def execute(self):
 		"""Called repeatedly when this Command is scheduled to run"""
@@ -35,8 +37,8 @@ class Do_Encoder_Check(Command):
 		# Get encoder values 
 
 		# Required periodical call to Differential Drive
-		self.robot_dt.set_tank_speed(
-			self.left_joy, self.right_joy, self.robot_dt.drive)
+		#self.robot_dt.set_tank_speed(
+			#self.left_joy, self.right_joy, self.robot_dt.drive)
 	
 	def isFinished(self):
 		"""Make this return true when this Command no longer needs to run execute()"""

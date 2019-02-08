@@ -57,11 +57,10 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 		self.right_joy = wpilib.Joystick(1) 
 		
 		# Instantiate Xbox
-		self.xbox = wpilib.XboxController	
+		self.xbox = wpilib.XboxController(2)
 
 		# instantiate OI
 		self.oi = OI(self)
-		#self.oi_buttons = OI_Buttons(self)
 
 		# instantiate Autonomous scheduler
 		#self.autonomousCommand = Autonomous(self)

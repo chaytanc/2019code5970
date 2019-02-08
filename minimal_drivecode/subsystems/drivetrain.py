@@ -11,6 +11,7 @@ from do_tank_drive import Do_Tank_Drive
 
 
 class Drivetrain(Subsystem):
+
 	def __init__(self, robot):
 		# Super from subsystem allows scheduler class to understand things like
 		# interupt and execute etc...
@@ -25,16 +26,19 @@ class Drivetrain(Subsystem):
 		self.right_motors = right_motors_instance.right_motor_group
 
 		# Encoders
-		self.right_encoder = wpilib.Encoder(#DIO Ports??)
+		self.left_drive_encoder = wpilib.Encoder(2,3)#DIO Ports??
+		self.right_drive_encoder = wpilib.Encoder(4,5)#DIO Ports??
+
+		# Instantiate robot
+		self.robot_instance = robot
 	
 		# Tank Drive Drivetrain
-		self.drive = self.set_drivetrain_type(
-			DifferentialDrive, self.left_motors, self.right_motors)
-        
-		self.robot = robot
+		self.drive = self.set_drivetrain_type(DifferentialDrive, 
+			self.left_motors, self.right_motors)
+
 
 	def initDefaultCommand(self):
-		self.setDefaultCommand(Do_Tank_Drive(self.robot))
+		self.setDefaultCommand(Do_Tank_Drive(self.robot_instance))
 
 	# Sets driving mode to tank drive, should be periodically called
 	def set_drivetrain_type(self, drivetrain_type, left_motors, right_motors):
@@ -56,7 +60,7 @@ class Drivetrain(Subsystem):
 
 	# Get encoder direction:
 	def get_direction(self):
-		return(self.right_encoder.getDirection())
+		return(self.left_drive_encoder.getDirection())
 
 	
 

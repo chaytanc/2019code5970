@@ -4,11 +4,10 @@ import wpilib
 from wpilib.buttons import JoystickButton
 from wpilib.buttons import Trigger
 
-from do_encoder_check import Do_Encoder_Check
-
-
 from sys import path
 path.append('../commands')
+
+from do_encoder_check import Do_Encoder_Check
 
 class OI():
 	def __init__(self, robot):
@@ -32,7 +31,7 @@ class OI():
 		ltrig0.whenPressed(Do_Encoder_Check(robot))
 
 		xbox = robot.xbox
-		if xbox.getAPressed():
+		if xbox.getAButtonPressed():
 			Do_Cargo_Eject_Pos(robot)
 		
 
