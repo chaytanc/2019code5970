@@ -29,7 +29,10 @@ class OI():
 		rtop1 = JoystickButton(self.right_joy, 1)
 		rtop2 = JoystickButton(self.right_joy, 2)
 		rtop3 = JoystickButton(self.right_joy, 3)
+		rtrig0 = JoystickButton(self.right_joy, 4)
+
 		ltrig0.whenPressed(Do_Encoder_Check(robot))
+		rtrig0.whenPressed(Do_Pid_Loop(robot))	
 
 		xbox = robot.xbox
 		if xbox.getAPressed():

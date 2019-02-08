@@ -8,6 +8,7 @@ from right_motors import Right_Motors
 from sys import path
 path.append('../commands')
 from do_tank_drive import Do_Tank_Drive
+import math
 
 
 class Drivetrain(Subsystem):
@@ -58,6 +59,11 @@ class Drivetrain(Subsystem):
 	def get_direction(self):
 		return(self.right_encoder.getDirection())
 
+	def sin_relative_angle(self,current_angle, desired_angle):
+		current_angle_radians = current_angle * math.pi/180
+		desired_angle_radians = desired_angle * math.pi/180
+		voltage = sin((math.pi/desired_angle_radians)*current_angle_radians)
+		return voltage
 	
 
 		
