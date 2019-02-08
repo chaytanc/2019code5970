@@ -69,6 +69,7 @@ class Do_Cargo_Eject_Pos(Command):
 			#return True
 
 	def end(self):
+		# Do other command?
 		# Slowly lower arm?	
 
 	def interrupted(self):
