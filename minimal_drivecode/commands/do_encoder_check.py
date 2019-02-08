@@ -33,7 +33,7 @@ class Do_Encoder_Check(Command):
 		"""Called repeatedly when this Command is scheduled to run"""
 		# Print return value here, as get_direction() may be used for both encoders, which would require two returns
 		print(self.robot_dt.get_direction())
-		
+		print(self.robot_dt.sin_relative_angle(45, 35))
 		# Get encoder values 
 
 		# Required periodical call to Differential Drive

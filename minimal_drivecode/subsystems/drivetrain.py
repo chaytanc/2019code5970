@@ -66,7 +66,8 @@ class Drivetrain(Subsystem):
 	def sin_relative_angle(self,current_angle, desired_angle):
 		current_angle_radians = current_angle * math.pi/180
 		desired_angle_radians = desired_angle * math.pi/180
-		voltage = sin((math.pi/desired_angle_radians)*current_angle_radians)
+		voltage = (math.sin((math.pi/desired_angle_radians)
+				*current_angle_radians))
 		return voltage
 	
 

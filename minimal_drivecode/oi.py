@@ -8,6 +8,7 @@ from sys import path
 path.append('../commands')
 
 from do_encoder_check import Do_Encoder_Check
+from do_pid_loop import Do_Pid_Loop
 
 class OI():
 	def __init__(self, robot):
