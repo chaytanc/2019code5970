@@ -13,29 +13,30 @@ class Do_Motor_Rate_Test(Command):
 	def __init__(self, robot):
 		
 		super().__init__()
-		#self.rb = robot
 		self.robot_dt = robot.drivetrain
+		self.arm = robot.arm
 
 		self.requires(self.robot_dt)
-		#self.requires(self.rb)
+		self.requires(self.arm)
+
 		self.setTimeout(0.1)
 
 		self.left_joy = robot.left_joy
 		self.right_joy = robot.right_joy
 		
 		# Motor Encoder Here
-		self.motor_e = self.robot_dt.arm_encoder
+		self.arm_e = self.arm.l_arm_encoder
 
 	def initialize(self):
 		"""Called just before this Command runs the first time"""
-		self.motor_e.reset()
+		self.arm_e.reset()
 
 	def execute(self):
 		"""Called repeatedly when this Command is scheduled to run"""
 
 
-		self.robot_dt.motor_test_max_speed()
-		print(self.robot_dt.get_direction())
+		self.arm.motor_test_max_speed()
+		print(self.arm.direction)
 
 		# Required periodical call to Differential Drive
 		self.robot_dt.set_tank_speed(

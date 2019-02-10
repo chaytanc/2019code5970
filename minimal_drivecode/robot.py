@@ -36,6 +36,7 @@ from left_motors import Left_Motors
 from right_motors import Right_Motors
 from arm_motors import Arm_Motors
 from cargo_motors import Cargo_Motors
+from arm import Arm
 
 
 from drivetrain import Drivetrain
@@ -51,7 +52,7 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 
 		# instantiate Subsystems
 		self.drivetrain = Drivetrain(self)
-		#self.arm = Arm(self)
+		self.arm = Arm(self)
 		
 		# instantiate Encoders
 		#self.encoders = Encoders(self)

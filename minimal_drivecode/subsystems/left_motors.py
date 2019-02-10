@@ -1,7 +1,7 @@
 # vim: set sw=4 noet ts=4 fileencoding=utf-8:
 
 import wpilib
-from wpilib.buttons.joystickbutton import JoystickButton
+#from wpilib.buttons.joystickbutton import JoystickButton
 
 #*********Robot-Side Initialization***************
 class Left_Motors():

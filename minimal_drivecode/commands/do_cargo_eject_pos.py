@@ -3,7 +3,6 @@
 from wpilib.command import Command
 from wpilib.command import PIDCommand
 
-# PIDCommand??
 class Do_Cargo_Eject_Pos(Command):
 	
 	def __init__(self, robot):
@@ -17,8 +16,8 @@ class Do_Cargo_Eject_Pos(Command):
 
 		'''
 		Each time PID is called in commands it can have a different input for
-		setpoint which determines how close it is to being at the desired position.
-		Each different position should have its own targetdistance
+		setpoint which guides how close it is to being at the desired position.
+		Each different position should have its own final angle
 		'''
 		encoder_kp = 1
 		encoder_ki = 1
@@ -37,6 +36,7 @@ class Do_Cargo_Eject_Pos(Command):
 			### set_cargo_eject just moves the arm
 			lambda d: self.robot.arm.set_cargo_eject(d))
 
+		# Replaced this structure with sin func
 		'''
 		if self.robot.arm.l_arm_encoder < XXXlower_arm_range:
 			self.cargo_eject_target_dist =+ slow_speed_target
@@ -65,7 +65,7 @@ class Do_Cargo_Eject_Pos(Command):
 	def isFinished(self):
 		# When another arm movement is called it can be interrupted
 		# Does not do anything when finished/interrupted, just
-		#if cancelled by other arm thing:
+		# if cancelled by other arm thing:
 			#return True
 		return None
 
@@ -73,6 +73,7 @@ class Do_Cargo_Eject_Pos(Command):
 		# Do other command?
 		# Slowly lower arm?	
 		return None
+
 	def interrupted(self):
 		end()
 		

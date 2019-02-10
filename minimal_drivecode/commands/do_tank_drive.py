@@ -35,7 +35,6 @@ class Do_Tank_Drive(Command):
 		self.robot_dt.set_tank_speed(
 			self.left_joy, self.right_joy, self.robot_dt.drive)
 
-		self.robot_dt.cargo_intake_test(self.third_joy, self.robot_dt.drive)
 		# Currently cannot find way to reference left_speed in drivetrain.py
 		# Using left_joy as functional substitute
 		print("left_speed: " + str(self.left_joy.getY()))
