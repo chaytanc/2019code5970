@@ -5,8 +5,9 @@ import wpilib
 class My_Arm_Encoder(wpilib.Encoder):
 
 	# Class constants; change if encoder or drive ratios change
-	DEGREE_PER_CLICK = 30.0
-	DRIVE_RATIO = 1.0/403.2
+	CLICKS_PER_360         = 12
+	DEGREE_PER_CLICK       = 360.0 / CLICKS_PER_360
+	DRIVE_RATIO            = 1.0/403.2
 	FINAL_DEGREE_PER_CLICK = DEGREE_PER_CLICK * DRIVE_RATIO
 
 	def __init__(self, DIO_1, DIO_2):

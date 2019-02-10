@@ -21,7 +21,7 @@ sys.path.append('./commands')
 
 #Windows RobotPyModules path
 sys.path.append('C:/Users/Beavertronics/Desktop/2019code5970/drivingcode/\
-subsystems') 
+subsystems')
 sys.path.append('C:/Users/Beavertronics/Desktop/2019code5970/drivingcode/\
 commands') 
 
@@ -60,7 +60,6 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 		# Instantiate Joysticks
 		self.left_joy = wpilib.Joystick(0) 
 		self.right_joy = wpilib.Joystick(1)
-		self.third_joy = wpilib.Joystick(2)
 		
 		# Instantiate Xbox
 		self.xbox = wpilib.XboxController(2)
@@ -83,10 +82,6 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 		# self.autonomousCommand.start()
 		
 	def autonomousPeriodic(self):
-		### Commented out temporarily
-		#pid_loop.do_pid_loop()
-		#print("auto_loop")
-		#return None
 		Scheduler.getInstance().run()
 
 	def teleopPeriodic(self):

@@ -47,6 +47,7 @@ class Get_Max_Speed_Of_Arm(Command):
 
 	def end(self):
 		"""Called once after isFinished returns True"""
+		self.arm.set_speed(0.0)
 		print("==== MAXIMUM ARM SPEED: " + str(self.max_speed) + " ====")
 		return None
 
