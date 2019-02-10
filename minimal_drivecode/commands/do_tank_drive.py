@@ -11,9 +11,7 @@ class Do_Tank_Drive(Command):
 
 	def __init__(self, robot):
 		# Recognize as a wpilib command
-		print("***********************")
 		print(str(robot))
-		print("***********************")
 		super().__init__()
 
 		# an instance of BeaverTronicsRobot from robot.py containing its
@@ -34,11 +32,6 @@ class Do_Tank_Drive(Command):
 		# Continuously sets motor speed to joystick inputs w/ Scheduler
 		self.robot_dt.set_tank_speed(
 			self.left_joy, self.right_joy, self.robot_dt.drive)
-
-		# Currently cannot find way to reference left_speed in drivetrain.py
-		# Using left_joy as functional substitute
-		print("left_speed: " + str(self.left_joy.getY()))
-
 
 	def isFinished(self):
 		# This is how running tank driving is prioritized
