@@ -10,7 +10,9 @@ class Arm_Motors():
 	def __init__(self):
 		#Initialize Right motors
 		#self.arm_motor = (wpilib.VictorSP(12))
-		self.left_arm_motor = ctre.WPI_VictorSPX(1)	
-		self.right_arm_motor = ctre.WPI_VictorSPX(2)
+		#self.left_arm_motor = ctre.WPI_VictorSPX(1)	
+		self.left_arm_motor = wpilib.Victor(6)
+		self.right_arm_motor = ctre.WPI_VictorSPX(01)
+			
 
 
