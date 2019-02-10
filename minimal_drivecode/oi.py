@@ -46,7 +46,7 @@ class OI():
 		# XXX REMOVE WHEN KNOWN XXX
 		ltop2.whenPressed(Get_Max_Speed_Of_Arm(robot))
 
-		rtop4.whenPressed(Do_Pid_Loop(robot))	
+		#rtop4.whenPressed(Do_Pid_Loop(robot))	
 
 
 		xbox = robot.xbox

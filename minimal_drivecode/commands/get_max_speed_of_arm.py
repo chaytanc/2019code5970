@@ -15,7 +15,7 @@ class Get_Max_Speed_Of_Arm(Command):
 		super().__init__()
 
 		self.max_speed = 0.0
-		self.setTimeout(0.05)
+		self.setTimeout(0.15)
 		
 		self.arm = robot.arm
 		self.requires(self.arm)
