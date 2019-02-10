@@ -27,22 +27,22 @@ class OI():
 		ltop1 = JoystickButton(self.left_joy, 1)
 		ltop2 = JoystickButton(self.left_joy, 2)
 		ltop3 = JoystickButton(self.left_joy, 3)
-		ltrig0 = JoystickButton(self.left_joy, 4)
-		ltrig1 = JoystickButton(self.left_joy, 5)
+		ltop4 = JoystickButton(self.left_joy, 4)
+		lsomething = JoystickButton(self.left_joy, 5)
 
 		rtop1 = JoystickButton(self.right_joy, 1)
 		rtop2 = JoystickButton(self.right_joy, 2)
 		rtop3 = JoystickButton(self.right_joy, 3)
-		rtrig0 = JoystickButton(self.right_joy, 4)
+		rtop4 = JoystickButton(self.right_joy, 4)
 
 		thirdtop1 = JoystickButton(self.third_joy, 1)
 		thirdtop2 = JoystickButton(self.third_joy, 2)
 		thirdtop3 = JoystickButton(self.third_joy, 3)
 
 
-		ltrig0.whenPressed(Do_Encoder_Check(robot))
-		ltrig1.whenPressed(Do_Motor_Rate_Test(robot))
-		rtrig0.whenPressed(Do_Pid_Loop(robot))	
+		ltop4.whenPressed(Do_Encoder_Check(robot))
+		lsomething.whenPressed(Do_Motor_Rate_Test(robot))
+		rtop4.whenPressed(Do_Pid_Loop(robot))	
 
 		xbox = robot.xbox
 		if xbox.getAButtonPressed():

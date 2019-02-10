@@ -44,16 +44,55 @@ class Arm(Subsystem):
 
 	# Converts encoder rate of clicks per second to -1 to 1 scale
 	def convert_encoder_rate(self, current_clicks):
-		rate_conversion = self.max_click_rate / current_clicks
+		rate_conversion = #XXX self.max_click_rate / current_clicks
 		return rate_conversion
 
+	# Converts -1 to 1 scale voltage into a rate of clicks per second
+	def convert_voltage_to_rate(self, voltage):
+		click_rate = voltage * #XXX self.max_click_rate
+		return click_rate
+
+	# Used to convert each different position(angle) the arm will stop at into 
+	# a desired -1 to 1 voltage scale. This will then be converted into clicks
+	# per second so that the inputs to the PID are all in clicks per second
+
+	# Gets current angle in degrees
+	def get_current_angle(self):
+		absolute_clicks = self.l_arm_encoder.get()	
+		deg_per_click = self.l_arm_encoder.getDistancePerPulse()
+		current_angle = absolute_clicks * deg_per_click	
+		return current_angle
+
+	# Current and desired angles must be passed in as degrees
+	def sin_relative_angle(self, current_angle, sweep_angle):
+		current_angle_radians = current_angle * math.pi/180
+		sweep_angle_radians = sweep_angle * math.pi/180
+
+		# Pi over desired angle is the period of 1/2 the sin wave,
+		# such that the greatest angle which the are is intended to travel 
+		# is the second x intercept of the sin wave, making velocity 
+		# (y value) be zero.
+		# Current angle in radians is the x input to the sin function and is
+		# multiplied by the adjusted period of the sin wave to yield the
+		# -1 to 1 scaled y value for velocity.
+		voltage = (math.sin((math.pi/sweep_angle_radians)
+				* current_angle_radians))
+		return voltage
+
+	# To define the setpoint, input the angle which you want the arm to stop at
+	def get_setpoint(self, sweep_angle):
+		angle = self.get_current_angle()
+		voltage = self.sin_relative_angle(angle, sweep_angle)
+		setpoint_rate = self.convert_voltage_to_rate(voltage)
+		return setpoint_rate
+		
 	# Where pid stores output distance to target pos. and where arm adjusts
-	def set_cargo_eject_pos(self, rate, direction):
+	def set_cargo_eject_pos(self, rate):
 		motor_voltage = self.convert_encoder_rate(rate)
 		# Moves arm by signified voltages; should move in opposite the last
 		# direction sensed by arm encoder
-		self.l_arm_motor(motor_voltage * (direction * -1))
-		self.r_arm_motor(motor_voltage * (direction))
+		self.l_arm_motor(motor_voltage)
+		self.r_arm_motor(motor_voltage)
 			
 	# Actually ejects ball. Arm must be set correctly beforehand
 	def cargo_eject(self, motor):
@@ -64,17 +103,6 @@ class Arm(Subsystem):
 		if self.limit_switch.get():
 			encoder.reset()
 
-	# Used to convert each different position(angle) the arm will stop at into 
-	# a desired -1 to 1 voltage scale. This will then be converted into clicks
-	# per second so that the inputs to the PID are all in clicks per second
-
-	# Current and desired angles must be passed in as degrees
-	def sin_relative_angle(self, current_angle, desired_angle):
-		current_angle_radians = current_angle * math.pi/180
-		desired_angle_radians = desired_angle * math.pi/180
-		voltage = (math.sin((math.pi/desired_angle_radians)
-				* current_angle_radians))
-		return voltage
 
 	def motor_test_max_speed(self):
 		self.left_arm_motors.set(1)

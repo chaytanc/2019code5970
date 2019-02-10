@@ -11,17 +11,19 @@ class Do_Cargo_Eject_Pos(Command):
 		# Desired position or voltage or something
 		self.requires(self.robot.drivetrain)
 		self.requires(self.robot.arm)
-		# Target Distance/position
-		#self.cargo_eject_target_dist = XXX some distance
 
 		'''
 		Each time PID is called in commands it can have a different input for
-		setpoint which guides how close it is to being at the desired position.
-		Each different position should have its own final angle
+		setpoint which guides how close it is to being at the final position.
+		Each different position should have its own final angle.
 		'''
+
 		encoder_kp = 1
 		encoder_ki = 1
 		encoder_kd = 1
+		#XXX sweep angle should be set based on which command group is calling
+		# the pid loop
+		setpoint_rate = robot.arm.get_setpoint(sweep_angle)
 
 		# Args: kp, ki, kd, source (function that will be called for vals),
 		# output (somewhere to input the output percentage of what is input)
@@ -31,12 +33,9 @@ class Do_Cargo_Eject_Pos(Command):
 			encoder_kd,
 			# Gets arm encoder clicks per second
 			self.robot.arm.l_arm_encoder.getRate(),
-			### setmotors or something to rotate arm
-			### cargo_eject both moves are and ejects cargo automatically
-			### set_cargo_eject just moves the arm
-			lambda d: self.robot.arm.set_cargo_eject(d))
+			lambda d: self.robot.arm.set_cargo_eject_pos(d))
 
-		# Replaced this structure with sin func
+		# Replaced this structure with sin func to find setpoint
 		'''
 		if self.robot.arm.l_arm_encoder < XXXlower_arm_range:
 			self.cargo_eject_target_dist =+ slow_speed_target
@@ -49,7 +48,12 @@ class Do_Cargo_Eject_Pos(Command):
 			self.cargo_eject_target =+ fast_target_speed
 
 		'''
-		pid.setSetpoint(self.cargo_eject_target_dist)
+
+		# Should be continously set based on the current measured angle
+		# and returns the velocity the arm should be going to reach
+		# the "sweep" angle aka final position of arm. Returned in clicks
+		# per second.
+		pid.setSetpoint(setpoint_rate)
 
 	def initialize(self):
 		self.pid.reset()
