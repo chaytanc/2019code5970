@@ -15,6 +15,8 @@ from encoder import My_Arm_Encoder
 
 class Arm(Subsystem):
 
+	TEST_MOTOR_MAX = 0.1 # XXX set to 1 for competition
+
 	def __init__(self, robot):
 		print("init")
 		super().__init__()
@@ -26,7 +28,8 @@ class Arm(Subsystem):
 		self.l_arm_encoder = My_Arm_Encoder(0,1)
 		self.direction = self.l_arm_encoder.getDirection()
 
-		#self.max_click_rate = #XXX clicks/second, find/estimate
+		#*** by empirical test ***
+		self.max_click_rate = 114.0 
 
 		# Limit_switches arg=dio
 		self.limit_switch = wpilib.DigitalInput(6)
@@ -41,17 +44,17 @@ class Arm(Subsystem):
 		return rate
 
 	# Converts encoder rate of clicks per second to -1 to 1 scale
-#	def convert_encoder_rate(self, current_clicks):
-#		rate_conversion = #XXX self.max_click_rate / current_clicks
-#		return rate_conversion
+	def click_rate_to_voltage(self, current_click_rate):
+		rate_conversion = current_click_rate / self.max_click_rate
+		return rate_conversion
 
 	# Converts -1 to 1 scale voltage into a rate of clicks per second
-#	def convert_voltage_to_rate(self, voltage):
-#		click_rate = voltage * #XXX self.max_click_rate
-#		return click_rate
+	def voltage_to_click_rate(self, voltage):
+		click_rate = voltage * self.max_click_rate
+		return click_rate
 
 	# Used to convert each different position(angle) the arm will stop at into 
-	# a desired -1 to 1 voltage scale. This will then be converted into clicks
+	# a final -1 to 1 voltage scale. This will then be converted into clicks
 	# per second so that the inputs to the PID are all in clicks per second
 
 	# Gets current angle in degrees
@@ -61,13 +64,21 @@ class Arm(Subsystem):
 		current_angle = absolute_clicks * deg_per_click	
 		return current_angle
 
-	# Current and desired angles must be passed in as degrees
-	def sin_relative_angle(self, current_angle, sweep_angle):
-		current_angle_radians = current_angle * math.pi/180
-		sweep_angle_radians = sweep_angle * math.pi/180
+	# Final angle is the absolute angle between position of the arm at zero
+	# clicks and when you want the arm to end up.
+	# Sweep angle is angle between the current and final angles; may be equal
+	# to final_angle if beginning at a 0 deg. or 180 deg. angle
+	def get_sweep_angle(self, final_angle):
+		sweep_angle = final_angle - self.get_current_angle()
+		return sweep angle
 
-		# Pi over desired angle is the period of 1/2 the sin wave,
-		# such that the greatest angle which the are is intended to travel 
+	# Current and final angles must be passed in as degrees
+	def sin_angle(self, final_angle):
+		current_angle_radians = self.get_current_angle() * math.pi/180
+		sweep_angle_radians = self.get_sweep_angle(final_angle) * math.pi/180
+
+		# Pi over sweep angle is the period of 1/2 the sin wave,
+		# such that the greatest angle which the arm is intended to travel 
 		# is the second x intercept of the sin wave, making velocity 
 		# (y value) be zero.
 		# Current angle in radians is the x input to the sin function and is
@@ -75,18 +86,18 @@ class Arm(Subsystem):
 		# -1 to 1 scaled y value for velocity.
 		voltage = (math.sin((math.pi/sweep_angle_radians)
 				* current_angle_radians))
-		return voltage
+		# TEST_MOTOR_MAX should be 1.0 when NOT testing and 0.1 when testing
+		return voltage * self.TEST_MOTOR_MAX
 
 	# To define the setpoint, input the angle which you want the arm to stop at
-	def get_setpoint(self, sweep_angle):
-		angle = self.get_current_angle()
-		voltage = self.sin_relative_angle(angle, sweep_angle)
-		setpoint_rate = self.convert_voltage_to_rate(voltage)
+	def get_setpoint(self, final_angle):
+		voltage = self.sin_angle(final_angle)
+		setpoint_rate = self.voltage_to_click_rate(voltage)
 		return setpoint_rate
 		
 	# Where pid stores output distance to target pos. and where arm adjusts
 	def set_cargo_eject_pos(self, rate):
-		motor_voltage = self.convert_encoder_rate(rate)
+		motor_voltage = self.click_rate_to_voltage(rate)
 		# Moves arm by signified voltages; should move in opposite the last
 		# direction sensed by arm encoder
 		self.arm_motors.set_speed(motor_voltage)
@@ -99,9 +110,6 @@ class Arm(Subsystem):
 	def zero_encoders(self, encoder):
 		if self.limit_switch.get():
 			encoder.reset()
-
-	def motor_test_max_speed(self):
-		self.arm_motors.set_speed(1)
 
 
 # Preset actuated positions:
