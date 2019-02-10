@@ -20,9 +20,7 @@ class Arm(Subsystem):
 		super().__init__()
 		
 		# Motors
-		arm_motors_instance = Arm_Motors()
-		l_arm_motor = arm_motors_instance.left_arm_motor
-		r_arm_motor = arm_motors_instance.right_arm_motor
+		self.arm_motors = Arm_Motors()
 
 		# Encoders
 		self.l_arm_encoder = My_Arm_Encoder(0,1)
@@ -43,14 +41,14 @@ class Arm(Subsystem):
 		return rate
 
 	# Converts encoder rate of clicks per second to -1 to 1 scale
-	def convert_encoder_rate(self, current_clicks):
-		rate_conversion = #XXX self.max_click_rate / current_clicks
-		return rate_conversion
+#	def convert_encoder_rate(self, current_clicks):
+#		rate_conversion = #XXX self.max_click_rate / current_clicks
+#		return rate_conversion
 
 	# Converts -1 to 1 scale voltage into a rate of clicks per second
-	def convert_voltage_to_rate(self, voltage):
-		click_rate = voltage * #XXX self.max_click_rate
-		return click_rate
+#	def convert_voltage_to_rate(self, voltage):
+#		click_rate = voltage * #XXX self.max_click_rate
+#		return click_rate
 
 	# Used to convert each different position(angle) the arm will stop at into 
 	# a desired -1 to 1 voltage scale. This will then be converted into clicks
@@ -91,8 +89,7 @@ class Arm(Subsystem):
 		motor_voltage = self.convert_encoder_rate(rate)
 		# Moves arm by signified voltages; should move in opposite the last
 		# direction sensed by arm encoder
-		self.l_arm_motor(motor_voltage)
-		self.r_arm_motor(motor_voltage)
+		self.arm_motors.set_speed(motor_voltage)
 			
 	# Actually ejects ball. Arm must be set correctly beforehand
 	def cargo_eject(self, motor):
@@ -103,16 +100,8 @@ class Arm(Subsystem):
 		if self.limit_switch.get():
 			encoder.reset()
 
-
 	def motor_test_max_speed(self):
-		self.left_arm_motors.set(1)
-		#self.right_arm_motors.set(-1)
-
-
-
-
-
-
+		self.arm_motors.set_speed(1)
 
 
 # Preset actuated positions:

@@ -25,7 +25,7 @@ class Do_Pid_Loop(Command):
 	    """Called repeatedly when this Command is scheduled to run"""
 		
 	    # Get encoder values 
-	    print(self.robot_dt.sin_relative_angle(45, 35))
+#	    print(self.robot_dt.sin_relative_angle(45, 35))
 
 	    # Required periodical call to Differential Drive
 	    self.robot_dt.set_tank_speed(

@@ -14,5 +14,12 @@ class Arm_Motors():
 		self.left_arm_motor = wpilib.Victor(6)
 		self.right_arm_motor = ctre.WPI_VictorSPX(01)
 			
+	def set_speed(self, value):
+		if value > 1 or value < -1:
+			raise(RuntimeError, "arm given an invalid speed value: " + str(value))
+
+		self.left_arm_motor.set(value)
+		self.right_arm_motor.set(-value)
+
 
 
