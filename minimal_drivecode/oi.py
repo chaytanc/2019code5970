@@ -9,7 +9,7 @@ path.append('../commands')
 
 from do_encoder_check import Do_Encoder_Check
 from do_pid_loop import Do_Pid_Loop
-from do_motor_rate_test import Do_Motor_Rate_Test
+from get_max_speed_of_arm import Get_Max_Speed_Of_Arm
 from cargo_test import Cargo_Test
 
 class OI():
@@ -41,21 +41,15 @@ class OI():
 
 
 		ltop4.whenPressed(Do_Encoder_Check(robot))
-		lsomething.whenPressed(Do_Motor_Rate_Test(robot))
+
+		# Determine the max speed of the arm for future operations
+		# XXX REMOVE WHEN KNOWN XXX
+		ltop2.whenPressed(Get_Max_Speed_Of_Arm(robot))
+
 		rtop4.whenPressed(Do_Pid_Loop(robot))	
+
 
 		xbox = robot.xbox
 		if xbox.getAButtonPressed():
 			Do_Cargo_Eject_Pos(robot)
 		
-
-                    
-
-
-
-
-		
-
-
-
-
