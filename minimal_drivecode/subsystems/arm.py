@@ -1,5 +1,6 @@
 # vim: set sw=4 noet ts=4 fileencoding=utf-8:
 
+import math
 import wpilib
 from wpilib.command import Subsystem
 
@@ -15,7 +16,7 @@ from encoder import My_Arm_Encoder
 
 class Arm(Subsystem):
 
-	TEST_MOTOR_MAX = 0.1 # XXX set to 1 for competition
+	TEST_MOTOR_MAX = 0.2 # XXX set to 1 for competition
 
 	def __init__(self, robot):
 		print("init")
@@ -33,6 +34,8 @@ class Arm(Subsystem):
 
 		# Limit_switches arg=dio
 		self.limit_switch = wpilib.DigitalInput(6)
+
+		self.pid = None
 
 	#def cargo_intake(self, motor):
 		#self.set_arm_position(intake)
@@ -95,12 +98,46 @@ class Arm(Subsystem):
 		setpoint_rate = self.voltage_to_click_rate(voltage)
 		return setpoint_rate
 		
+	# A rate of 0 still stops motors, despite conversion
 	# Where pid stores output distance to target pos. and where arm adjusts
-	def set_cargo_eject_pos(self, rate):
-		motor_voltage = self.click_rate_to_voltage(rate)
-		# Moves arm by signified voltages; should move in opposite the last
+	def set_motors(self, current_rate):
+		motor_voltage = self.click_rate_to_voltage(current_rate)
+		# Moves arm motors by above voltages; should move in opposite the last
 		# direction sensed by arm encoder
+
+		# XXX
+		if motor_voltage > self.TEST_MOTOR_MAX:
+			self.arm_motors.set_speed(0.0)
+			raise(RuntimeError,
+				"Test motor voltage exceeds " + str(self.TEST_MOTOR_MAX))
+
 		self.arm_motors.set_speed(motor_voltage)
+
+	def move_arm(self, kp, ki, kd, kf): # arg final_angle?
+		
+		# Final angle is set when Do_Move_Arm is made in oi 
+		#XXX setpoint_rate = self.get_setpoint(final_angle)
+	
+		# Args: kp, ki, kd, source (function that will be called for vals),
+		# output (somewhere to put pid output values)
+		self.pid = wpilib.PIDController(
+			kp,
+			ki,
+			kd,
+		    kf,
+			# Gets arm encoder clicks per second
+			self.l_arm_encoder,
+		    # Takes output clicks per sec and shove into given function
+			self.set_motors)
+	
+		# Replaced hard coded slow arm velocity structure with 
+		# sin func to find setpoint
+	
+		# Should be continously set based on the current measured angle
+		# and returns the velocity the arm should be going to reach
+		# the "sweep" angle aka final position of arm. Returned in clicks
+		# per second.
+		#XXX self.pid.setSetpoint(setpoint_rate)
 			
 	# Actually ejects ball. Arm must be set correctly beforehand
 	def cargo_eject(self, motor):
