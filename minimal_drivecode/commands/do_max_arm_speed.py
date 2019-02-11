@@ -2,10 +2,10 @@
 
 import wpilib
 from wpilib.command import Command
-import sys
-sys.path.append('..')
+#import sys
+#sys.path.append('..')
 
-class Get_Max_Speed_Of_Arm(Command):
+class Do_Max_Arm_Speed(Command):
 #class Do_Motor_Rate_Test(Command):
 	"""
 	Check and return values from encoder 

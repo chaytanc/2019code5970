@@ -7,9 +7,10 @@ from wpilib.buttons import Trigger
 from sys import path
 path.append('../commands')
 
+from do_move_arm import Do_Move_Arm
+from do_arm_interrupt import Do_Arm_Interrupt
 from do_encoder_check import Do_Encoder_Check
-from do_pid_loop import Do_Pid_Loop
-from get_max_speed_of_arm import Get_Max_Speed_Of_Arm
+from do_max_arm_speed import Do_Max_Arm_Speed
 from cargo_test import Cargo_Test
 
 class OI():
@@ -17,7 +18,7 @@ class OI():
 
 		self.left_joy = robot.left_joy 
 		self.right_joy = robot.right_joy 
-		self.third_joy = robot.third_joy
+		#self.third_joy = robot.third_joy
 
 		# First character indicates self.right or self.left, 
 		# second indicates position,
@@ -35,18 +36,20 @@ class OI():
 		rtop3 = JoystickButton(self.right_joy, 3)
 		rtop4 = JoystickButton(self.right_joy, 4)
 
-		thirdtop1 = JoystickButton(self.third_joy, 1)
-		thirdtop2 = JoystickButton(self.third_joy, 2)
-		thirdtop3 = JoystickButton(self.third_joy, 3)
+		#XXX Justin I don't think we use a third joystick
+		#thirdtop1 = JoystickButton(self.third_joy, 1)
+		#thirdtop2 = JoystickButton(self.third_joy, 2)
+		#thirdtop3 = JoystickButton(self.third_joy, 3)
 
 
+		# Sets arm angle to 45 degrees
+		ltop2.whenPressed(Do_Arm_Interrupt(robot))
+		ltop3.whenPressed(Do_Move_Arm(robot, 45))
 		ltop4.whenPressed(Do_Encoder_Check(robot))
 
 		# Determine the max speed of the arm for future operations
 		# This is how the max speed of the arm was determined.
-		#ltop2.whenPressed(Get_Max_Speed_Of_Arm(robot))
-		#
-
+		#ltop2.whenPressed(Do_Max_Arm_Speed(robot))
 		#rtop4.whenPressed(Do_Pid_Loop(robot))	
 
 

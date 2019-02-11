@@ -10,7 +10,9 @@ class Arm_Motors():
 	def __init__(self):
 		#Initialize Right motors
 		#self.left_arm_motor = ctre.WPI_VictorSPX(1)	
-		self.left_arm_motor = wpilib.Victor(6)
+
+		#XXX below motors are wired for testing!
+		self.left_arm_motor = ctre.WPI_VictorSPX(3)
 		self.right_arm_motor = ctre.WPI_VictorSPX(1)
 			
 	def set_speed(self, value):

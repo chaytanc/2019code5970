@@ -3,6 +3,7 @@
 from wpilib.command import Command
 from wpilib.command import PIDCommand
 
+# Inherits from command group
 class Do_Cargo_Eject_Pos(Command):
 	
 	def __init__(self, robot):
@@ -12,60 +13,15 @@ class Do_Cargo_Eject_Pos(Command):
 		self.requires(self.robot.drivetrain)
 		self.requires(self.robot.arm)
 
-		'''
-		Each time PID is called in commands it can have a different input for
-		setpoint which guides how close it is to being at the final position.
-		Each different position should have its own final angle.
-		'''
-
-		encoder_kp = 1
-		encoder_ki = 1
-		encoder_kd = 1
-		#XXX sweep angle should be set based on which command group is calling
-		# the pid loop
-		setpoint_rate = robot.arm.get_setpoint(sweep_angle)
-
-		# Args: kp, ki, kd, source (function that will be called for vals),
-		# output (somewhere to input the output percentage of what is input)
-		self.pid = wpilib.PIDController(
-			encoder_kp,
-			encoder_ki,
-			encoder_kd,
-			# Gets arm encoder clicks per second
-			self.robot.arm.l_arm_encoder.getRate(),
-			lambda d: self.robot.arm.set_cargo_eject_pos(d))
-
-		# Replaced this structure with sin func to find setpoint
-		'''
-		if self.robot.arm.l_arm_encoder < XXXlower_arm_range:
-			self.cargo_eject_target_dist =+ slow_speed_target
-
-		if self.robot.arm.l_arm_encoder > XXXhigher_arm_range:
-			self.cargo_eject_target_dist =+ slow_speed_target
-
-		if self.robot.arm.l_arm_encoder inRange \
-		#  XXXmiddle_arm_range/peak of cos wave:
-			self.cargo_eject_target =+ fast_target_speed
-
-		'''
-
-		# Should be continously set based on the current measured angle
-		# and returns the velocity the arm should be going to reach
-		# the "sweep" angle aka final position of arm. Returned in clicks
-		# per second.
-		pid.setSetpoint(setpoint_rate)
 
 	def initialize(self):
 		self.pid.reset()
 
 	def execute(self):
-		direction = robot.arm.l_arm_encoder.getDirection()
-		# dist_from_target should be supplied by pid above
-		robot.arm.set_cargo_eject(dist_from_target, direction)
-		# Zeroes based on limit switches
+		# Move Arm Command
+		# Eject Cargo Command
 		robot.arm.zero_encoders(robot.l_arm_encoder)
 		
-
 	def isFinished(self):
 		# When another arm movement is called it can be interrupted
 		# Does not do anything when finished/interrupted, just
@@ -79,7 +35,7 @@ class Do_Cargo_Eject_Pos(Command):
 		return None
 
 	def interrupted(self):
-		end()
+		self.end()
 		
 
 	

@@ -3,6 +3,7 @@
 import wpilib
 
 class My_Arm_Encoder(wpilib.Encoder):
+	""" Source for PID Loop """
 
 	# Class constants; change if encoder or drive ratios change
 	CLICKS_PER_360         = 12
@@ -14,10 +15,12 @@ class My_Arm_Encoder(wpilib.Encoder):
 		super().__init__(DIO_1, DIO_2)
 		# Amount some gear in motor configuration turns per encoder click
 		self.setDistancePerPulse(self.FINAL_DEGREE_PER_CLICK)
+		self.setPIDSourceType(self.PIDSourceType.kRate)
 	
 	def getRate(self):
 		distance_per_seconds = super().getRate()
 		clicks_per_sec = (
 			distance_per_seconds / self.getDistancePerPulse()
 			)
+		print("Overwritten getRate of arm encoder: " + str(clicks_per_sec))
 		return clicks_per_sec

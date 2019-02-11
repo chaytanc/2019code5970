@@ -34,7 +34,7 @@ sys.path.insert(0, '/home/lvuser/py/commands')
 #from arm import Arm
 from left_motors import Left_Motors
 from right_motors import Right_Motors
-from arm_motors import Arm_Motors
+#from arm_motors import Arm_Motors
 from cargo_motors import Cargo_Motors
 from arm import Arm
 
@@ -50,7 +50,7 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 	def robotInit(self):
 		# Instances of classes
 
-		# instantiate Subsystems
+		# Instantiate Subsystems
 		self.drivetrain = Drivetrain(self)
 		self.arm = Arm(self)
 		
@@ -64,8 +64,9 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 		# Instantiate Xbox
 		self.xbox = wpilib.XboxController(2)
 
-		# instantiate OI
+		# Instantiate OI; must be AFTER joysticks are inited
 		self.oi = OI(self)
+		
 
 		# instantiate Autonomous scheduler
 		#self.autonomousCommand = Autonomous(self)
