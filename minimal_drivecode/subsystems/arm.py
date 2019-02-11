@@ -70,7 +70,7 @@ class Arm(Subsystem):
 	# to final_angle if beginning at a 0 deg. or 180 deg. angle
 	def get_sweep_angle(self, final_angle):
 		sweep_angle = final_angle - self.get_current_angle()
-		return sweep angle
+		return sweep_angle
 
 	# Current and final angles must be passed in as degrees
 	def sin_angle(self, final_angle):
