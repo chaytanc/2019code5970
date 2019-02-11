@@ -21,7 +21,6 @@ class Do_Tank_Drive(Command):
 		self.requires(self.robot_dt)
 		self.left_joy = robot.left_joy
 		self.right_joy = robot.right_joy
-		self.third_joy = robot.third_joy
 
 	
 	def initialize(self):
