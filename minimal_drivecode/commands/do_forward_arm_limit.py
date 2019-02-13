@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# vim: set sw=4 noet ts=4 fileencoding=utf-8:
 """
 Created on Sun Feb 10 13:43:06 2019
 

@@ -3,9 +3,6 @@
 import wpilib
 import wpilib.drive
 from wpilib.command import Command
-#import sys
-#sys.path.append('../oi')
-#from oi import OI
 
 class Do_Tank_Drive(Command):
 
@@ -17,21 +14,17 @@ class Do_Tank_Drive(Command):
 		# an instance of BeaverTronicsRobot from robot.py containing its
 		# instance of drivetrain
 		self.robot_dt = robot.drivetrain
-		#self.oi = OI(self)
 		self.requires(self.robot_dt)
+
 		self.left_joy = robot.left_joy
 		self.right_joy = robot.right_joy
-<<<<<<< HEAD
-=======
-		#self.third_joy = robot.third_joy
->>>>>>> fadcab7a8c56cfe9f81c14f416fc2a7a98870761
-
 	
 	def initialize(self):
 		"""Called just before this Command runs the first time"""
 		
 	
 	def execute(self):
+		"""Called iteratively by Scheduler"""
 		# Continuously sets motor speed to joystick inputs w/ Scheduler
 		self.robot_dt.set_tank_speed(
 			self.left_joy, self.right_joy, self.robot_dt.drive)

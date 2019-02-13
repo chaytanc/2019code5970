@@ -124,10 +124,10 @@ class Arm(Subsystem):
 			kp,
 			ki,
 			kd,
-		    kf,
+			kf,
 			# Gets arm encoder clicks per second
 			self.l_arm_encoder,
-		    # Takes output clicks per sec and shove into given function
+			# Takes output clicks per sec and shove into given function
 			self.set_motors)
 	
 		# Replaced hard coded slow arm velocity structure with 

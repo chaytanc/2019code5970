@@ -47,7 +47,7 @@ class Do_Max_Arm_Speed(Command):
 
 	def end(self):
 		"""Called once after isFinished returns True"""
-		self.arm.set_speed(0.0)
+		self.arm.arm_motors.set_speed(0.0)
 		print("==== MAXIMUM ARM SPEED: " + str(self.max_speed) + " ====")
 		return None
 
@@ -56,5 +56,5 @@ class Do_Max_Arm_Speed(Command):
 		Called when another command which requires one or more of the
 		same subsystems is scheduled to run.
 		"""
-		self.arm.set_speed(0.0)
+		self.arm.arm_motors.set_speed(0.0)
 		self.end()

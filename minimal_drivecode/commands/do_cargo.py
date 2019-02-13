@@ -1,3 +1,4 @@
+# vim: set sw=4 noet ts=4 fileencoding=utf-8:
 from wpilib.command import Command
 
 # Should intake and outtake cargo (bouncy ball). This should be done by
