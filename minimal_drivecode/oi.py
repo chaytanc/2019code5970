@@ -18,7 +18,6 @@ class OI():
 
 		self.left_joy = robot.left_joy 
 		self.right_joy = robot.right_joy 
-		#self.third_joy = robot.third_joy
 
 		# First character indicates self.right or self.left, 
 		# second indicates position,
@@ -35,11 +34,6 @@ class OI():
 		rtop2 = JoystickButton(self.right_joy, 2)
 		rtop3 = JoystickButton(self.right_joy, 3)
 		rtop4 = JoystickButton(self.right_joy, 4)
-
-		#XXX Justin I don't think we use a third joystick
-		#thirdtop1 = JoystickButton(self.third_joy, 1)
-		#thirdtop2 = JoystickButton(self.third_joy, 2)
-		#thirdtop3 = JoystickButton(self.third_joy, 3)
 
 
 		# Sets arm angle to 45 degrees
