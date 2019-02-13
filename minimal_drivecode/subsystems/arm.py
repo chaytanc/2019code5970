@@ -2,6 +2,7 @@
 
 import math
 import wpilib
+from wpilib.command import PIDSubsystem
 from wpilib.command import Subsystem
 
 from arm_motors import Arm_Motors
@@ -14,8 +15,10 @@ from encoder import My_Arm_Encoder
 # Should contain arm command which contains pid which Sched. will call
 # Should set new velocity of motors
 
+# PIDSubsystem?
 class Arm(Subsystem):
 
+	# Slows motors for testing
 	TEST_MOTOR_MAX = 0.2 # XXX set to 1 for competition
 
 	def __init__(self, robot):
