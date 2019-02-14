@@ -45,7 +45,7 @@ from oi import OI
 
 #from oi_buttons import OI_Buttons
 
-class BeaverTronicsRobot(wpilib.IterativeRobot): 
+class BeaverTronicsRobot(wpilib.TimedRobot): 
 
 	def robotInit(self):
 		# Instances of classes
@@ -84,6 +84,9 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 		
 	def autonomousPeriodic(self):
 		Scheduler.getInstance().run()
+
+	def teleopInit(self):
+		self.arm.l_arm_encoder.reset()
 
 	def teleopPeriodic(self):
 	# Before, button functions were executed here. Now scheduler will do that

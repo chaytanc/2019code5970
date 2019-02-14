@@ -13,6 +13,8 @@ from do_encoder_check import Do_Encoder_Check
 from do_max_arm_speed import Do_Max_Arm_Speed
 from cargo_test import Cargo_Test
 
+from do_move_arm_nopid import Do_Move_Arm_NoPID
+
 class OI():
 	def __init__(self, robot):
 
@@ -38,7 +40,7 @@ class OI():
 
 		# Sets arm angle to 45 degrees
 		ltop2.whileHeld(Do_Die_You_Gravy_Sucking_Pig(robot))
-		ltop3.whenPressed(Do_Move_Arm(robot, 45))
+		ltop3.whenPressed(Do_Move_Arm_NoPID(robot, 15.0))
 		ltop4.whenPressed(Do_Encoder_Check(robot))
 
 		# Determine the max speed of the arm for future operations
