@@ -9,7 +9,8 @@ from wpilib.command import Command
 class Do_Rearward_Arm_Limit(Command):
 	def __init__(self, robot):
 		self.requires(robot.arm)
-		robot.arm.l_arm_encoder = 403.2 * (140.48 / 180.0)
+		#XXX makes no sense
+		# robot.arm.l_arm_encoder = 403.2 * (140.48 / 180.0)
 		robot.arm.arm_motors.set_speed(0)
 
 	def execute():

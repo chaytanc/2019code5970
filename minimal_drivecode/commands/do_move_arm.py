@@ -1,6 +1,7 @@
 # vim: set sw=4 noet ts=4 fileencoding=utf-8:
 
 import wpilib
+from wpilib.command import PIDCommand
 from wpilib.command import Command
 
 class Do_Move_Arm(Command):
@@ -14,23 +15,40 @@ class Do_Move_Arm(Command):
 		super().__init__()
 		self.robot = robot
 		self.requires(robot.arm)
+
 		self.kp = 1
 		self.ki = 0
 		self.kd = 0
 		self.kf = 0.05
-		self.final_angle = final_angle
-		self.robot.arm.move_arm(
-			self.kp, self.ki, self.kd, self.kf
-			) # arg final_angle?
-		self.pid = self.robot.arm.pid
+
+		# Should move arm when instantiated
+		# XXX from self.move_arm to here trying to debug
+		self.pid = wpilib.PIDController(
+			self.kp,
+			self.ki,
+			self.kd,
+			self.kf,
+			# Gets arm encoder clicks per second
+			self.robot.arm.l_arm_encoder.getRate,
+			# Takes output clicks per sec and shove into given function
+			self.robot.arm.set_motors)
+
+#		self.robot.arm.move_arm(
+#			self.kp, self.ki, self.kd, self.kf
+#			)
+
+		self.final_angle_1 = final_angle
 
 	def initialize(self):
 		self.pid.reset()
 		self.pid.enable()
 
 	def execute(self):
-		# Setpoint continuously adjusted
-		setpoint_rate = self.robot.arm.get_setpoint(self.final_angle)
+		# Should be continously set based on the current measured angle
+		# and returns the velocity the arm should be going to reach
+		# the "sweep" angle aka final position of arm. Returned in clicks
+		# per second.
+		setpoint_rate = self.robot.arm.get_setpoint(self.final_angle_1)
 		print("setpoint rate: " + str(setpoint_rate))
 		self.pid.setSetpoint(setpoint_rate)
 

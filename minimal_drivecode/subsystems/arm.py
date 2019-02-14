@@ -30,19 +30,22 @@ class Arm(Subsystem):
 
 		# Encoders
 		self.l_arm_encoder = My_Arm_Encoder(0,1)
-		self.direction = self.l_arm_encoder.getDirection()
 
-		#*** by empirical test ***
+		# By empirical test
 		self.max_click_rate = 114.0 
 
 		# Limit_switches arg=dio
 		self.limit_switch = wpilib.DigitalInput(6)
 
-		self.pid = None
-
+	
 	#def cargo_intake(self, motor):
 		#self.set_arm_position(intake)
 		#motor.set(1)
+
+#	# Actually ejects ball. Arm must be set correctly beforehand
+#	def cargo_eject(self, motor):
+#		# Cargo ball motor
+#		motor.set(-1)
 
 	# The rate is of clicks/sec NOT dist/second! See subsystems/encoder.py
 	def get_click_rate(self):
@@ -114,39 +117,9 @@ class Arm(Subsystem):
 			raise(RuntimeError,
 				"Test motor voltage exceeds " + str(self.TEST_MOTOR_MAX))
 
+		print("Setting arm motor speed: " + str(motor_voltage))
 		self.arm_motors.set_speed(motor_voltage)
-
-	def move_arm(self, kp, ki, kd, kf): # arg final_angle?
-		
-		# Final angle is set when Do_Move_Arm is made in oi 
-		#XXX setpoint_rate = self.get_setpoint(final_angle)
-	
-		# Args: kp, ki, kd, source (function that will be called for vals),
-		# output (somewhere to put pid output values)
-		self.pid = wpilib.PIDController(
-			kp,
-			ki,
-			kd,
-			kf,
-			# Gets arm encoder clicks per second
-			self.l_arm_encoder,
-			# Takes output clicks per sec and shove into given function
-			self.set_motors)
-	
-		# Replaced hard coded slow arm velocity structure with 
-		# sin func to find setpoint
-	
-		# Should be continously set based on the current measured angle
-		# and returns the velocity the arm should be going to reach
-		# the "sweep" angle aka final position of arm. Returned in clicks
-		# per second.
-		#XXX self.pid.setSetpoint(setpoint_rate)
 			
-	# Actually ejects ball. Arm must be set correctly beforehand
-	def cargo_eject(self, motor):
-		# Cargo ball motor
-		motor.set(-1)
-
 	def zero_encoders(self, encoder):
 		if self.limit_switch.get():
 			encoder.reset()

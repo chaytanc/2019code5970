@@ -3,7 +3,7 @@
 import wpilib
 from wpilib.command import Command
 
-class Do_Arm_Interrupt(Command):
+class Do_Die_You_Gravy_Sucking_Pig(Command):
 
     def __init__(self, robot):
         super().__init__()
@@ -11,7 +11,7 @@ class Do_Arm_Interrupt(Command):
         self.robot_arm = robot.arm
 
     def initialize(self):
-        print("Ran Command Do_Arm_Interrupt")
+        print("Ran Command Do_Die_You_Gravy_Sucking_Pig")
         return None
 
     def execute(self):
