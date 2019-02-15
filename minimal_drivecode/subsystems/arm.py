@@ -27,7 +27,6 @@ class Arm(Subsystem):
 
 		# Encoders
 		self.l_arm_encoder = My_Arm_Encoder(0,1)
-		self.l_arm_encoder.reset()
 
 		#XXX accidental test reached 318, but with a 0.99 input
 		# By empirical test
@@ -48,8 +47,10 @@ class Arm(Subsystem):
 
 	# The rate is of clicks/sec NOT dist/second! See subsystems/encoder.py
 	def get_click_rate(self):
-		rate = self.l_arm_encoder.getRate() * 1.0
-		return rate
+		#XXX
+		#rate = self.l_arm_encoder.getRate() * 1.0
+		rate = self.l_arm_encoder.get_new_rate() * 1.0
+		return
 
 	# Converts encoder rate of clicks per second to -1 to 1 scale
 	def click_rate_to_voltage(self, current_click_rate):
@@ -72,8 +73,8 @@ class Arm(Subsystem):
 		deg_per_click = self.l_arm_encoder.getDistancePerPulse()
 		current_angle = absolute_clicks * deg_per_click	
 		#XXX + 0.5 for debug feed forward
-		return current_angle + 1.0
-		#return current_angle
+		#return current_angle + 1.0
+		return current_angle
 
 	# Final angle is the absolute angle between position of the arm at zero
 	# clicks and when you want the arm to end up.

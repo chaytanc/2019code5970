@@ -21,6 +21,12 @@ class Do_Move_Arm(Command):
 		self.kd = 0
 		self.kf = 0.06
 
+		self.final_angle_1 = final_angle
+		print(self.final_angle_1)
+
+	def initialize(self):
+
+############ moved from __init__
 		# Should move arm when instantiated
 		# XXX from self.move_arm to here trying to debug
 		self.pid = wpilib.PIDController(
@@ -29,22 +35,21 @@ class Do_Move_Arm(Command):
 			self.kd,
 			self.kf,
 			# Gets arm encoder clicks per second
-			self.robot.arm.l_arm_encoder.getRate,
+			#XXX
+			#lambda: self.robot.arm.l_arm_encoder.getRate(),
+			lambda: self.robot.arm.l_arm_encoder.get_new_rate(),
 			# Takes output clicks per sec and shove into given function
 			self.robot.arm.set_motors)
+
 		self.pid.setAbsoluteTolerance(0.5)
+		# Clicks per second range
 		self.pid.setInputRange(-100.0, 100.0)
+		# An initial setpoint to boost motor
 		self.pid.setSetpoint(12.0)
 		self.pid.setOutputRange(-100.0, 100.0)
 		self.pid.setContinuous(False)
-#		self.robot.arm.move_arm(
-#			self.kp, self.ki, self.kd, self.kf
-#			)
+############
 
-		self.final_angle_1 = final_angle
-		print(self.final_angle_1)
-
-	def initialize(self):
 		self.pid.reset()
 		self.pid.enable()
 		print(str(self.pid.isEnabled()))

@@ -26,7 +26,7 @@ class Do_Move_Arm_NoPID(Command):
 			print("New encoder click rate: " + str(rate))
 
 		voltage = self.robot.arm.sin_angle(self.final_angle)
-		rate    = self.robot.arm.voltage_to_click_rate(voltage)
+		rate = self.robot.arm.voltage_to_click_rate(voltage)
 		self.robot.arm.set_motors(rate, True)
 
 	def isFinished(self):

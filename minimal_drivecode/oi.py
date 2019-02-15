@@ -38,12 +38,11 @@ class OI():
 		rtop3 = JoystickButton(self.right_joy, 3)
 		rtop4 = JoystickButton(self.right_joy, 4)
 
-
 		# Sets arm angle to 45 degrees
 		ltop2.whileHeld(Do_Die_You_Gravy_Sucking_Pig(robot))
 		#XXX Change depending on test of PID or just P
-		#ltop3.whenPressed(Do_Move_Arm(robot, 15))
-		ltop3.whenPressed(Do_Move_Arm_NoPID(robot, 15.0))
+		ltop3.whenPressed(Do_Move_Arm(robot, 15))
+		#ltop3.whenPressed(Do_Move_Arm_NoPID(robot, 15.0))
 		ltop4.whenPressed(Do_Encoder_Check(robot))
 		lsomething.whenPressed(Do_Simple_Arm(robot))
 
@@ -52,8 +51,3 @@ class OI():
 		#ltop2.whenPressed(Do_Max_Arm_Speed(robot))
 		#rtop4.whenPressed(Do_Pid_Loop(robot))	
 
-
-		xbox = robot.xbox
-		if xbox.getAButtonPressed():
-			Do_Cargo_Eject_Pos(robot)
-		

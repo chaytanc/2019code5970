@@ -11,11 +11,6 @@ class Arm_Motors():
 	
 	def __init__(self):
 		#Initialize Right motors
-		#self.left_arm_motor = ctre.WPI_VictorSPX(1)	
-
-		#self.left_arm_motor = ctre.WPI_VictorSPX(3)
-		#self.right_arm_motor = ctre.WPI_VictorSPX(1)
-
 		self.left_arm_motor = ctre.WPI_VictorSPX(3)
 		self.right_arm_motor = ctre.WPI_VictorSPX(1)
 
@@ -26,6 +21,7 @@ class Arm_Motors():
 		times this value.  We need lower values because we only get about
 		6 samples in a full range swing of the arm.
 		"""
+		
 		if use_min_speed:
 			if value >= 0.0:
 				if value < self.MIN_SPEED:
