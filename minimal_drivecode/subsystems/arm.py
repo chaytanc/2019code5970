@@ -18,9 +18,6 @@ from encoder import My_Arm_Encoder
 # PIDSubsystem?
 class Arm(Subsystem):
 
-	# Slows motors for testing
-	TEST_MOTOR_MAX = 0.2 # XXX set to 1 for competition
-
 	def __init__(self, robot):
 		print("init")
 		super().__init__()
@@ -30,10 +27,11 @@ class Arm(Subsystem):
 
 		# Encoders
 		self.l_arm_encoder = My_Arm_Encoder(0,1)
+		self.l_arm_encoder.reset()
 
 		#XXX accidental test reached 318, but with a 0.99 input
 		# By empirical test
-		self.max_click_rate = 318.0 
+		self.max_click_rate = 340.0 
 
 		# Limit_switches arg=dio
 		self.limit_switch = wpilib.DigitalInput(6)
@@ -50,7 +48,7 @@ class Arm(Subsystem):
 
 	# The rate is of clicks/sec NOT dist/second! See subsystems/encoder.py
 	def get_click_rate(self):
-		rate = self.l_arm_encoder.getRate()
+		rate = self.l_arm_encoder.getRate() * 1.0
 		return rate
 
 	# Converts encoder rate of clicks per second to -1 to 1 scale
@@ -70,6 +68,7 @@ class Arm(Subsystem):
 	# Gets current angle in degrees
 	def get_current_angle(self):
 		absolute_clicks = self.l_arm_encoder.get()	
+		print("current angle clicks: " + str(absolute_clicks))
 		deg_per_click = self.l_arm_encoder.getDistancePerPulse()
 		current_angle = absolute_clicks * deg_per_click	
 		#XXX + 0.5 for debug feed forward
@@ -98,8 +97,6 @@ class Arm(Subsystem):
 		# -1 to 1 scaled y value for velocity.
 		voltage = (math.sin((math.pi/sweep_angle_radians)
 				* current_angle_radians))
-		#XXX TEST_MOTOR_MAX should be 1.0 when NOT testing and 0.1 when testing
-		#return voltage * self.TEST_MOTOR_MAX
 		return voltage
 
 	# To define the setpoint, input the angle which you want the arm to stop at
@@ -110,24 +107,18 @@ class Arm(Subsystem):
 		
 	# A rate of 0 still stops motors, despite conversion
 	# Where pid stores output distance to target pos. and where arm adjusts
-	def set_motors(self, current_rate):
+	def set_motors(self, current_rate, use_min_speed=False):
 		motor_voltage = self.click_rate_to_voltage(current_rate)
-		# Moves arm motors by above voltages; should move in opposite the last
-		# direction sensed by arm encoder
 
-		# XXX
-		#if motor_voltage > self.TEST_MOTOR_MAX:
-			#self.arm_motors.set_speed(0.0)
-			#raise(RuntimeError,
-				#"Test motor voltage exceeds " + str(self.TEST_MOTOR_MAX))
-
+		# Moves arm motors by above voltages (actually values from -1 -> 1.0;
+		# negative values should move in opposite the last direction sensed
+		# by arm encoder
 		print("Setting arm motor speed: " + str(motor_voltage))
-		self.arm_motors.set_speed(motor_voltage)
+		self.arm_motors.set_speed(motor_voltage, use_min_speed)
 			
 	def zero_encoders(self, encoder):
 		if self.limit_switch.get():
 			encoder.reset()
-
 
 # Preset actuated positions:
 	# Straight up pos.

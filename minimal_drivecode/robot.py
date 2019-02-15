@@ -93,7 +93,7 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		self.loops = 0
 		self.timer.reset()
 		self.timer.start()
-		
+		self.arm.l_arm_encoder.reset()
 
 	def teleopPeriodic(self):
 	# Before, button functions were executed here. Now scheduler will do that
