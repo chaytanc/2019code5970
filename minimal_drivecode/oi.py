@@ -13,6 +13,10 @@ from do_encoder_check import Do_Encoder_Check
 from do_max_arm_speed import Do_Max_Arm_Speed
 from do_simple_arm import Do_Simple_Arm
 from cargo_test import Cargo_Test
+from do_cargo_intake import Do_Cargo_Intake
+from do_cargo_eject import Do_Cargo_Eject
+from do_hp_intake import Do_Hp_Intake
+from do_hp_eject import Do_Hp_Eject
 
 from do_move_arm_nopid import Do_Move_Arm_NoPID
 
@@ -40,6 +44,7 @@ class OI():
 
 
 		# Sets arm angle to 45 degrees
+		ltop1.whileHeld(Do_Cargo_Eject(robot))		
 		ltop2.whileHeld(Do_Die_You_Gravy_Sucking_Pig(robot))
 		#XXX Change depending on test of PID or just P
 		#ltop3.whenPressed(Do_Move_Arm(robot, 15))
@@ -51,9 +56,15 @@ class OI():
 		# This is how the max speed of the arm was determined.
 		#ltop2.whenPressed(Do_Max_Arm_Speed(robot))
 		#rtop4.whenPressed(Do_Pid_Loop(robot))	
-
+		rtop1.whileHeld(Do_Hp_Intake(robot))
+		rtop1.whenReleased(Do_Hp_Eject(robot))
+		rtop1.cancelWhenPressed(Do_Hp_Eject(robot))
+		rtop3.whileHeld(Do_Cargo_Intake(robot))
 
 		xbox = robot.xbox
 		if xbox.getAButtonPressed():
 			Do_Cargo_Eject_Pos(robot)
-		
+
+		### UNTESTED JANK
+		#while xbox.getTriggerAxis(3) == -1:
+			#Do_Cargo_Intake(robot)
