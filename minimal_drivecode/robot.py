@@ -45,7 +45,7 @@ from oi import OI
 
 #from oi_buttons import OI_Buttons
 
-class BeaverTronicsRobot(wpilib.IterativeRobot): 
+class BeaverTronicsRobot(wpilib.TimedRobot): 
 
 	def robotInit(self):
 		# Instances of classes
@@ -66,6 +66,10 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 
 		# Instantiate OI; must be AFTER joysticks are inited
 		self.oi = OI(self)
+
+		self.timer = wpilib.Timer()
+		self.loops = 0
+		
 		
 
 		# instantiate Autonomous scheduler
@@ -85,12 +89,20 @@ class BeaverTronicsRobot(wpilib.IterativeRobot):
 	def autonomousPeriodic(self):
 		Scheduler.getInstance().run()
 
+	def teleopInit(self):
+		self.loops = 0
+		self.timer.reset()
+		self.timer.start()
+		
+
 	def teleopPeriodic(self):
 	# Before, button functions were executed here. Now scheduler will do that
 		Scheduler.getInstance().run()
 
-	def testPeriodic(self):
-		return None
+		self.loops += 1
+		if self.timer.hasPeriodPassed(1):
+			self.logger.info("%d loops / second", self.loops)
+			self.loops = 0
 
 	def disabledInit(self):
 		return None

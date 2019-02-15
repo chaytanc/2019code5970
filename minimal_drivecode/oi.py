@@ -11,6 +11,7 @@ from do_move_arm import Do_Move_Arm
 from do_die_you_gravy_sucking_pig import Do_Die_You_Gravy_Sucking_Pig
 from do_encoder_check import Do_Encoder_Check
 from do_max_arm_speed import Do_Max_Arm_Speed
+from do_simple_arm import Do_Simple_Arm
 from cargo_test import Cargo_Test
 
 class OI():
@@ -38,8 +39,9 @@ class OI():
 
 		# Sets arm angle to 45 degrees
 		ltop2.whileHeld(Do_Die_You_Gravy_Sucking_Pig(robot))
-		ltop3.whenPressed(Do_Move_Arm(robot, 45))
+		ltop3.whenPressed(Do_Move_Arm(robot, 15))
 		ltop4.whenPressed(Do_Encoder_Check(robot))
+		lsomething.whenPressed(Do_Simple_Arm(robot))
 
 		# Determine the max speed of the arm for future operations
 		# This is how the max speed of the arm was determined.

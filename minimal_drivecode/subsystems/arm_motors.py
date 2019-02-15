@@ -11,7 +11,9 @@ class Arm_Motors():
 		#Initialize Right motors
 		#self.left_arm_motor = ctre.WPI_VictorSPX(1)	
 
-		#XXX below motors are wired for testing!
+		#self.left_arm_motor = ctre.WPI_VictorSPX(3)
+		#self.right_arm_motor = ctre.WPI_VictorSPX(1)
+
 		self.left_arm_motor = ctre.WPI_VictorSPX(3)
 		self.right_arm_motor = ctre.WPI_VictorSPX(1)
 			
@@ -23,8 +25,10 @@ class Arm_Motors():
 		if value > 1 or value < -1:
 			raise(RuntimeError, "arm given an invalid speed value: " + str(value))
 
-		self.left_arm_motor.set(value)
-		self.right_arm_motor.set(-value)
+		self.left_arm_motor.set(
+				self.left_arm_motor.ControlMode.PercentOutput, value)
+		self.right_arm_motor.set(
+				self.right_arm_motor.ControlMode.PercentOutput, value * -1)
 
 
 

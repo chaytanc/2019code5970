@@ -31,8 +31,9 @@ class Arm(Subsystem):
 		# Encoders
 		self.l_arm_encoder = My_Arm_Encoder(0,1)
 
+		#XXX accidental test reached 318, but with a 0.99 input
 		# By empirical test
-		self.max_click_rate = 114.0 
+		self.max_click_rate = 318.0 
 
 		# Limit_switches arg=dio
 		self.limit_switch = wpilib.DigitalInput(6)
@@ -71,7 +72,9 @@ class Arm(Subsystem):
 		absolute_clicks = self.l_arm_encoder.get()	
 		deg_per_click = self.l_arm_encoder.getDistancePerPulse()
 		current_angle = absolute_clicks * deg_per_click	
-		return current_angle
+		#XXX + 0.5 for debug feed forward
+		return current_angle + 1.0
+		#return current_angle
 
 	# Final angle is the absolute angle between position of the arm at zero
 	# clicks and when you want the arm to end up.
@@ -95,8 +98,9 @@ class Arm(Subsystem):
 		# -1 to 1 scaled y value for velocity.
 		voltage = (math.sin((math.pi/sweep_angle_radians)
 				* current_angle_radians))
-		# TEST_MOTOR_MAX should be 1.0 when NOT testing and 0.1 when testing
-		return voltage * self.TEST_MOTOR_MAX
+		#XXX TEST_MOTOR_MAX should be 1.0 when NOT testing and 0.1 when testing
+		#return voltage * self.TEST_MOTOR_MAX
+		return voltage
 
 	# To define the setpoint, input the angle which you want the arm to stop at
 	def get_setpoint(self, final_angle):
@@ -112,10 +116,10 @@ class Arm(Subsystem):
 		# direction sensed by arm encoder
 
 		# XXX
-		if motor_voltage > self.TEST_MOTOR_MAX:
-			self.arm_motors.set_speed(0.0)
-			raise(RuntimeError,
-				"Test motor voltage exceeds " + str(self.TEST_MOTOR_MAX))
+		#if motor_voltage > self.TEST_MOTOR_MAX:
+			#self.arm_motors.set_speed(0.0)
+			#raise(RuntimeError,
+				#"Test motor voltage exceeds " + str(self.TEST_MOTOR_MAX))
 
 		print("Setting arm motor speed: " + str(motor_voltage))
 		self.arm_motors.set_speed(motor_voltage)

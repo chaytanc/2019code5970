@@ -16,10 +16,10 @@ class Do_Move_Arm(Command):
 		self.robot = robot
 		self.requires(robot.arm)
 
-		self.kp = 1
+		self.kp = 0.5
 		self.ki = 0
 		self.kd = 0
-		self.kf = 0.05
+		self.kf = 0.06
 
 		# Should move arm when instantiated
 		# XXX from self.move_arm to here trying to debug
@@ -32,16 +32,23 @@ class Do_Move_Arm(Command):
 			self.robot.arm.l_arm_encoder.getRate,
 			# Takes output clicks per sec and shove into given function
 			self.robot.arm.set_motors)
-
+		self.pid.setAbsoluteTolerance(0.5)
+		self.pid.setInputRange(-100.0, 100.0)
+		self.pid.setSetpoint(12.0)
+		self.pid.setOutputRange(-100.0, 100.0)
+		self.pid.setContinuous(False)
 #		self.robot.arm.move_arm(
 #			self.kp, self.ki, self.kd, self.kf
 #			)
 
 		self.final_angle_1 = final_angle
+		print(self.final_angle_1)
 
 	def initialize(self):
 		self.pid.reset()
 		self.pid.enable()
+		print(str(self.pid.isEnabled()))
+		print(self.pid.getF())
 
 	def execute(self):
 		# Should be continously set based on the current measured angle
@@ -50,6 +57,7 @@ class Do_Move_Arm(Command):
 		# per second.
 		setpoint_rate = self.robot.arm.get_setpoint(self.final_angle_1)
 		print("setpoint rate: " + str(setpoint_rate))
+		print(self.pid.getSetpoint())
 		self.pid.setSetpoint(setpoint_rate)
 
 	def isFinished(self):
@@ -60,6 +68,7 @@ class Do_Move_Arm(Command):
 
 	# This should be redundant because do_arm_interrupt also sets motors to 0
 	def end(self):
+		self.pid.disable()
 		print("Ending Command Do_Move_Arm")
 		self.robot.arm.set_motors(0)
 		self.cancel()
