@@ -40,6 +40,8 @@ from arm import Arm
 
 
 from drivetrain import Drivetrain
+from cargo import Cargo
+from hatch_panel import Hatch_Panel
 #from encoders import Encoders
 from oi import OI
 
@@ -53,7 +55,9 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		# Instantiate Subsystems
 		self.drivetrain = Drivetrain(self)
 		self.arm = Arm(self)
-		
+		self.cargo = Cargo(self)
+		self.hatch_panel = Hatch_Panel()
+
 		# instantiate Encoders
 		#self.encoders = Encoders(self)
 
