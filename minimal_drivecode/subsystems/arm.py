@@ -101,6 +101,7 @@ class Arm(Subsystem):
 		return voltage
 
 	# To define the setpoint, input the angle which you want the arm to stop at
+	# Relies on current_angle to be above 0 b/c of sin_angle
 	def get_setpoint(self, final_angle):
 		voltage = self.sin_angle(final_angle)
 		setpoint_rate = self.voltage_to_click_rate(voltage)
@@ -108,7 +109,7 @@ class Arm(Subsystem):
 		
 	# A rate of 0 still stops motors, despite conversion
 	# Where pid stores output distance to target pos. and where arm adjusts
-	def set_motors(self, current_rate, use_min_speed=False):
+	def set_motors(self, current_rate, use_min_speed=True):
 		motor_voltage = self.click_rate_to_voltage(current_rate)
 
 		# Moves arm motors by above voltages (actually values from -1 -> 1.0;
