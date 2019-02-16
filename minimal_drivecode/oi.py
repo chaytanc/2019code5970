@@ -11,7 +11,6 @@ from do_move_arm import Do_Move_Arm
 from do_die_you_gravy_sucking_pig import Do_Die_You_Gravy_Sucking_Pig
 from do_encoder_check import Do_Encoder_Check
 from do_max_arm_speed import Do_Max_Arm_Speed
-from cargo_test import Cargo_Test
 from do_cargo_intake import Do_Cargo_Intake
 from do_cargo_eject import Do_Cargo_Eject
 from do_hp_intake import Do_Hp_Intake
