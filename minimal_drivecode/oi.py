@@ -45,7 +45,7 @@ class OI():
 		ltop1.whileHeld(Do_Cargo_Eject(robot))		
 		ltop2.whileHeld(Do_Die_You_Gravy_Sucking_Pig(robot))
 		#XXX Change depending on test of PID or just P
-		ltop3.whenPressed(Do_Move_Arm(robot, 15))
+		ltop3.whenPressed(Do_Move_Arm(robot, 15.0))
 		#ltop3.whenPressed(Do_Move_Arm_NoPID(robot, 15.0))
 		ltop4.whenPressed(Do_Encoder_Check(robot))
 

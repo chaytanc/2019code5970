@@ -17,16 +17,17 @@ class Do_Move_Arm(Command):
 		self.requires(robot.arm)
 
 		self.kp = 0.5
-		self.ki = 0
-		self.kd = 0
+		self.ki = 0.0
+		self.kd = 0.0
 		self.kf = 0.06
+
+		self.robot.arm.l_arm_encoder.reset()
 
 		self.final_angle_1 = final_angle
 		print(self.final_angle_1)
 
 	def initialize(self):
 
-############ moved from __init__
 		# Should move arm when instantiated
 		# XXX from self.move_arm to here trying to debug
 		self.pid = wpilib.PIDController(
@@ -48,7 +49,6 @@ class Do_Move_Arm(Command):
 		self.pid.setSetpoint(12.0)
 		self.pid.setOutputRange(-100.0, 100.0)
 		self.pid.setContinuous(False)
-############
 
 		self.pid.reset()
 		self.pid.enable()
@@ -74,9 +74,10 @@ class Do_Move_Arm(Command):
 	# This should be redundant because do_arm_interrupt also sets motors to 0
 	def end(self):
 		self.pid.disable()
+		self.pid.close()
 		print("Ending Command Do_Move_Arm")
-		self.robot.arm.set_motors(0)
-		self.cancel()
+		self.robot.arm.set_motors(0.0)
+		#self.cancel()
 
 	def interrupted(self):
 		self.end()
