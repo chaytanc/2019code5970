@@ -30,7 +30,7 @@ class Arm(Subsystem):
 
 		#XXX accidental test reached 318, but with a 0.99 input
 		# By empirical test
-		self.max_click_rate = 340.0 
+		self.max_click_rate = 318.0 
 
 		# Limit_switches arg=dio
 		self.limit_switch = wpilib.DigitalInput(6)

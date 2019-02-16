@@ -49,8 +49,9 @@ class Drivetrain(Subsystem):
 			self.left_motors, self.right_motors)
 
 
-	def initDefaultCommand(self):
-		self.setDefaultCommand(Do_Tank_Drive(self.robot_instance))
+	#XXX commented out for debugging
+	#def initDefaultCommand(self):
+		#self.setDefaultCommand(Do_Tank_Drive(self.robot_instance))
 
 	# Sets driving mode to tank drive, should be periodically called
 	def set_drivetrain_type(self, drivetrain_type, left_motors, right_motors):
