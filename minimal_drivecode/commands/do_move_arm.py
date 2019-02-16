@@ -19,7 +19,7 @@ class Do_Move_Arm(Command):
 		self.kp = 0.5
 		self.ki = 0.0
 		self.kd = 0.0
-		self.kf = 0.06
+		self.kf = 0.16
 
 		self.robot.arm.l_arm_encoder.reset()
 
@@ -41,6 +41,7 @@ class Do_Move_Arm(Command):
 			lambda: self.robot.arm.l_arm_encoder.get_new_rate(),
 			# Takes output clicks per sec and shove into given function
 			self.robot.arm.set_motors)
+		self.pid.reset()
 
 		self.pid.setAbsoluteTolerance(0.5)
 		# Clicks per second range
@@ -50,7 +51,6 @@ class Do_Move_Arm(Command):
 		self.pid.setOutputRange(-100.0, 100.0)
 		self.pid.setContinuous(False)
 
-		self.pid.reset()
 		self.pid.enable()
 		print(str(self.pid.isEnabled()))
 		print(self.pid.getF())
@@ -66,7 +66,12 @@ class Do_Move_Arm(Command):
 		self.pid.setSetpoint(setpoint_rate)
 
 	def isFinished(self):
-		return None
+		angle_diff = self.robot.arm.get_current_angle() - self.final_angle_1
+		if angle_diff < 0.0:
+			angle_diff *= -1
+
+		tolerance = 2.0
+		return (angle_diff < tolerance)
 
 	def isInterruptible(self):
 		return True

@@ -50,7 +50,7 @@ class Arm(Subsystem):
 		#XXX
 		#rate = self.l_arm_encoder.getRate() * 1.0
 		rate = self.l_arm_encoder.get_new_rate() * 1.0
-		return
+		return rate
 
 	# Converts encoder rate of clicks per second to -1 to 1 scale
 	def click_rate_to_voltage(self, current_click_rate):
