@@ -33,7 +33,7 @@ class Do_Max_Arm_Speed(Command):
 		rate = self.arm.get_click_rate()
 
 		if rate < 0.0:
-			raise(RuntimeError, "speed is negative in arm speed test")
+			raise RuntimeError("speed is negative in arm speed test")
 
 		if rate > self.max_speed:
 			self.max_speed = rate
