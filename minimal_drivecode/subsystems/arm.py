@@ -47,8 +47,6 @@ class Arm(Subsystem):
 
 	# The rate is of clicks/sec NOT dist/second! See subsystems/encoder.py
 	def get_click_rate(self):
-		#XXX
-		#rate = self.l_arm_encoder.getRate() * 1.0
 		rate = self.l_arm_encoder.get_new_rate() * 1.0
 		return
 
@@ -72,8 +70,6 @@ class Arm(Subsystem):
 		print("current angle clicks: " + str(absolute_clicks))
 		deg_per_click = self.l_arm_encoder.getDistancePerPulse()
 		current_angle = absolute_clicks * deg_per_click	
-		#XXX + 0.5 for debug feed forward
-		#return current_angle + 1.0
 		return current_angle
 
 	# Final angle is the absolute angle between position of the arm at zero
