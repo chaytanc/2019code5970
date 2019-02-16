@@ -16,6 +16,9 @@ from do_cargo_intake import Do_Cargo_Intake
 from do_cargo_eject import Do_Cargo_Eject
 from do_hp_intake import Do_Hp_Intake
 from do_hp_eject import Do_Hp_Eject
+from do_hp_rotate_actuated import Do_Hp_Rotate_Actuated
+from do_hp_rotate_unactuated import Do_Hp_Rotate_Unactuated
+from do_ramp import Do_Ramp
 
 from do_move_arm_nopid import Do_Move_Arm_NoPID
 
@@ -48,14 +51,15 @@ class OI():
 		ltop3.whenPressed(Do_Move_Arm(robot, 15))
 		#ltop3.whenPressed(Do_Move_Arm_NoPID(robot, 15.0))
 		ltop4.whenPressed(Do_Encoder_Check(robot))
-
+		lsomething.whenPressed(Do_Ramp(robot))
 		# Determine the max speed of the arm for future operations
 		# This is how the max speed of the arm was determined.
 		#ltop2.whenPressed(Do_Max_Arm_Speed(robot))
 		#rtop4.whenPressed(Do_Pid_Loop(robot))	
 
-		rtop1.whileHeld(Do_Hp_Intake(robot))
-		rtop1.whenReleased(Do_Hp_Eject(robot))
-		rtop1.cancelWhenPressed(Do_Hp_Eject(robot))
+		rtop1.whenActive(Do_Hp_Intake(robot))
+		rtop1.whenInactive(Do_Hp_Eject(robot))
+		rtop2.whenActive(Do_Hp_Rotate_Actuated(robot))
+		rtop2.whenInactive(Do_Hp_Rotate_Unactuated(robot))
 		rtop3.whileHeld(Do_Cargo_Intake(robot))
 

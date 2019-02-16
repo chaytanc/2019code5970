@@ -14,6 +14,7 @@ class Do_Cargo_Intake(Command):
 		# instance of drivetrain
 		self.robot_dt = robot.drivetrain
 		self.robot_cargo = robot.cargo
+		self.requires(robot.cargo)
 		
 		self.cargo_motor = robot.cargo.cargo_motor
 		self.left_joy = robot.left_joy

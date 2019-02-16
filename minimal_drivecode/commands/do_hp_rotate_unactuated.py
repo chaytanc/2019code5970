@@ -7,8 +7,8 @@ from wpilib.command import Command
 #sys.path.append('../subsystems/pneumatics')
 #from pneumatics import Pneuma
 		
-# Actuates pistons for hatch panel manipulator. Releasing hatch panel state.
-class Do_Hp_Eject(Command):
+# Unacctuates pistons for hatch panel manipulator. Default and intake state.
+class Do_Hp_Rotate_Unactuated(Command):
 	def __init__(self, robot):
 		
 		super().__init__()
@@ -16,18 +16,19 @@ class Do_Hp_Eject(Command):
 		# instance of drivetrain
 		self.robot_dt = robot.drivetrain
 		self.robot_hatch_panel = robot.hatch_panel
+		# overlaps with hp_eject and hp_intake requirement. May be problematic
 		self.requires(self.robot_hatch_panel)
 		
 		self.robot_arm = robot.arm
-		self.hp_eject_solenoid = self.robot_hatch_panel.hp_solenoid
+		self.hp_rotate_solenoid = self.robot_hatch_panel.hp_rotate_solenoid
 		self.left_joy = robot.left_joy
 		self.right_joy = robot.right_joy
 		
 	def initialize(self):
 		return None
 	def execute(self):
-		self.robot_hatch_panel.hp_actuate(self.hp_eject_solenoid)
-		print("hatch panel actuate!")
+		self.robot_hatch_panel.hp_unactuate(self.hp_rotate_solenoid)
+		print("hatch panel rotation unactuate!")
 
 		# Required periodical call to Differential Drive
 		self.robot_dt.set_tank_speed(
@@ -38,4 +39,7 @@ class Do_Hp_Eject(Command):
 	def end(self):
 		return None
 	def interrupted(self):
-	    self.end()
+	    print("interrupted")
+		#self.cancel()
+		#self.end()
+

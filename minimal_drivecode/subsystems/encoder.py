@@ -27,7 +27,8 @@ class My_Arm_Encoder(wpilib.Encoder):
 #		return clicks_per_sec
 
 	def get_new_rate(self):
-		distance_per_seconds = self.getRate()
+		#distance_per_seconds = self.getRate()
+		distance_per_seconds = super().getRate()
 		clicks_per_sec = (
 			distance_per_seconds / self.getDistancePerPulse()
 			)

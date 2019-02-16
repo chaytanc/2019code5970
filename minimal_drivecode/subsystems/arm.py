@@ -36,14 +36,7 @@ class Arm(Subsystem):
 		self.limit_switch = wpilib.DigitalInput(6)
 
 	
-	#def cargo_intake(self, motor):
-		#self.set_arm_position(intake)
-		#motor.set(1)
-
-#	# Actually ejects ball. Arm must be set correctly beforehand
-#	def cargo_eject(self, motor):
-#		# Cargo ball motor
-#		motor.set(-1)
+		self.ramp_solenoid = wpilib.Solenoid(6)
 
 	# The rate is of clicks/sec NOT dist/second! See subsystems/encoder.py
 	def get_click_rate(self):
@@ -120,6 +113,14 @@ class Arm(Subsystem):
 	def zero_encoders(self, encoder):
 		if self.limit_switch.get():
 			encoder.reset()
+	
+	def ramp_actuate(self, solenoid):
+		# actuate ramp
+		solenoid.set(True)
+
+	def ramp_unactuate(self, solenoid):
+		# unactuate ramp, for emergencies
+		solenoid.set(False)
 
 # Preset actuated positions:
 	# Straight up pos.

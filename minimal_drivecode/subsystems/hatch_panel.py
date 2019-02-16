@@ -2,17 +2,23 @@
 
 import wpilib
 from wpilib.buttons.joystickbutton import JoystickButton
-import sys
-sys.path.append('C:/Users/Beavertronics/Desktop/2018Workstation/2018code5970/drivingcode/robot_py_modules')
+from sys import path
+path.append('../commands')
+from wpilib.command import Subsystem
 
 
 
-class Hatch_Panel():
+class Hatch_Panel(Subsystem):
 	#*********Robot-Side Initialization***************
 	def __init__(self):
+		super().__init__()
+		# Command Dependencies:
+		# Hatch Panel Rotate Actuated/Unactuated
+		# Hatch Panel Intake/Eject
 
 		#Initialize Pneumatics[hatch panel intake]
 		self.hp_solenoid = wpilib.Solenoid(4)
+		self.hp_rotate_solenoid = wpilib.Solenoid(5)
 
 	def hp_actuate(self, solenoid):
 		# actuate hatch panel intake

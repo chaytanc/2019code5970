@@ -16,13 +16,13 @@ class Do_Hp_Intake(Command):
 		# instance of drivetrain
 		self.robot_dt = robot.drivetrain
 		self.robot_hatch_panel = robot.hatch_panel
+		self.requires(self.robot_hatch_panel)
 		
 		self.robot_arm = robot.arm
 		self.hp_intake_solenoid = self.robot_hatch_panel.hp_solenoid
 		self.left_joy = robot.left_joy
 		self.right_joy = robot.right_joy
 
-		self.setTimeout(1)
 		
 	def initialize(self):
 		return None
@@ -35,8 +35,7 @@ class Do_Hp_Intake(Command):
 			self.left_joy, self.right_joy, self.robot_dt.drive)
 	
 	def isFinished(self):
-		return self.isTimedOut()
-		print("Timed Out!")
+		return True
 	def end(self):
 		return None
 	def interrupted(self):
