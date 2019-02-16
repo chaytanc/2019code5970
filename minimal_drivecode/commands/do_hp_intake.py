@@ -14,25 +14,17 @@ class Do_Hp_Intake(Command):
 		super().__init__()
 		
 		# instance of drivetrain
-		self.robot_dt = robot.drivetrain
 		self.robot_hatch_panel = robot.hatch_panel
 		self.requires(self.robot_hatch_panel)
 		
 		self.robot_arm = robot.arm
 		self.hp_intake_solenoid = self.robot_hatch_panel.hp_solenoid
-		self.left_joy = robot.left_joy
-		self.right_joy = robot.right_joy
 
-		
 	def initialize(self):
 		return None
 	def execute(self):
 		self.robot_hatch_panel.hp_unactuate(self.hp_intake_solenoid)
 		print("hatch panel unactuate!")
-
-		# Required periodical call to Differential Drive
-		self.robot_dt.set_tank_speed(
-			self.left_joy, self.right_joy, self.robot_dt.drive)
 	
 	def isFinished(self):
 		return True
