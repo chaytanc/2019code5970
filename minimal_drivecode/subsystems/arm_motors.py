@@ -14,31 +14,31 @@ class Arm_Motors():
 		self.left_arm_motor = ctre.WPI_VictorSPX(3)
 		self.right_arm_motor = ctre.WPI_VictorSPX(1)
 
-	def set_speed(self, value, use_min_speed=False):
+	def set_speed(self, voltage, use_min_speed=False):
 		"""
 		Sets the speed of the arm.  Max is 1.0 and moves the arm forward.
 		Min is -1.0 and moves the arm backward. OUTPUT_SCALE is multiplied
-		times this value.  We need lower values because we only get about
+		times this voltage.  We need lower voltages because we only get about
 		6 samples in a full range swing of the arm.
 		"""
 		
 		if use_min_speed:
-			if value >= 0.0:
-				if value < self.MIN_SPEED:
-					value = self.MIN_SPEED
+			if voltage >= 0.0:
+				if voltage < self.MIN_SPEED:
+					voltage = self.MIN_SPEED
 			else:
-				if value > -self.MIN_SPEED:
-					value = -self.MIN_SPEED
+				if voltage > -self.MIN_SPEED:
+					voltage = -self.MIN_SPEED
 
 		# Scale the speed to fall within our maximums
-		value *= self.OUTPUT_SCALE
+		voltage *= self.OUTPUT_SCALE
 
-		print("Setting both arm motors to :" + str(value))
-		if value > self.OUTPUT_SCALE or value < -self.OUTPUT_SCALE:
+		print("Setting both arm motors to :" + str(voltage))
+		if voltage > self.OUTPUT_SCALE or voltage < -self.OUTPUT_SCALE:
 			raise RuntimeError(
-				"arm given an invalid speed value: " + str(value))
+				"arm given an invalid speed voltage: " + str(voltage))
 
 		self.left_arm_motor.set(
-			self.left_arm_motor.ControlMode.PercentOutput, value)
+			self.left_arm_motor.ControlMode.PercentOutput, voltage)
 		self.right_arm_motor.set(
-			self.right_arm_motor.ControlMode.PercentOutput, -1 * value)
+			self.right_arm_motor.ControlMode.PercentOutput, -1 * voltage)

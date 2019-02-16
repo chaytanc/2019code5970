@@ -15,17 +15,7 @@ class My_Arm_Encoder(wpilib.Encoder):
 		super().__init__(DIO_1, DIO_2)
 		# Amount some gear in motor configuration turns per encoder click
 		self.setDistancePerPulse(self.FINAL_DEGREE_PER_CLICK)
-		#self.setPIDSourceType(self.PIDSourceType.kRate)
 	
-#	def getRate(self):
-#		distance_per_seconds = super().getRate()
-#		clicks_per_sec = (
-#			distance_per_seconds / self.getDistancePerPulse()
-#			)
-#		# XXX for debugging
-#		print("Overwritten getRate of arm encoder: " + str(clicks_per_sec))
-#		return clicks_per_sec
-
 	def get_new_rate(self):
 		#distance_per_seconds = self.getRate()
 		distance_per_seconds = super().getRate()

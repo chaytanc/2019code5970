@@ -13,7 +13,6 @@ class Do_Encoder_Check(Command):
 	def __init__(self, robot):
 		
 		super().__init__()
-		self.robot_dt = robot.drivetrain
 		self.robot_arm = robot.arm
 
 		self.requires(self.robot_arm)
@@ -36,10 +35,6 @@ class Do_Encoder_Check(Command):
 		#print(self.robot_arm.sin_relative_angle(45, 35))
 		# Get encoder values 
 
-		# Required periodical call to Differential Drive
-		self.robot_dt.set_tank_speed(
-			self.left_joy, self.right_joy, self.robot_dt.drive)
-	
 	def isFinished(self):
 		"""Make this return true when this Command no longer needs to run execute()"""
 		return self.isTimedOut()

@@ -103,6 +103,7 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 	# Before, button functions were executed here. Now scheduler will do that
 		Scheduler.getInstance().run()
 
+		# Keeping track of TimedRobot loops through code
 		self.loops += 1
 		if self.timer.hasPeriodPassed(1):
 			self.logger.info("%d loops / second", self.loops)

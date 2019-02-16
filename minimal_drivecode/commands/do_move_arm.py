@@ -17,9 +17,12 @@ class Do_Move_Arm(Command):
 		self.requires(robot.arm)
 
 		self.kp = 0.5
-		self.ki = 0
-		self.kd = 0
-		self.kf = 0.06
+		self.ki = 0.0
+		self.kd = 0.0
+		#XXX variable for testing purposes
+		self.kf = 0.003
+
+		#self.robot.arm.l_arm_encoder.reset()
 
 		self.final_angle_1 = final_angle
 		print(self.final_angle_1)
@@ -27,35 +30,36 @@ class Do_Move_Arm(Command):
 
 	def initialize(self):
 
-############ moved from __init__
 		# Should move arm when instantiated
-		# XXX from self.move_arm to here trying to debug
-
 		self.pid = wpilib.PIDController(
 			self.kp,
 			self.ki,
 			self.kd,
 			self.kf,
 			# Gets arm encoder clicks per second
-			#XXX
-			#lambda: self.robot.arm.l_arm_encoder.getRate(),
 			lambda: self.robot.arm.l_arm_encoder.get_new_rate(),
 			# Takes output clicks per sec and shove into given function
 			self.robot.arm.set_motors)
-	
-
-		self.pid.setAbsoluteTolerance(0.5)
-		# Clicks per second range
-		self.pid.setInputRange(-100.0, 100.0)
-		# An initial setpoint to boost motor
-		self.pid.setOutputRange(-100.0, 100.0)
-		self.pid.setSetpoint(12.0)
-		self.pid.setContinuous(False)
-############
 
 		self.pid.reset()
+
+		# Sets tolerable error to return onTarget() to be true, however
+		# setAbsoluteTolerance requires setInputRange etc...
+		#self.pid.setAbsoluteTolerance(0.5)
+
+		# Clicks per second range
+		#self.pid.setInputRange(-318.0, 318.0)
+		#self.pid.setOutputRange(-318.0, 318.0)
+
+		# An initial setpoint to boost motor
+		#self.pid.setSetpoint(12.0)
+
+		self.pid.setContinuous(False)
+
+		# Turn on pid
 		self.pid.enable()
-		print(str(self.pid.isEnabled()))
+		#XXX debugging neg encoder values
+		self.robot.arm.l_arm_encoder.reset()
 		print(self.pid.getF())
 
 	def execute(self):
@@ -69,7 +73,13 @@ class Do_Move_Arm(Command):
 		self.pid.setSetpoint(setpoint_rate)
 
 	def isFinished(self):
-		return None
+		# A "close enough" value; returns true when within the tolerance.
+		angle_diff = self.robot.arm.get_current_angle() - self.final_angle_1
+		if angle_diff < 0.0:
+			angle_diff *= -1
+
+		tolerance = 2.0
+		return (angle_diff < tolerance)
 
 	def isInterruptible(self):
 		return True
@@ -78,8 +88,10 @@ class Do_Move_Arm(Command):
 	def end(self):
 		self.pid.disable()
 		print("Ending Command Do_Move_Arm")
-		self.robot.arm.set_motors(0)
-		self.cancel()
+		# Setting motors should not be necessary since disable sets
+		# PIDOutput to zero.
+		#self.robot.arm.set_motors(0.0)
+		#self.cancel()
 
 	def interrupted(self):
 		self.end()
