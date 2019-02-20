@@ -24,8 +24,7 @@ from do_cargo_eject import Do_Cargo_Eject
 from do_hp_intake import Do_Hp_Intake
 
 # shifter commands
-from do_shifters_on import Do_Shifters_On
-from do_shifters_off import Do_Shifters_Off
+from do_shifters_toggle import Do_Shifters_Toggle
 
 # command groups
 from command_cargo_eject import Command_Cargo_Eject
@@ -56,11 +55,14 @@ class OI():
 		ltop3 = JoystickButton(self.left_joy, 3)
 		ltop4 = JoystickButton(self.left_joy, 4)
 		ltop5 = JoystickButton(self.left_joy, 5)
+		ltop6 = JoystickButton(self.left_joy, 6)
 
 		rtop1 = JoystickButton(self.right_joy, 1)
 		rtop2 = JoystickButton(self.right_joy, 2)
 		rtop3 = JoystickButton(self.right_joy, 3)
 		rtop4 = JoystickButton(self.right_joy, 4)
+		rtop5 = JoystickButton(self.right_joy, 5)
+		rtop6 = JoystickButton(self.right_joy, 6)
 
 		xboxA = JoystickButton(self.xbox, 1)
 		xboxB = JoystickButton(self.xbox, 2)
@@ -78,8 +80,9 @@ class OI():
 		rtop1.whenPressed(Command_Hp_Intake(robot))
 		rtop2.whileHeld(Command_Hp_Eject(robot))
 		rtop3.whileHeld(Command_Cargo_Intake(robot))
-		rtop4.whenPressed(Do_Shifters_On(robot))
-		rtop4.whenInactive(Do_Shifters_Off(robot))
+		rtop4.toggleWhenPressed(Do_Shifters_Toggle(robot))
+		# while Held for tennis balls
+		
 
 		# Commands to be checked continually by Scheduler but not run
 		# by direct button press:
