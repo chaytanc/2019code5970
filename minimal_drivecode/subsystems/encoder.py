@@ -22,5 +22,5 @@ class My_Arm_Encoder(wpilib.Encoder):
 			distance_per_seconds / self.getDistancePerPulse()
 			)
 		# XXX for debugging
-		print("Overwritten getRate of arm encoder: " + str(clicks_per_sec))
+		#print("Overwritten getRate of arm encoder: " + str(clicks_per_sec))
 		return clicks_per_sec

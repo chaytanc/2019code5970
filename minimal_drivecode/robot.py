@@ -20,6 +20,7 @@ sys.path.append('./subsystems')
 sys.path.append('./commands') 
 
 #Windows RobotPyModules path
+#XXX wrong
 sys.path.append('C:/Users/Beavertronics/Desktop/2019code5970/drivingcode/\
 subsystems')
 sys.path.append('C:/Users/Beavertronics/Desktop/2019code5970/drivingcode/\
@@ -31,21 +32,19 @@ sys.path.insert(0, '/home/lvuser/py/commands')
 
 # Subsidiary objects on the robot. Ex: Cube Intake from 2017/18 season
 
-#from arm import Arm
 from left_motors import Left_Motors
 from right_motors import Right_Motors
-#from arm_motors import Arm_Motors
-from cargo_motors import Cargo_Motors
-from arm import Arm
-
 
 from drivetrain import Drivetrain
+from arm import Arm
 from cargo import Cargo
 from hatch_panel import Hatch_Panel
-#from encoders import Encoders
-from oi import OI
+# Limit switches
+from arm_switch_front import Arm_Switch_Front
+from arm_switch_back import Arm_Switch_Back
+from cargo_switch import Cargo_Switch
 
-#from oi_buttons import OI_Buttons
+from oi import OI
 
 class BeaverTronicsRobot(wpilib.TimedRobot): 
 
@@ -58,7 +57,11 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		self.cargo = Cargo(self)
 		self.hatch_panel = Hatch_Panel()
 
-		# instantiate Encoders
+		self.f_limit = Arm_Switch_Front()
+		self.b_limit = Arm_Switch_Back()
+		self.c_limit = Cargo_Switch()
+
+		# instantiate Encoders for drivetrain?
 		#self.encoders = Encoders(self)
 
 		# Instantiate Joysticks
@@ -66,6 +69,8 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		self.right_joy = wpilib.Joystick(1)
 		
 		# Instantiate Xbox
+		#XXX will probably look more like:
+		#self.xbox = wpilib.Joystick(2)
 		self.xbox = wpilib.XboxController(2)
 
 		# Instantiate OI; must be AFTER joysticks are inited
