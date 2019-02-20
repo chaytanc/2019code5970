@@ -2,8 +2,8 @@
 
 import math
 import wpilib
-from wpilib.command import PIDSubsystem
 from wpilib.command import Subsystem
+from wpilib import InterruptableSensorBase
 
 from arm_motors import Arm_Motors
 from encoder import My_Arm_Encoder
@@ -15,13 +15,15 @@ from encoder import My_Arm_Encoder
 # Should contain arm command which contains pid which Sched. will call
 # Should set new velocity of motors
 
-# PIDSubsystem?
 class Arm(Subsystem):
 
 	def __init__(self, robot):
-		print("init")
 		super().__init__()
 		
+		# Capslock because its a constant?
+		# Added to current angle to account for max angle recalibration
+		#XXX for forward encoder
+		#self.MAX_ANGLE_VAL = 0
 		# Motors
 		self.arm_motors = Arm_Motors()
 
@@ -32,8 +34,14 @@ class Arm(Subsystem):
 		# By empirical test
 		self.max_click_rate = 318.0 
 
-		# Limit_switches arg=dio
-		self.limit_switch = wpilib.DigitalInput(6)
+
+	# Called after back limit switch is hit
+	def set_zeroed_clicks(self):
+		self.zeroed_clicks = self.l_arm_encoder.get()
+
+	# Called after back limit switch is hit
+	def set_rel_clicks(self):
+		self.rel_clicks = 146
 
 	# The rate is of clicks/sec NOT dist/second! See subsystems/encoder.py
 	def get_click_rate(self):
@@ -54,13 +62,30 @@ class Arm(Subsystem):
 	# a final -1 to 1 voltage scale. This will then be converted into clicks
 	# per second so that the inputs to the PID are all in clicks per second
 
+#	# Gets current angle in degrees
+#	def get_current_angle(self):
+#		absolute_clicks = self.l_arm_encoder.get()	
+#		#XXX prints for debugging
+#		print("absolute encoder clicks: " + str(absolute_clicks))
+#		deg_per_click = self.l_arm_encoder.getDistancePerPulse()
+#		current_angle = absolute_clicks * deg_per_click	
+#		print("current angle, degrees: " + str(current_angle))
+#		return current_angle
+#		#XXX trying to do max_encoder thing
+#		#return current_angle + self.MAX_ANGLE_VAL
+
 	# Gets current angle in degrees
 	def get_current_angle(self):
-		absolute_clicks = self.l_arm_encoder.get()	
-		print("current angle clicks: " + str(absolute_clicks))
+		absolute_clicks = self.l_arm_encoder.get()
+		# Essentially zeroes encoder, but without changing the actual value,
+		# only changing the stored zeroed clicks value which is updated
+		# by limit switch and hereon used as base for encoder values
+		self.rel_clicks =  absolute_clicks - self.zeroed_clicks
+		#XXX prints for debugging
+		print("absolute encoder clicks: " + str(absolute_clicks))
 		deg_per_click = self.l_arm_encoder.getDistancePerPulse()
-		current_angle = absolute_clicks * deg_per_click	
-		return current_angle
+		current_angle = rel_clicks * deg_per_click	
+		print("current angle, degrees: " + str(current_angle))
 
 	# Final angle is the absolute angle between position of the arm at zero
 	# clicks and when you want the arm to end up.
@@ -101,14 +126,10 @@ class Arm(Subsystem):
 		# Moves arm motors by above voltages (actually values from -1 -> 1.0;
 		# negative values should move in opposite the last direction sensed
 		# by arm encoder
+		#XXX print for debugging
 		print("Setting arm motor speed: " + str(motor_voltage))
 		self.arm_motors.set_speed(motor_voltage, use_min_speed)
 			
-	def zero_encoders(self, encoder):
-		if self.limit_switch.get():
-			encoder.reset()
-	
-
 # Preset actuated positions:
 	# Straight up pos.
 		# Get position using Encoder

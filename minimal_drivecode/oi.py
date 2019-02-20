@@ -7,17 +7,20 @@ from wpilib.buttons import Trigger
 from sys import path
 path.append('../commands')
 
-# arm commands
+# Button commands
 from do_move_arm import Do_Move_Arm
 from do_die_you_gravy_sucking_pig import Do_Die_You_Gravy_Sucking_Pig
 from do_encoder_check import Do_Encoder_Check
-from do_max_arm_speed import Do_Max_Arm_Speed
+from do_cargo_intake import Do_Cargo_Intake
 
-from do_move_arm_nopid import Do_Move_Arm_NoPID
+# Non-button commands
+from do_zeroed_clicks import Do_Zeroed_Clicks
+from do_recal_clicks import Do_Recal_Clicks
+from do_zero_encoder import Do_Zero_Encoder
 
 # intake commands
 from do_cargo_eject import Do_Cargo_Eject
-from do_cargo_intake import Do_Cargo_Intake
+#from do_cargo_intake import Do_Cargo_Intake
 from do_hp_intake import Do_Hp_Intake
 
 # shifter commands
@@ -31,11 +34,17 @@ from command_hp_eject import Command_Hp_Eject
 from command_hp_intake import Command_Hp_Intake
 from command_ramp import Command_Ramp
 
+
+
+
 class OI():
 	def __init__(self, robot):
 
+		self.robot = robot
+
 		self.left_joy = robot.left_joy 
 		self.right_joy = robot.right_joy 
+		self.xbox = robot.xbox
 
 		# First character indicates self.right or self.left, 
 		# second indicates position,
@@ -53,18 +62,17 @@ class OI():
 		rtop3 = JoystickButton(self.right_joy, 3)
 		rtop4 = JoystickButton(self.right_joy, 4)
 
-		# Sets arm angle to 45 degrees
-		ltop1.whileHeld(Command_Cargo_Eject(robot))
+		xboxA = JoystickButton(self.xbox, 1)
+		xboxB = JoystickButton(self.xbox, 2)
+		xboxX = JoystickButton(self.xbox, 3)
+		xboxY = JoystickButton(self.xbox, 4)
+
+		ltop1.whileHeld(Do_Cargo_Eject(robot))		
 		ltop2.whileHeld(Do_Die_You_Gravy_Sucking_Pig(robot))
-		#XXX Change depending on test of PID or just P
+		# Input desired angle of arm
 		ltop3.whenPressed(Do_Move_Arm(robot, 15.0))
-		#ltop3.whenPressed(Do_Move_Arm_NoPID(robot, 15.0))
 		ltop4.whenPressed(Do_Encoder_Check(robot))
 		ltop5.whenPressed(Command_Ramp(robot))
-		# Determine the max speed of the arm for future operations
-		# This is how the max speed of the arm was determined.
-		#ltop2.whenPressed(Do_Max_Arm_Speed(robot))
-		#rtop4.whenPressed(Do_Pid_Loop(robot))	
 
 		# whenActive and whenInactive allows toggle between 2 commands
 		rtop1.whenPressed(Command_Hp_Intake(robot))
@@ -72,4 +80,16 @@ class OI():
 		rtop3.whileHeld(Command_Cargo_Intake(robot))
 		rtop4.whenPressed(Do_Shifters_On(robot))
 		rtop4.whenInactive(Do_Shifters_Off(robot))
+
+		# Commands to be checked continually by Scheduler but not run
+		# by direct button press:
+
+		#self.robot.arm_limit_switches.f_limit.requestInterrupts(
+				#Do_Max_Encoder(robot))
+
+		#self.robot.f_limit.requestInterrupts(Do_Recal_Clicks(robot))
+		#self.robot.b_limit.requestInterrupts(Do_Zeroed_Clicks(robot))
+		#self.robot.b_limit.requestInterrupts(Do_Zero_Encoder(robot))
+
+
 
