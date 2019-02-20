@@ -1,7 +1,6 @@
 # vim: set sw=4 noet ts=4 fileencoding=utf-8:
 
 import wpilib
-import wpilib.drive
 from wpilib.command import Command
 
 # Should intake and outtake cargo (bouncy ball). This should be done by
@@ -11,16 +10,21 @@ class Do_Ramp(Command):
 		
 		super().__init__()
 		
-		self.robot_arm = robot.arm
+		self.robot_ramp = robot.ramp
+		self.robot = robot
+		# uses solenoid 4
+		
+		# Ramp can only be in one state:
+		#	1: actuated with Arm at ????
 
-		self.requires(self.robot_arm)
-        
-		self.ramp_solenoid = self.robot_arm.ramp_solenoid
+		# state 1: possesses Ramp
+		self.requires(self.robot_ramp)
+
 	
 	def initialize(self):
 		return None
 	def execute(self):
-		self.robot_arm.ramp_actuate(self.ramp_solenoid)
+		self.robot_ramp.ramp_actuate()
 		print("Ramp Deployed!!")
 	
 	def isFinished(self):
@@ -28,6 +32,6 @@ class Do_Ramp(Command):
 	def end(self):
 		return None
 	def interrupted(self):
-		self.robot_arm.ramp_unactuate(self.ramp_solenoid)
+		self.robot_ramp.ramp_unactuate()
 		self.end()
 

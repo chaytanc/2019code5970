@@ -35,9 +35,6 @@ class Arm(Subsystem):
 		# Limit_switches arg=dio
 		self.limit_switch = wpilib.DigitalInput(6)
 
-	
-		self.ramp_solenoid = wpilib.Solenoid(6)
-
 	# The rate is of clicks/sec NOT dist/second! See subsystems/encoder.py
 	def get_click_rate(self):
 		rate = self.l_arm_encoder.get_new_rate() * 1.0
@@ -111,13 +108,6 @@ class Arm(Subsystem):
 		if self.limit_switch.get():
 			encoder.reset()
 	
-	def ramp_actuate(self, solenoid):
-		# actuate ramp
-		solenoid.set(True)
-
-	def ramp_unactuate(self, solenoid):
-		# unactuate ramp, for emergencies
-		solenoid.set(False)
 
 # Preset actuated positions:
 	# Straight up pos.

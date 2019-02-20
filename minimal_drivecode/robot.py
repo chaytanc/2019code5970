@@ -35,13 +35,17 @@ sys.path.insert(0, '/home/lvuser/py/commands')
 from left_motors import Left_Motors
 from right_motors import Right_Motors
 #from arm_motors import Arm_Motors
-from cargo_motors import Cargo_Motors
+#from cargo_motors import Cargo_Motors
 from arm import Arm
 
 
 from drivetrain import Drivetrain
 from cargo import Cargo
 from hatch_panel import Hatch_Panel
+from hatch_panel_rotate import Hatch_Panel_Rotate
+from ramp import Ramp
+from shifters import Shifters
+
 #from encoders import Encoders
 from oi import OI
 
@@ -57,6 +61,9 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		self.arm = Arm(self)
 		self.cargo = Cargo(self)
 		self.hatch_panel = Hatch_Panel()
+		self.hatch_panel_rotate = Hatch_Panel_Rotate()
+		self.ramp = Ramp()
+		self.shifters = Shifters()
 
 		# instantiate Encoders
 		#self.encoders = Encoders(self)

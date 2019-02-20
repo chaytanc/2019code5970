@@ -1,10 +1,27 @@
 # vim: set sw=4 noet ts=4 fileencoding=utf-8:
-# Actuate ramp things
 
-# Initialize motors/pistons etc
-# Ramp:
-	# Let ramp down
-		# Release ramp latch or actuate piston or something
+import wpilib
+from wpilib.command import Subsystem
 
-	# Bring ramp back up
-		# Pistons probably 
+class Ramp(Subsystem):
+	#*********Robot-Side Initialization***************
+	def __init__(self):
+		super().__init__()
+		# Command Dependencies:
+		#	Ramp Actuation (do_ramp.py)
+
+		# Initialize Pneumatics[ramp]
+		#	This solenoid is instantiated by 
+		#	only an "actuated" command
+
+		#	Ramp is manually unactuated. Unactuated function exists for safety
+		self.ramp_solenoid = wpilib.Solenoid(4)
+
+	def ramp_actuate(self):
+		# actuate ramp
+		self.ramp_solenoid.set(True)
+
+	def ramp_unactuate(self):
+		# unactuate ramp, for emergencies
+		self.ramp_solenoid.set(False)
+

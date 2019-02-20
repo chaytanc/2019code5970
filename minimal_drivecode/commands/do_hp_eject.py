@@ -1,34 +1,38 @@
 # vim: set sw=4 noet ts=4 fileencoding=utf-8:
 
 import wpilib
-import wpilib.drive
 from wpilib.command import Command
-#import sys
-#sys.path.append('../subsystems/pneumatics')
-#from pneumatics import Pneuma
-		
+	
 # Actuates pistons for hatch panel manipulator. Releasing hatch panel state.
 class Do_Hp_Eject(Command):
-	def __init__(self, robot):
-		
+	def __init__(self, robot):	
 		super().__init__()
 		
 		self.robot_hatch_panel = robot.hatch_panel
+
+		# uses solenoid 3
+		
+		# Hatch Panel can only be in two states:
+		#	1: unactuated with Arm at back of robot. Actuates once.
+		#	2: unactuated with Arm at front of robot
+
+		# state 1: possesses Hatch Panel
 		self.requires(self.robot_hatch_panel)
 		
-		self.robot_arm = robot.arm
-		self.hp_eject_solenoid = self.robot_hatch_panel.hp_solenoid
-		
 	def initialize(self):
-		return None
-	def execute(self):
-		self.robot_hatch_panel.hp_actuate(self.hp_eject_solenoid)
+		# actuate Hatch Panel pistons, releasing hatch panel
+		# immediatly unactuate Hatch Panel pistons
+		self.robot_hatch_panel.hp_actuate()
 		print("hatch panel actuate!")
 
-	
+	def execute(self):
+		return None
+
 	def isFinished(self):
 		return True
+
 	def end(self):
 		return None
+
 	def interrupted(self):
 	    self.end()

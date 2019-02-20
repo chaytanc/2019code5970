@@ -1,13 +1,9 @@
 # vim: set sw=4 noet ts=4 fileencoding=utf-8:
 
 import wpilib
-import wpilib.drive
 from wpilib.command import Command
-#import sys
-#sys.path.append('../subsystems/pneumatics')
-#from pneumatics import Pneuma
 		
-# Unacctuates pistons for hatch panel manipulator. Default and intake state.
+# Unactuates pistons for hatch panel manipulator. Default and intake state.
 class Do_Hp_Intake(Command):
 	def __init__(self, robot):
 		
@@ -15,16 +11,23 @@ class Do_Hp_Intake(Command):
 		
 		# instance of drivetrain
 		self.robot_hatch_panel = robot.hatch_panel
-		self.requires(self.robot_hatch_panel)
+
+		# uses solenoid 3
 		
-		self.robot_arm = robot.arm
-		self.hp_intake_solenoid = self.robot_hatch_panel.hp_solenoid
+		# Hatch Panel can only be in two states:
+		#	1: unactuated with Arm at back of robot. Primed for actuate
+		#	2: unactuated with Arm at front of robot
+
+		# state 2: possesses Hatch Panel
+		self.requires(self.robot_hatch_panel)
 
 	def initialize(self):
-		return None
-	def execute(self):
-		self.robot_hatch_panel.hp_unactuate(self.hp_intake_solenoid)
+		# unactuate Hatch Panel pistons, grabbing hatch panel
+		self.robot_hatch_panel.hp_unactuate()
 		print("hatch panel unactuate!")
+	
+	def execute(self):
+		return None
 	
 	def isFinished(self):
 		return True
