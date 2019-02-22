@@ -59,7 +59,6 @@ class Do_Move_Arm(Command):
 		# Turn on pid
 		self.pid.enable()
 		#XXX debugging neg encoder values
-		self.robot.arm.l_arm_encoder.reset()
 		print(self.pid.getF())
 
 	def execute(self):
@@ -88,10 +87,6 @@ class Do_Move_Arm(Command):
 	def end(self):
 		self.pid.disable()
 		print("Ending Command Do_Move_Arm")
-		# Setting motors should not be necessary since disable sets
-		# PIDOutput to zero.
-		#self.robot.arm.set_motors(0.0)
-		#self.cancel()
 
 	def interrupted(self):
 		self.end()
