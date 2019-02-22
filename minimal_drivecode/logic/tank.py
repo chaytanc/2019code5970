@@ -13,6 +13,7 @@ def set_tank_speed(left_joystick, right_joystick, drive):
 	left_speed  = left_joystick.getY()
 	right_speed = right_joystick.getY()
 	print("left_speed " + str(left_speed))
+	print("right_speed " + str(right_speed))
 	drive.tankDrive(left_speed, right_speed)
 
 	
