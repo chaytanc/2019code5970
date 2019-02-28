@@ -43,13 +43,13 @@ from hatch_panel_rotate import Hatch_Panel_Rotate
 from ramp import Ramp
 from shifters import Shifters
 
-#from encoders import Encoders
-from oi import OI
-
 # Limit switches
 from arm_switch_front import Arm_Switch_Front
 from arm_switch_back import Arm_Switch_Back
 from cargo_switch import Cargo_Switch
+
+# commands
+from do_basic_move_arm import Do_Basic_Move_Arm
 
 from oi import OI
 
@@ -80,8 +80,8 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		
 		# Instantiate Xbox
 		#XXX will probably look more like:
-		#self.xbox = wpilib.Joystick(2)
-		self.xbox = wpilib.XboxController(2)
+		self.xbox = wpilib.Joystick(2)
+		#self.xbox = wpilib.XboxController(0)
 
 		# Instantiate OI; must be AFTER joysticks are inited
 		self.oi = OI(self)
@@ -113,6 +113,7 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		self.timer.reset()
 		self.timer.start()
 		self.arm.l_arm_encoder.reset()
+		Do_Basic_Move_Arm(self).start()
 
 	def teleopPeriodic(self):
 	# Before, button functions were executed here. Now scheduler will do that
