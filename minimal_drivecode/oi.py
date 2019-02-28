@@ -2,6 +2,7 @@
 
 import wpilib
 from wpilib.buttons import JoystickButton
+from wpilib import XboxController
 from wpilib.buttons import Trigger
 
 from sys import path
@@ -22,17 +23,18 @@ from do_zero_encoder import Do_Zero_Encoder
 from do_cargo_eject import Do_Cargo_Eject
 #from do_cargo_intake import Do_Cargo_Intake
 from do_hp_intake import Do_Hp_Intake
+from do_hp_eject import Do_Hp_Eject
 
 # shifter commands
 from do_shifters_toggle import Do_Shifters_Toggle
 
 # command groups
-from command_cargo_eject import Command_Cargo_Eject
-from command_cargo_intake import Command_Cargo_Intake
 from command_hp_eject import Command_Hp_Eject
 from command_hp_intake import Command_Hp_Intake
-from command_ramp import Command_Ramp
+#from command_ramp import Command_Ramp
 
+# axis interpreters
+from do_axis_button_5 import Do_Axis_Button_5
 
 
 
@@ -64,26 +66,54 @@ class OI():
 		rtop5 = JoystickButton(self.right_joy, 5)
 		rtop6 = JoystickButton(self.right_joy, 6)
 
-		xboxA = JoystickButton(self.xbox, 1)
-		xboxB = JoystickButton(self.xbox, 2)
+		
+		
 		xboxX = JoystickButton(self.xbox, 3)
 		xboxY = JoystickButton(self.xbox, 4)
+		xboxB = JoystickButton(self.xbox, 2)
+		xboxA = JoystickButton(self.xbox, 1)
+		xboxLB = JoystickButton(self.xbox, 5)
+		xboxRB = JoystickButton(self.xbox, 6)
+		#xbox_left_XY = self.xbox.getY(9)
+		#self.xbox_XY = JoystickButton(self.xbox, 9)
+		self.xbox_left_XY = self.xbox.getX()
+		xboxBACK = JoystickButton(self.xbox, 7)
+		xboxSTART = JoystickButton(self.xbox, 8)
 
-		ltop1.whileHeld(Do_Cargo_Eject(robot))		
-		ltop2.whileHeld(Do_Die_You_Gravy_Sucking_Pig(robot))
+		#ltop2.whileHeld(Do_Die_You_Gravy_Sucking_Pig(robot))
 		# Input desired angle of arm
 		ltop3.whenPressed(Do_Move_Arm(robot, 25.0))
 		#XXX
 		ltop4.whenPressed(Do_Encoder_Check(robot))
-		ltop5.whenPressed(Command_Ramp(robot))
 
 		# whenActive and whenInactive allows toggle between 2 commands
-		rtop1.whenPressed(Command_Hp_Intake(robot))
-		rtop2.whileHeld(Command_Hp_Eject(robot))
-		rtop3.whileHeld(Command_Cargo_Intake(robot))
-		rtop4.toggleWhenPressed(Do_Shifters_Toggle(robot))
-		# while Held for tennis balls
 		
+		# testing in sim
+		rtop5.toggleWhenPressed(Do_Axis_Button_5(robot))
+
+		# turns on axis for xbox button 5. Must be activated in beginning. Test			# making axis triggers send interrupts
+
+		# xbox left analog controls cargo eject/intake
+
+		# when START on xbox pressed first time, turns on axis detection
+		
+		# when START on xbox pressed second time, turns off axis detection
+		# and deploys ramp
+
+		#Cargo Outtake (near back of robot) / Cargo Intake (front of robot)
+		xboxSTART.toggleWhenPressed(Do_Axis_Button_5(robot))
+
+		xboxBACK.toggleWhenPressed(Do_Shifters_Toggle(robot))
+		# xbox XYBA controls arm positions
+		# xbox X = Cargo Intake/Hatch Panel Outtake (front of robot)
+		xboxX.whenPressed(Command_Hp_Eject(robot))
+		# xbox Y = Defence Position (straight up)
+		# xbox B = Hatch Panel Intake (back of robot)
+		xboxB.whenPressed(Command_Hp_Intake(robot))	
+
+		# xbox RB while held controls hp_intake(tennis balls)
+		xboxRB.whileHeld(Do_Hp_Eject(robot))
+		xboxRB.whenReleased(Do_Hp_Intake(robot))
 
 		# Commands to be checked continually by Scheduler but not run
 		# by direct button press:
