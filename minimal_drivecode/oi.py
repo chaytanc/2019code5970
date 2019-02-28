@@ -88,12 +88,10 @@ class OI():
 		# Commands to be checked continually by Scheduler but not run
 		# by direct button press:
 
+		# Doesn't work because robotpy?
 		#self.robot.arm_limit_switches.f_limit.requestInterrupts(
 				#Do_Max_Encoder(robot))
 
-		#self.robot.f_limit.requestInterrupts(Do_Recal_Clicks(robot))
-		#self.robot.b_limit.requestInterrupts(Do_Zeroed_Clicks(robot))
-		#self.robot.b_limit.requestInterrupts(Do_Zero_Encoder(robot))
 
 
 

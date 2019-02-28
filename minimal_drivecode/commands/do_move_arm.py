@@ -11,15 +11,17 @@ class Do_Move_Arm(Command):
 	Each different position should have its own final angle.
 	'''
 
+	# XXX when directing where to move the arm, the angle which you want to move
+	# it to and the direction you want it to move must be supplied
 	def __init__(self, robot, final_angle):
 		super().__init__()
 		self.robot = robot
 		self.requires(robot.arm)
 
-		self.kp = 0.5
+		self.kp = 1.0
 		self.ki = 0.0
 		self.kd = 0.0
-		#XXX variable for testing purposes
+		#XXX maybe too low; maybe need to tune other parts first
 		self.kf = 0.003
 
 		#self.robot.arm.l_arm_encoder.reset()
@@ -86,6 +88,7 @@ class Do_Move_Arm(Command):
 	# This should be redundant because do_arm_interrupt also sets motors to 0
 	def end(self):
 		self.pid.disable()
+		self.pid.close()
 		print("Ending Command Do_Move_Arm")
 
 	def interrupted(self):

@@ -94,8 +94,8 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		
 		
 
-		# instantiate Autonomous scheduler
-		#self.autonomousCommand = Autonomous(self)
+	def robotPeriodic(self):
+		Scheduler.getInstance().run()
 		
 	def autonomousInit(self):
 		# Set up encoders
@@ -105,24 +105,27 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		data = wpilib.DriverStation.getInstance().getGameSpecificMessage()
 		# Initialize pid variables
 
-		# Autonomous Scheduler
-		# self.autonomousCommand.start()
 		
 	def autonomousPeriodic(self):
-		Scheduler.getInstance().run()
+		#XXX hatch panel
+		#Scheduler.getInstance().run()
+		return None
 
 	def teleopInit(self):
 		self.loops = 0
 		self.timer.reset()
 		self.timer.start()
-		print(self.arm.l_arm_encoder.get())
+		print("encoder " + str(self.arm.l_arm_encoder.get()))
 		self.arm.l_arm_encoder.reset()
 		print(self.arm.l_arm_encoder.get())
 		#Do_Zero_Encoder(self).run()
 
 	def teleopPeriodic(self):
+	#def robotPeriodic(self):
+
 	# Before, button functions were executed here. Now scheduler will do that
-		Scheduler.getInstance().run()
+		Scheduler.getInstance().enable()
+		#Scheduler.getInstance().run()
 
 		# Keeping track of TimedRobot loops through code
 		self.loops += 1
@@ -131,15 +134,11 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 			self.loops = 0
 
 	def disabledInit(self):
-		#XXX ?
-		Scheduler.disable(self)
-		return None
-	
-	def disabledPeriodic(self):
-		return None
+		Scheduler.getInstance().disable()
 
-	def robotPeriodic(self):
-		return None
+	#def disabledPeriodic(self):
+		#return None
+
 	
 if __name__ == "__main__":
 	wpilib.run(BeaverTronicsRobot)
