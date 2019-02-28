@@ -8,7 +8,7 @@ class Do_Tank_Drive(Command):
 
 	def __init__(self, robot):
 		# Recognize as a wpilib command
-		print(str(robot))
+		print(str(robot) + "!!")
 		super().__init__()
 
 		# an instance of BeaverTronicsRobot from robot.py containing its
@@ -38,7 +38,7 @@ class Do_Tank_Drive(Command):
 		# Stop motors when ending command
 		self.robot_dt.stop_robot(self.robot_dt.drive)
 	
-	### Maybe don't want to stop motors when interrupted
+	#XXX Maybe don't want to stop motors when interrupted
 	def interrupted(self):
 		self.end()
 

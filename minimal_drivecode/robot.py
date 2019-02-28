@@ -48,8 +48,13 @@ from arm_switch_front import Arm_Switch_Front
 from arm_switch_back import Arm_Switch_Back
 from cargo_switch import Cargo_Switch
 
+
 # commands
 from do_basic_move_arm import Do_Basic_Move_Arm
+
+# Teleop init command
+from do_zero_encoder import Do_Zero_Encoder
+
 
 from oi import OI
 
@@ -112,8 +117,12 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		self.loops = 0
 		self.timer.reset()
 		self.timer.start()
+		print(self.arm.l_arm_encoder.get())
 		self.arm.l_arm_encoder.reset()
 		Do_Basic_Move_Arm(self).start()
+
+		print(self.arm.l_arm_encoder.get())
+		#Do_Zero_Encoder(self).run()
 
 	def teleopPeriodic(self):
 	# Before, button functions were executed here. Now scheduler will do that
@@ -126,6 +135,8 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 			self.loops = 0
 
 	def disabledInit(self):
+		#XXX ?
+		Scheduler.disable(self)
 		return None
 	
 	def disabledPeriodic(self):

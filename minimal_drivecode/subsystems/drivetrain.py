@@ -7,8 +7,6 @@ from wpilib.drive import DifferentialDrive
 # Subsidiaries to subsystems; sub-subs
 from left_motors import Left_Motors
 from right_motors import Right_Motors
-# XXX cargo should be controlled elsewhere
-#from cargo_motors import Cargo_Motors
 
 # Commands
 from sys import path
@@ -23,7 +21,7 @@ class Drivetrain(Subsystem):
 	def __init__(self, robot):
 		# Super from subsystem allows scheduler class to understand things like
 		# interupt and execute etc...
-		print("---------------")
+		print("-------Drivetrain--------")
 		super().__init__()
 		print("---------------")
 	
@@ -32,10 +30,6 @@ class Drivetrain(Subsystem):
 		right_motors_instance = Right_Motors()
 		self.left_motors = left_motors_instance.left_motor_group
 		self.right_motors = right_motors_instance.right_motor_group
-
-		# XXX
-		#cargo_motors_instance = Cargo_Motors()
-		#self.cargo_motors = cargo_motors_instance.cargo_m
 
 		# Encoders
 		self.left_drive_encoder = wpilib.Encoder(2,3)#DIO Ports??
@@ -49,7 +43,6 @@ class Drivetrain(Subsystem):
 			self.left_motors, self.right_motors)
 
 
-	#XXX commented out for debugging
 	def initDefaultCommand(self):
 		self.setDefaultCommand(Do_Tank_Drive(self.robot_instance))
 
@@ -64,11 +57,6 @@ class Drivetrain(Subsystem):
 		left_speed = left_joy.getY()
 		right_speed = right_joy.getY()
 		drive.tankDrive(left_speed, right_speed)
-
-	# XXX go somewhere else
-	#def cargo_intake_test(self, third_joy, drive=DifferentialDrive):
-		#third_speed = third_joy.getY()
-		#self.cargo_motors.set(third_speed)
 
 	def stop_robot(self, drive):
 		drive.tankDrive(0,0)

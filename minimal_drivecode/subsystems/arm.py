@@ -22,29 +22,27 @@ class Arm(Subsystem):
 		
 		# Capslock because its a constant?
 		# Added to current angle to account for max angle recalibration
-		#XXX for forward encoder
-		#self.MAX_ANGLE_VAL = 0
 		# Motors
 		self.arm_motors = Arm_Motors()
 
 		# Encoders
 		self.l_arm_encoder = My_Arm_Encoder(0,1)
 
-		#XXX accidental test reached 318, but with a 0.99 input
 		# By empirical test
 		self.max_click_rate = 318.0 
 
 
 	# Called after back limit switch is hit
-	def set_zeroed_clicks(self):
-		self.zeroed_clicks = self.l_arm_encoder.get()
+	#def set_zeroed_clicks(self):
+		#self.zeroed_clicks = self.l_arm_encoder.get()
 
 	# Called after back limit switch is hit
-	def set_rel_clicks(self):
-		self.rel_clicks = 146
+	#def set_rel_clicks(self):
+		#self.rel_clicks = 146
 
 	# The rate is of clicks/sec NOT dist/second! See subsystems/encoder.py
 	def get_click_rate(self):
+		# Time 1.0 for float
 		rate = self.l_arm_encoder.get_new_rate() * 1.0
 		return rate
 
@@ -62,30 +60,32 @@ class Arm(Subsystem):
 	# a final -1 to 1 voltage scale. This will then be converted into clicks
 	# per second so that the inputs to the PID are all in clicks per second
 
+	# Gets current angle in degrees
+	def get_current_angle(self):
+		absolute_clicks = self.l_arm_encoder.get()	
+		#XXX prints for debugging
+		#print("absolute encoder clicks: " + str(absolute_clicks))
+		deg_per_click = self.l_arm_encoder.getDistancePerPulse()
+		current_angle = absolute_clicks * deg_per_click	
+		print("current angle, degrees: " + str(current_angle))
+		# Adds one degree to account for encoder skips which
+		# cause negative values for encoder angle and uses
+		# min drive speed (-0.2) for setting the motors
+		return current_angle + 1
+
+#XXX FOR FORWARD LIMIT SWITCH
 #	# Gets current angle in degrees
 #	def get_current_angle(self):
-#		absolute_clicks = self.l_arm_encoder.get()	
+#		absolute_clicks = self.l_arm_encoder.get()
+#		# Essentially zeroes encoder, but without changing the actual value,
+#		# only changing the stored zeroed clicks value which is updated
+#		# by limit switch and hereon used as base for encoder values
+#		self.rel_clicks =  absolute_clicks - self.zeroed_clicks
 #		#XXX prints for debugging
 #		print("absolute encoder clicks: " + str(absolute_clicks))
 #		deg_per_click = self.l_arm_encoder.getDistancePerPulse()
-#		current_angle = absolute_clicks * deg_per_click	
+#		current_angle = rel_clicks * deg_per_click	
 #		print("current angle, degrees: " + str(current_angle))
-#		return current_angle
-#		#XXX trying to do max_encoder thing
-#		#return current_angle + self.MAX_ANGLE_VAL
-
-	# Gets current angle in degrees
-	def get_current_angle(self):
-		absolute_clicks = self.l_arm_encoder.get()
-		# Essentially zeroes encoder, but without changing the actual value,
-		# only changing the stored zeroed clicks value which is updated
-		# by limit switch and hereon used as base for encoder values
-		self.rel_clicks =  absolute_clicks - self.zeroed_clicks
-		#XXX prints for debugging
-		print("absolute encoder clicks: " + str(absolute_clicks))
-		deg_per_click = self.l_arm_encoder.getDistancePerPulse()
-		current_angle = rel_clicks * deg_per_click	
-		print("current angle, degrees: " + str(current_angle))
 
 	# Final angle is the absolute angle between position of the arm at zero
 	# clicks and when you want the arm to end up.
@@ -95,9 +95,30 @@ class Arm(Subsystem):
 		sweep_angle = final_angle - self.get_current_angle()
 		return sweep_angle
 
+	#XXX Only run ONCE when initializing a command to move the arm so as to check
+	# if the initial position the arm is in is greater than desired angle
+	def get_initial_angle_offset(self, current_angle, final_angle):
+		if self.get_current_angle() > final_angle:
+			# If the current angle is past what it is supposed to be at,
+			# the current angle will be set to a bit greater than the current
+			# angle such that the sin wave will return gentle negative voltages 
+			# until the angle gets to being under what it is supposed to be,
+			# at which point the regular sin wave values/pid take over.
+			current_angle *= (5/3)
+
+		# Sets angle to 1 degree so that no accidental negative encoder vals
+		# occur
+		else:
+			current_angle += 1
+		return current_angle
+
 	# Current and final angles must be passed in as degrees
 	def sin_angle(self, final_angle):
-		current_angle_radians = self.get_current_angle() * math.pi/180
+		# Checks if angle is to far back
+		current_angle_degrees = self.get_initial_angle_offset(
+				self.get_current_angle(), final_angle)
+
+		current_angle_radians = current_angle_degrees * math.pi/180
 		sweep_angle_radians = self.get_sweep_angle(final_angle) * math.pi/180
 
 		# Pi over sweep angle is the period of 1/2 the sin wave,
@@ -117,6 +138,7 @@ class Arm(Subsystem):
 		voltage = self.sin_angle(final_angle)
 		setpoint_rate = self.voltage_to_click_rate(voltage)
 		return setpoint_rate
+
 		
 	# A rate of 0 still stops motors, despite conversion
 	# Where pid stores output distance to target pos. and where arm adjusts
@@ -127,23 +149,7 @@ class Arm(Subsystem):
 		# negative values should move in opposite the last direction sensed
 		# by arm encoder
 		#XXX print for debugging
-		print("Setting arm motor speed: " + str(motor_voltage))
+		#print("Setting arm motor speed: " + str(motor_voltage))
 		self.arm_motors.set_speed(motor_voltage, use_min_speed)
 			
-# Preset actuated positions:
-	# Straight up pos.
-		# Get position using Encoder
-		# Adjust motor velocity
-		# Stop when target position is reached
-	# Intake HP/Cargo pos.
-	# Eject Cargo pos.
-	# Eject HP pos.
-	# Eject Rocket pos.
 
-# Actuate things:
-	#def cargo_intake():
-		# set roller motor speeds 
-	#def cargo_eject():
-		# set roller motor speeds 
-	#def hp_eject():
-		# actuate pistons 

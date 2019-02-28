@@ -82,7 +82,8 @@ class OI():
 
 		#ltop2.whileHeld(Do_Die_You_Gravy_Sucking_Pig(robot))
 		# Input desired angle of arm
-		#ltop3.whenPressed(Do_Move_Arm(robot, 15.0))
+		ltop3.whenPressed(Do_Move_Arm(robot, 25.0))
+		#XXX
 		ltop4.whenPressed(Do_Encoder_Check(robot))
 
 		# whenActive and whenInactive allows toggle between 2 commands

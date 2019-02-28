@@ -31,7 +31,8 @@ class Do_Encoder_Check(Command):
 		"""Called repeatedly when this Command is scheduled to run"""
 		# Print return value here, as get_direction() 
 		# may be used for both encoders, which would require two returns
-		print("Arm Encoder: " + str(self.robot_arm.get_click_rate()))
+		#print("Arm Encoder Click Rate: " + str(self.robot_arm.get_click_rate()))
+		print("Arm Encoder Clicks : " + str(self.robot_arm.l_arm_encoder.get()))
 		#print(self.robot_arm.sin_relative_angle(45, 35))
 		# Get encoder values 
 
