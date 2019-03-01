@@ -13,6 +13,7 @@ from do_move_arm import Do_Move_Arm
 from do_die_you_gravy_sucking_pig import Do_Die_You_Gravy_Sucking_Pig
 from do_encoder_check import Do_Encoder_Check
 from do_cargo_intake import Do_Cargo_Intake
+from do_arm_test import Do_Arm_Test
 
 # Non-button commands
 from do_zeroed_clicks import Do_Zeroed_Clicks
@@ -85,21 +86,20 @@ class OI():
 		xboxSTART = JoystickButton(self.xbox, 8)
 
 
-
-
 		# whenActive and whenInactive allows toggle between 2 commands
-		
 		'''
 		Joystick 0 / Left Joystick Commands
 		'''
 		# Button 1 causes cargo motor to spin outwards for 0.5s
 		ltop1.whenPressed(Do_Cargo_Eject(robot))
 		# Button 2 shuts down arm
+
 		ltop2.whileHeld(Do_Die_You_Gravy_Sucking_Pig(robot))
 		# Input desired angle of arm
-		ltop3.whenPressed(Do_Move_Arm(robot, 25.0))
+		ltop3.whenPressed(Do_Move_Arm(robot, 135.0))
 		#XXX
 		ltop4.whenPressed(Do_Encoder_Check(robot))
+		ltop5.whileHeld(Do_Arm_Test(robot))
 
 		'''
 		Joystick 1 / Right Joystick Commands

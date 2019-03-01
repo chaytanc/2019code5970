@@ -99,6 +99,7 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		
 		
 	def autonomousInit(self):
+		Scheduler.getInstance().removeAll()
 		# Set up encoders
 		# Loop counter to stop/start auto?
 		# Reset encoders (zero them) upon init
@@ -122,10 +123,12 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 
 		print("encoder " + str(self.arm.l_arm_encoder.get()))
 		self.arm.l_arm_encoder.reset()
-		Do_Basic_Move_Arm(self).start()
+		#Do_Basic_Move_Arm(self).start()
 
 		print(self.arm.l_arm_encoder.get())
-		#Do_Zero_Encoder(self).run()
+		Do_Zero_Encoder(self).run()
+		Scheduler.getInstance().removeAll()
+		Scheduler.getInstance().enable()
 
 	def teleopPeriodic(self):
 
