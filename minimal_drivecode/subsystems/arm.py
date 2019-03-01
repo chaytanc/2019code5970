@@ -97,26 +97,26 @@ class Arm(Subsystem):
 
 	#XXX Only run ONCE when initializing a command to move the arm so as to check
 	# if the initial position the arm is in is greater than desired angle
-	def get_initial_angle_offset(self, current_angle, final_angle):
+	def get_initial_angle_offset(self, final_angle):
 		if self.get_current_angle() > final_angle:
 			# If the current angle is past what it is supposed to be at,
 			# the current angle will be set to a bit greater than the current
 			# angle such that the sin wave will return gentle negative voltages 
 			# until the angle gets to being under what it is supposed to be,
 			# at which point the regular sin wave values/pid take over.
-			current_angle *= (5/3)
+			current_angle = final_angle * (5/3)
 
 		# Sets angle to 1 degree so that no accidental negative encoder vals
 		# occur
 		else:
-			current_angle += 1
+			current_angle = self.get_current_angle() + 1
 		return current_angle
 
 	# Current and final angles must be passed in as degrees
 	def sin_angle(self, final_angle):
 		# Checks if angle is to far back
 		current_angle_degrees = self.get_initial_angle_offset(
-				self.get_current_angle(), final_angle)
+				 final_angle)
 
 		current_angle_radians = current_angle_degrees * math.pi/180
 		sweep_angle_radians = self.get_sweep_angle(final_angle) * math.pi/180

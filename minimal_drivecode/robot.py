@@ -98,8 +98,8 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		
 		
 
-		# instantiate Autonomous scheduler
-		#self.autonomousCommand = Autonomous(self)
+	def robotPeriodic(self):
+		Scheduler.getInstance().run()
 		
 	def autonomousInit(self):
 		# Set up encoders
@@ -114,13 +114,15 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		Command_Pneumatics_Reset(self).start()
 		
 	def autonomousPeriodic(self):
-		Scheduler.getInstance().run()
+		#XXX hatch panel
+		#Scheduler.getInstance().run()
+		return None
 
 	def teleopInit(self):
 		self.loops = 0
 		self.timer.reset()
 		self.timer.start()
-		print(self.arm.l_arm_encoder.get())
+		print("encoder " + str(self.arm.l_arm_encoder.get()))
 		self.arm.l_arm_encoder.reset()
 		Do_Basic_Move_Arm(self).start()
 
@@ -128,8 +130,11 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		#Do_Zero_Encoder(self).run()
 
 	def teleopPeriodic(self):
+	#def robotPeriodic(self):
+
 	# Before, button functions were executed here. Now scheduler will do that
-		Scheduler.getInstance().run()
+		Scheduler.getInstance().enable()
+		#Scheduler.getInstance().run()
 
 		# Keeping track of TimedRobot loops through code
 		self.loops += 1
@@ -146,10 +151,11 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 	
 	def disabledPeriodic(self):
 		
-		return None
+		Scheduler.getInstance().disable()
 
-	def robotPeriodic(self):
-		return None
+	#def disabledPeriodic(self):
+		#return None
+
 	
 if __name__ == "__main__":
 	wpilib.run(BeaverTronicsRobot)
