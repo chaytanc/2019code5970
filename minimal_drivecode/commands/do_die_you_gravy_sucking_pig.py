@@ -17,7 +17,7 @@ class Do_Die_You_Gravy_Sucking_Pig(Command):
 		return None
 
 	def execute(self):
-	   self.robot_arm.arm_motors.set_speed(0, self.use_min_rate)
+		self.robot_arm.arm_motors.set_speed(0, self.use_min_rate)
 
 	def isFinished(self):
 		return None

@@ -27,7 +27,10 @@ class Do_Axis_Button_5(Command):
 	
 	def initialize(self):
 		"""Called just before this Command runs the first time"""
-			
+		# initializes on [first press] of "Xbox controller 'START' button"
+		#								OR
+		# initializes on [first press] of "Joystick controller 1 '5' button"
+
 	
 	def execute(self):
 		"""Called iteratively by Scheduler"""
@@ -45,10 +48,16 @@ class Do_Axis_Button_5(Command):
 		return None
 
 	def end(self):
+		# ends on [second press] of "Xbox controller 'START' button"
+		#								OR
+		# ends on [second press] of "Joystick controller 1 '5' button" 
+		
+		# stops checking axis input and actuates ramp
 		self.robot_ramp.ramp_actuate()
 		print("ramp actuated")
 	
 	def interrupted(self):
+		print("Command 'axis_button_5' interrupted!")
 		self.end()
 
 

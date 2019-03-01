@@ -35,9 +35,10 @@ class Do_Hp_Rotate_Actuated(Command):
 		return True
 
 	def end(self):
+		# pneumatics do not reset to unactuated position until robot shuts down
 		return None
 
 	def interrupted(self):
-		print("interrupted")
+		print("Command 'hp_rotate_actuated' interrupted!")
 		#self.cancel()
 		self.end()

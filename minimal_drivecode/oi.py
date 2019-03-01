@@ -88,7 +88,7 @@ class OI():
 
 		# whenActive and whenInactive allows toggle between 2 commands
 		
-		# testing in sim
+		# for testing in sim
 		rtop5.toggleWhenPressed(Do_Axis_Button_5(robot))
 
 		# turns on axis for xbox button 5. Must be activated in beginning. Test			# making axis triggers send interrupts
@@ -108,6 +108,7 @@ class OI():
 		# xbox X = Cargo Intake/Hatch Panel Outtake (front of robot)
 		xboxX.whenPressed(Command_Hp_Eject(robot))
 		# xbox Y = Defence Position (straight up)
+
 		# xbox B = Hatch Panel Intake (back of robot)
 		xboxB.whenPressed(Command_Hp_Intake(robot))	
 

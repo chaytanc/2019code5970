@@ -39,5 +39,6 @@ class Do_Basic_Move_Arm(Command):
 		self.robot_arm.arm_motors.right_arm_motor.stopMotor()
 
 	def interrupted(self):
+		print("Command 'basic_move_arm' interrupted!")
 		self.end()
 

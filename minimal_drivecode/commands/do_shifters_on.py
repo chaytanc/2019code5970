@@ -30,7 +30,9 @@ class Do_Shifters_On(Command):
 		return None
 
 	def end(self):
+		# pneumatics do not reset to unactuated position until robot shuts down
 		return None
 
 	def interrupted(self):
+		print("Command 'shifters_on' interrupted!")
 		self.end()

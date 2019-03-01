@@ -17,6 +17,12 @@ class Do_Hp_Eject(Command):
 		#	2: unactuated with Arm at front of robot
 
 		# state 1: possesses Hatch Panel
+
+
+		# hatch panel toggles between actuated and unactuated states
+		# by [hold] or [release] of "Xbox controller 'RB' button"
+		
+		# [hold] toggles to actuated state
 		self.requires(self.robot_hatch_panel)
 		
 	def initialize(self):
@@ -32,7 +38,9 @@ class Do_Hp_Eject(Command):
 		return True
 
 	def end(self):
+		# pneumatics do not reset to unactuated position until robot shuts down
 		return None
 
 	def interrupted(self):
-	    self.end()
+		print("Command 'hp_eject' interrupted!")
+		self.end()

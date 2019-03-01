@@ -55,6 +55,8 @@ from do_basic_move_arm import Do_Basic_Move_Arm
 # Teleop init command
 from do_zero_encoder import Do_Zero_Encoder
 
+# command groups
+from command_pneumatics_reset import Command_Pneumatics_Reset
 
 from oi import OI
 
@@ -109,6 +111,7 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 
 		# Autonomous Scheduler
 		# self.autonomousCommand.start()
+		Command_Pneumatics_Reset(self).start()
 		
 	def autonomousPeriodic(self):
 		Scheduler.getInstance().run()
@@ -136,10 +139,13 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 
 	def disabledInit(self):
 		#XXX ?
+		Command_Pneumatics_Reset(self).start()
 		Scheduler.disable(self)
+		
 		return None
 	
 	def disabledPeriodic(self):
+		
 		return None
 
 	def robotPeriodic(self):

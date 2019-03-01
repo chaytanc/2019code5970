@@ -10,7 +10,6 @@ class Do_Cargo_Eject(Command):
 		super().__init__()
 
 		self.robot_cargo = robot.cargo
-		self.robot = robot
 
 		# uses motor 6
 		
@@ -20,23 +19,28 @@ class Do_Cargo_Eject(Command):
 
 		# state 2: possesses Cargo
 		self.requires(robot.cargo)
+		
 
-	
 	def initialize(self):
 		# intake rollers rotate outwards, ejecting ball
 		print("cargo eject!")
-		self.robot_cargo.cargo_eject()
 
+		# temp substitute for limit switch. Command lasts 0.5s
+		self.setTimeout(0.5)
 
 	def execute(self):
-		return None
+		# move to initialize when limit switches are implemented 
+		# and replace timeout
+		self.robot_cargo.cargo_eject()
 
 	def isFinished(self):
-		return None
+		return self.isTimedOut()
 
 	def end(self):
+		# reset cargo motor speed to 0 at end of command
 		self.robot_cargo.cargo_reset()
 
 	def interrupted(self):
+		print("Command 'cargo_eject' interrupted!")		
 		self.end()
 

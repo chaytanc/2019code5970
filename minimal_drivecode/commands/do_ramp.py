@@ -33,5 +33,6 @@ class Do_Ramp(Command):
 		return None
 	def interrupted(self):
 		self.robot_ramp.ramp_unactuate()
+		print("Command 'ramp' interrupted!")
 		self.end()
 

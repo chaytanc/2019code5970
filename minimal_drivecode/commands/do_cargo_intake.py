@@ -19,19 +19,28 @@ class Do_Cargo_Intake(Command):
 
 		# state 1: possesses Cargo
 		self.requires(robot.cargo)
+
+		
+
 	def initialize(self):
 		# intake rollers rotate inwards, intaking ball
 		print("cargo intake!")
-		self.robot_cargo.cargo_intake()
+		
+		# temp substitute for limit switch. Command lasts 0.5s
+		self.setTimeout(0.5)
 
 	def execute(self):
-		pass
+		# move to initialize when limit switches are implemented 
+		# and replace timeout
+		self.robot_cargo.cargo_intake()
 
 	def isFinished(self):
-		return False
+		return self.isTimedOut()
 
 	def end(self):
+		# reset cargo motor speed to 0 at end of command
 		self.robot_cargo.cargo_reset()
 
 	def interrupted(self):
+		print("Command 'cargo_intake' interrupted!")
 		self.end()
