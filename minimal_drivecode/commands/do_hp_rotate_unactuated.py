@@ -11,6 +11,7 @@ class Do_Hp_Rotate_Unactuated(Command):
 		
 		self.robot_hatch_panel_rotate = robot.hatch_panel_rotate
 		self.robot = robot
+		self.setRunWhenDisabled(True)
 		
 		# uses solenoid 2
 

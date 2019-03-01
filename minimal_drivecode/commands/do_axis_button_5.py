@@ -3,6 +3,8 @@
 import wpilib
 import wpilib.drive
 from wpilib.command import Command
+from command_pneumatics_reset import Command_Pneumatics_Reset
+
 
 class Do_Axis_Button_5(Command):
 	'''
@@ -52,9 +54,11 @@ class Do_Axis_Button_5(Command):
 		#								OR
 		# ends on [second press] of "Joystick controller 1 '5' button" 
 		
-		# stops checking axis input and actuates ramp
+		# stops checking axis input THEN actuates ramp THEN resets pneumatics
 		self.robot_ramp.ramp_actuate()
 		print("ramp actuated")
+		Command_Pneumatics_Reset(self.robot)
+		print("pneumatics reset")
 	
 	def interrupted(self):
 		print("Command 'axis_button_5' interrupted!")

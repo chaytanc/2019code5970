@@ -11,6 +11,7 @@ class Do_Hp_Intake(Command):
 		
 		# instance of drivetrain
 		self.robot_hatch_panel = robot.hatch_panel
+		self.setRunWhenDisabled(True)
 
 		# uses solenoid 3
 		

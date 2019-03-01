@@ -15,6 +15,7 @@ from do_hp_rotate_unactuated import Do_Hp_Rotate_Unactuated
 class Command_Pneumatics_Reset(CommandGroup):
 	def __init__(self, robot):
 		super().__init__()
+		self.setRunWhenDisabled(True)
 
 		# resets all pneumatics except ramp to unactuated states
 		# all pistons unactuate simultaneously
@@ -24,4 +25,5 @@ class Command_Pneumatics_Reset(CommandGroup):
 		self.addParallel(Do_Shifters_Off(robot))
 		self.addParallel(Do_Hp_Rotate_Unactuated(robot))
 		self.addParallel(Do_Hp_Intake(robot))
+
 

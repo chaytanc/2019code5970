@@ -56,7 +56,7 @@ from do_basic_move_arm import Do_Basic_Move_Arm
 from do_zero_encoder import Do_Zero_Encoder
 
 # command groups
-from command_pneumatics_reset import Command_Pneumatics_Reset
+from command_hp_eject import Command_Hp_Eject
 
 from oi import OI
 
@@ -97,31 +97,29 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		self.loops = 0
 		
 		
-
-	def robotPeriodic(self):
-		Scheduler.getInstance().run()
 		
 	def autonomousInit(self):
 		# Set up encoders
 		# Loop counter to stop/start auto?
 		# Reset encoders (zero them) upon init
 		# Get Driverstation data from field
+
 		data = wpilib.DriverStation.getInstance().getGameSpecificMessage()
 		# Initialize pid variables
 
 		# Autonomous Scheduler
 		# self.autonomousCommand.start()
-		Command_Pneumatics_Reset(self).start()
 		
 	def autonomousPeriodic(self):
 		#XXX hatch panel
-		#Scheduler.getInstance().run()
-		return None
+		Scheduler.getInstance().run()
+		#return None
 
 	def teleopInit(self):
 		self.loops = 0
 		self.timer.reset()
 		self.timer.start()
+
 		print("encoder " + str(self.arm.l_arm_encoder.get()))
 		self.arm.l_arm_encoder.reset()
 		Do_Basic_Move_Arm(self).start()
@@ -130,11 +128,10 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		#Do_Zero_Encoder(self).run()
 
 	def teleopPeriodic(self):
-	#def robotPeriodic(self):
 
 	# Before, button functions were executed here. Now scheduler will do that
-		Scheduler.getInstance().enable()
-		#Scheduler.getInstance().run()
+	
+		Scheduler.getInstance().run()
 
 		# Keeping track of TimedRobot loops through code
 		self.loops += 1
@@ -144,17 +141,13 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 
 	def disabledInit(self):
 		#XXX ?
-		Command_Pneumatics_Reset(self).start()
-		Scheduler.disable(self)
+		# remove all commands from scheduler
+		Scheduler.getInstance().removeAll()
 		
 		return None
-	
-	def disabledPeriodic(self):
-		
-		Scheduler.getInstance().disable()
 
-	#def disabledPeriodic(self):
-		#return None
+	def disabledPeriodic(self):
+		return None
 
 	
 if __name__ == "__main__":

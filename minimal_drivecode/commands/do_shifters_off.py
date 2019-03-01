@@ -17,6 +17,7 @@ class Do_Shifters_Off(Command):
 
 		# state 2: possesses Shifters
 		self.requires(self.robot_shifters)
+		self.setRunWhenDisabled(True)
 
 	def initialize(self):
 		# actuate solenoids for shifters
@@ -36,4 +37,5 @@ class Do_Shifters_Off(Command):
 	def interrupted(self):
 		print("Command 'shifters_off' interrupted!")
 		self.end()
+
 
