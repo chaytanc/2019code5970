@@ -71,7 +71,7 @@ class Arm(Subsystem):
 		# Adds one degree to account for encoder skips which
 		# cause negative values for encoder angle and uses
 		# min drive speed (-0.2) for setting the motors
-		return current_angle + 1
+		return current_angle + 2.5
 
 #XXX FOR FORWARD LIMIT SWITCH
 #	# Gets current angle in degrees
@@ -109,7 +109,7 @@ class Arm(Subsystem):
 		# Sets angle to 1 degree so that no accidental negative encoder vals
 		# occur
 		else:
-			current_angle = self.get_current_angle() + 1
+			current_angle = self.get_current_angle()
 		return current_angle
 
 	# Current and final angles must be passed in as degrees
@@ -149,7 +149,7 @@ class Arm(Subsystem):
 		# negative values should move in opposite the last direction sensed
 		# by arm encoder
 		#XXX print for debugging
-		#print("Setting arm motor speed: " + str(motor_voltage))
+		print("Setting arm.py motor speed: " + str(motor_voltage))
 		self.arm_motors.set_speed(motor_voltage, use_min_speed)
 			
 

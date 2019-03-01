@@ -33,7 +33,7 @@ class Arm_Motors():
 		# Scale the speed to fall within our maximums
 		voltage *= self.OUTPUT_SCALE
 
-		print("Setting both arm motors to :" + str(voltage))
+		print("Setting arm motors.py to :" + str(voltage))
 		if voltage > self.OUTPUT_SCALE or voltage < -self.OUTPUT_SCALE:
 			raise RuntimeError(
 				"arm given an invalid speed voltage: " + str(voltage))

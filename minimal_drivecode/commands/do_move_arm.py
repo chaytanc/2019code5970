@@ -15,14 +15,15 @@ class Do_Move_Arm(Command):
 	# it to and the direction you want it to move must be supplied
 	def __init__(self, robot, final_angle):
 		super().__init__()
+		print("pid init")
 		self.robot = robot
 		self.requires(robot.arm)
 
 		self.kp = 1.0
 		self.ki = 0.0
-		self.kd = 0.0
+		self.kd = 0.01
 		#XXX maybe too low; maybe need to tune other parts first
-		self.kf = 0.003
+		self.kf = 0.1
 
 		#self.robot.arm.l_arm_encoder.reset()
 
@@ -52,9 +53,6 @@ class Do_Move_Arm(Command):
 		# Clicks per second range
 		#self.pid.setInputRange(-318.0, 318.0)
 		#self.pid.setOutputRange(-318.0, 318.0)
-
-		# An initial setpoint to boost motor
-		#self.pid.setSetpoint(12.0)
 
 		self.pid.setContinuous(False)
 
