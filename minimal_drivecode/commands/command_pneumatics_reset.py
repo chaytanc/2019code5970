@@ -1,5 +1,8 @@
 # vim: set sw=4 noet ts=4 fileencoding=utf-8:
 
+'''
+UNUSED
+'''
 import wpilib
 from wpilib.command import CommandGroup
 

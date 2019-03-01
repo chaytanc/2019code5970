@@ -21,13 +21,13 @@ class Do_Shifters_Toggle(Command):
 	def initialize(self):
 		# actuate solenoids for shifters
 		# remains in state 1 until end of command
-		# initializes on [first press] of "Xbox controller 'back' button"
+		# initializes on [first press] of "Joystick 1 '2' button"
 		self.robot_shifters.shifters_on()
 		print("shifters on!")
 
 	def execute(self):
 		# command loops continuously doing nothing until
-		# [second press] of "Xbox controller 'back' button" 
+		# [second press] of "Joystick 1 '2' button" 
 		return None
 
 	def isFinished(self):
@@ -36,7 +36,7 @@ class Do_Shifters_Toggle(Command):
 	def end(self):
 		# unactuate solenoids for shifters
 		# shifts to state 2
-		# ends on [second press] of "Xbox controller 'back' button"
+		# ends on [second press] of "Joystick 1 '2' button"
 		self.robot_shifters.shifters_off()
 		print ("shifters off!")
 

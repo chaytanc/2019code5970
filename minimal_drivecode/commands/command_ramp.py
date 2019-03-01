@@ -8,6 +8,9 @@ path.append('../')
 # commands used in commandgroup
 from do_ramp import Do_Ramp
 from do_move_arm import Do_Move_Arm
+from do_shifters_off import Do_Shifters_Off
+from do_hp_rotate_unactuated import Do_Hp_Rotate_Unactuated
+from do_hp_intake import Do_Hp_Intake
 
 # Should intake and outtake cargo (bouncy ball). This should be done by
 # activating the motors for the rollers on the arm.
@@ -26,4 +29,9 @@ class Command_Ramp(CommandGroup):
 		# BEING WEIRD
 		#self.addSequential(Do_Move_Arm(robot, 100))
 		self.addSequential(Do_Ramp(robot))
+		
+		# reset all non-ramp pneumatics
+		self.addParallel(Do_Shifters_Off(robot))
+		self.addParallel(Do_Hp_Rotate_Unactuated(robot))
+		self.addParallel(Do_Hp_Intake(robot))
 

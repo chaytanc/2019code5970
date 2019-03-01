@@ -24,6 +24,6 @@ class Command_Cargo_Eject(CommandGroup):
 		# state 2
 
 		#self.addSequential(Do_Move_Arm(robot, 100))
-		self.addSequential(Do_Cargo_Eject(robot))
+		print("command cargo eject initialized")
 
 
