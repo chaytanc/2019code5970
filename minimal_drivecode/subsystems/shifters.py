@@ -8,12 +8,14 @@ class Shifters(Subsystem):
 	#*********Robot-Side Initialization***************
 	def __init__(self):
 		super().__init__()
-		# Command Dependencies:
-		#	Shifter On/Off
+		'''
+		Command Dependencies:
+			Shifter On/Off
 
-		# Initialize Pneumatics[shifters]
-		#	Each solenoid is instantiated by 
-		#	an "actuated" and "unactuated" command (on and off, respectively)
+		Initialize Pneumatics[shifters]
+			Each solenoid is instantiated by 
+			an "actuated" and "unactuated" command (on and off, respectively)
+		'''
 		self.shifter_solenoid_left = wpilib.Solenoid(0)
 		self.shifter_solenoid_right = wpilib.Solenoid(1)
 

@@ -3,22 +3,23 @@
 import wpilib
 from wpilib.command import Command
 
-# Moves arm to back of robot
+# positions Arm to robot back for calibrating autonomous
 class Do_Basic_Move_Arm(Command):
 	def __init__(self, robot):
 		super().__init__()
 
+		# inherited subsystems
 		self.robot_arm = robot.arm
 
 		# uses motors ctre 1 and 3
-		
-		# Basic Arm Movement can only be in one state:
-		#	1: Move arm to back of robot at beginning of match 
+		'''
+		Basic Arm Movement can only be in one state:
+			1: Position Arm to robot back(180 degrees) at autonomousInit
 
-		# state 1: possesses Arm
+		State 1: possesses Arm
+		'''
 		self.requires(robot.arm)
 		
-
 	def initialize(self):
 		# move arm backwards by setting motor speed to negative value
 		self.robot_arm.arm_motors.left_arm_motor.set(-0.2)
@@ -34,7 +35,7 @@ class Do_Basic_Move_Arm(Command):
 		return self.isTimedOut()
 
 	def end(self):
-		# stop arm ctre motors at end of movement
+		# stop arm ctre motors at end of command
 		self.robot_arm.arm_motors.left_arm_motor.stopMotor()
 		self.robot_arm.arm_motors.right_arm_motor.stopMotor()
 

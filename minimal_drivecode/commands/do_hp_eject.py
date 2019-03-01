@@ -3,31 +3,31 @@
 import wpilib
 from wpilib.command import Command
 	
-# Actuates pistons for hatch panel manipulator. Releasing hatch panel state.
+# actuates Hatch Panel Intake
 class Do_Hp_Eject(Command):
 	def __init__(self, robot):	
 		super().__init__()
 		
+		#inherited subsystems
 		self.robot_hatch_panel = robot.hatch_panel
 
 		# uses solenoid 3
-		
-		# Hatch Panel can only be in two states:
-		#	1: unactuated with Arm at back of robot. Actuates once.
-		#	2: unactuated with Arm at front of robot
+		'''
+		Hatch Panel can only be in two states:
+			1: unactuated(intake) & Arm at robot front (155 degrees)
+			2: unactuated(eject) & Arm at robot back (0 degrees)
 
-		# state 1: possesses Hatch Panel
-
-
-		# hatch panel toggles between actuated and unactuated states
-		# by [hold] or [release] of "Xbox controller 'RB' button"
-		
-		# [hold] toggles to actuated state
+		State 2: requires Hatch Panel
+		'''
 		self.requires(self.robot_hatch_panel)
+
+		# Hatch Panel Intake toggles between actuate and unactuate
+		# by [hold] or [release] of "Joystick1 '1' button"
 		
+		# [hold] toggles to actuate
+
 	def initialize(self):
-		# actuate Hatch Panel pistons, releasing hatch panel
-		# immediatly unactuate Hatch Panel pistons
+		# actuate Hatch Panel Intake pistons, ejecting hatch panel
 		self.robot_hatch_panel.hp_actuate()
 		print("hatch panel actuate!")
 

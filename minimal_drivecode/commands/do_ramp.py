@@ -3,34 +3,38 @@
 import wpilib
 from wpilib.command import Command
 
-# Should intake and outtake cargo (bouncy ball). This should be done by
-# activating the motors for the rollers on the arm.
+# actuates Ramp
 class Do_Ramp(Command):
 	def __init__(self, robot):
-		
 		super().__init__()
 		
+		# inherited subsystems
 		self.robot_ramp = robot.ramp
-		self.robot = robot
-		# uses solenoid 4
-		
-		# Ramp can only be in one state:
-		#	1: actuated with Arm at ????
 
-		# state 1: possesses Ramp
+		# uses solenoid 4
+		'''
+		Ramp can only be in one state:
+			1: actuated with Arm at [UNKNOWN POSITION]
+
+		State 1: requires Ramp
+		'''
 		self.requires(self.robot_ramp)
 
 	
 	def initialize(self):
-		return None
-	def execute(self):
+		# actuate Ramp
 		self.robot_ramp.ramp_actuate()
 		print("Ramp Deployed!!")
-	
+
+	def execute(self):
+		return None
+
 	def isFinished(self):
 		return True
+
 	def end(self):
 		return None
+
 	def interrupted(self):
 		self.robot_ramp.ramp_unactuate()
 		print("Command 'ramp' interrupted!")

@@ -13,7 +13,7 @@ from do_move_arm import Do_Move_Arm
 from do_die_you_gravy_sucking_pig import Do_Die_You_Gravy_Sucking_Pig
 from do_encoder_check import Do_Encoder_Check
 from do_cargo_intake import Do_Cargo_Intake
-from do_arm_test import Do_Arm_Test
+#from do_arm_test import Do_Arm_Test
 
 # Non-button commands
 from do_zeroed_clicks import Do_Zeroed_Clicks
@@ -33,7 +33,7 @@ from do_shifters_toggle import Do_Shifters_Toggle
 from command_hp_eject import Command_Hp_Eject
 from command_hp_intake import Command_Hp_Intake
 from command_ramp import Command_Ramp
-#from command_ramp import Command_Ramp
+from command_defense import Command_Defense
 
 # axis interpreters
 from do_axis_button_5 import Do_Axis_Button_5
@@ -99,7 +99,8 @@ class OI():
 		ltop3.whenPressed(Do_Move_Arm(robot, 135.0))
 		#XXX
 		ltop4.whenPressed(Do_Encoder_Check(robot))
-		ltop5.whileHeld(Do_Arm_Test(robot))
+		#ltop5.whileHeld(Do_Arm_Test(robot))
+
 
 		'''
 		Joystick 1 / Right Joystick Commands
@@ -114,6 +115,7 @@ class OI():
 
 		# for testing in sim
 		rtop5.whenPressed(Do_Axis_Button_5(robot))
+
 
 		'''
 		Joystick 2 / Xbox Controller Commands
@@ -130,7 +132,7 @@ class OI():
 		xboxX.whenPressed(Command_Hp_Eject(robot))
 
 		# Y = Defence Position (straight up)
-		#xboxY.whenPressed(Command_Defence(robot))
+		xboxY.whenPressed(Command_Defense(robot))
 
 		# B = Hatch Panel Intake (back of robot)
 		xboxB.whenPressed(Command_Hp_Intake(robot))	
