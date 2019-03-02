@@ -126,7 +126,8 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		#Do_Basic_Move_Arm(self).start()
 
 		print(self.arm.l_arm_encoder.get())
-		Do_Zero_Encoder(self).run()
+
+		#Do_Zero_Encoder(self).run()
 		Scheduler.getInstance().removeAll()
 		Scheduler.getInstance().enable()
 
