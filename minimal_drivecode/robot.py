@@ -44,8 +44,7 @@ from ramp import Ramp
 from shifters import Shifters
 
 # Limit switches
-from arm_switch_front import Arm_Switch_Front
-from arm_switch_back import Arm_Switch_Back
+from back_switch import Back_Switch
 from cargo_switch import Cargo_Switch
 
 
@@ -54,6 +53,7 @@ from do_basic_move_arm import Do_Basic_Move_Arm
 
 # Teleop init command
 from do_zero_encoder import Do_Zero_Encoder
+from do_die_you_gravy_sucking_pig import Do_Die_You_Gravy_Sucking_Pig
 
 # command groups
 from command_hp_eject import Command_Hp_Eject
@@ -74,8 +74,7 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		self.ramp = Ramp()
 		self.shifters = Shifters()
 
-		self.f_limit = Arm_Switch_Front()
-		self.b_limit = Arm_Switch_Back()
+		self.b_limit = Back_Switch()
 		self.c_limit = Cargo_Switch()
 
 		# instantiate Encoders for drivetrain?
@@ -120,6 +119,7 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		self.loops = 0
 		self.timer.reset()
 		self.timer.start()
+		Do_Die_You_Gravy_Sucking_Pig(self).run()
 
 		print("encoder " + str(self.arm.l_arm_encoder.get()))
 		self.arm.l_arm_encoder.reset()
@@ -129,7 +129,6 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 
 		#Do_Zero_Encoder(self).run()
 		Scheduler.getInstance().removeAll()
-		Scheduler.getInstance().enable()
 
 	def teleopPeriodic(self):
 
@@ -144,7 +143,6 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 			self.loops = 0
 
 	def disabledInit(self):
-		#XXX ?
 		# remove all commands from scheduler
 		Scheduler.getInstance().removeAll()
 		
