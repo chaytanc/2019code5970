@@ -21,7 +21,7 @@ class Do_Move_Arm(Command):
 
 		self.kp = 1.0
 		self.ki = 0.0
-		self.kd = 0.01
+		self.kd = 0.001
 		#XXX maybe too low; maybe need to tune other parts first
 		self.kf = 0.1
 
