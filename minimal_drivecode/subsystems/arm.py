@@ -93,6 +93,7 @@ class Arm(Subsystem):
 	# to final_angle if beginning at a 0 deg. or 180 deg. angle
 	def get_sweep_angle(self, final_angle):
 		sweep_angle = final_angle - self.get_current_angle()
+		print("sweep angle" + str(sweep_angle))
 		return sweep_angle
 
 	#XXX Only run ONCE when initializing a command to move the arm so as to check
@@ -136,6 +137,7 @@ class Arm(Subsystem):
 	# Relies on current_angle to be above 0 b/c of sin_angle
 	def get_setpoint(self, final_angle):
 		voltage = self.sin_angle(final_angle)
+		print("voltage " + str(voltage))
 		setpoint_rate = self.voltage_to_click_rate(voltage)
 		return setpoint_rate
 
@@ -150,6 +152,9 @@ class Arm(Subsystem):
 		# by arm encoder
 		#XXX print for debugging
 		print("Setting arm.py motor speed: " + str(motor_voltage))
-		self.arm_motors.set_speed(motor_voltage, use_min_speed)
-			
+		self.arm_motors.set_speed(motor_voltage, True)
+	
+	def reset_motors(self):
+		self.arm_motors.set_speed(0.22, False)
+		print("reset")
 

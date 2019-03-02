@@ -9,6 +9,7 @@ from do_move_arm import Do_Move_Arm
 from do_shifters_off import Do_Shifters_Off
 from do_hp_rotate_unactuated import Do_Hp_Rotate_Unactuated
 from do_hp_intake import Do_Hp_Intake
+from do_zero_encoder import Do_Zero_Encoder
 
 # activated at end of match
 # positions Arm for Do_Ramp THEN resets pneumatics
@@ -25,7 +26,8 @@ class Command_Ramp(CommandGroup):
 		'''
 
 		# BEING WEIRD
-		#self.addSequential(Do_Move_Arm(robot, 100))
+		self.addParallel(Do_Zero_Encoder(robot))
+		self.addSequential(Do_Move_Arm(robot, 100))
 		self.addSequential(Do_Ramp(robot))
 		
 		# reset uses solenoids 0, 1, 2, 3

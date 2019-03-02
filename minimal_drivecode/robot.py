@@ -31,7 +31,7 @@ sys.path.insert(0, '/home/lvuser/py/subsystems')
 sys.path.insert(0, '/home/lvuser/py/commands')
 
 # Subsidiary objects on the robot. Ex: Cube Intake from 2017/18 season
-
+from arm_motors import Arm_Motors
 from left_motors import Left_Motors
 from right_motors import Right_Motors
 
@@ -51,6 +51,7 @@ from cargo_switch import Cargo_Switch
 
 # commands
 from do_basic_move_arm import Do_Basic_Move_Arm
+from do_axis_button_5 import Do_Axis_Button_5
 
 # Teleop init command
 from do_zero_encoder import Do_Zero_Encoder
@@ -73,6 +74,7 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		self.hatch_panel_rotate = Hatch_Panel_Rotate()
 		self.ramp = Ramp()
 		self.shifters = Shifters()
+		self.arm_motors = Arm_Motors()
 
 		self.f_limit = Arm_Switch_Front()
 		self.b_limit = Arm_Switch_Back()
@@ -95,6 +97,9 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 
 		self.timer = wpilib.Timer()
 		self.loops = 0
+
+		# untested vision
+		wpilib.CameraServer.launch("vision.py:main")
 		
 		
 		
@@ -129,6 +134,7 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		Do_Zero_Encoder(self).run()
 		Scheduler.getInstance().removeAll()
 		Scheduler.getInstance().enable()
+		Do_Axis_Button_5(self).start()
 
 	def teleopPeriodic(self):
 
@@ -145,6 +151,7 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 	def disabledInit(self):
 		#XXX ?
 		# remove all commands from scheduler
+		#self.arm_motors.set_speed(0, False)
 		Scheduler.getInstance().removeAll()
 		
 		return None

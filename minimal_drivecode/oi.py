@@ -22,7 +22,7 @@ from do_zero_encoder import Do_Zero_Encoder
 
 # intake commands
 from do_cargo_eject import Do_Cargo_Eject
-#from do_cargo_intake import Do_Cargo_Intake
+from do_cargo_intake import Do_Cargo_Intake
 from do_hp_intake import Do_Hp_Intake
 from do_hp_eject import Do_Hp_Eject
 
@@ -91,12 +91,12 @@ class OI():
 		Joystick 0 / Left Joystick Commands
 		'''
 		# Button 1 causes cargo motor to spin outwards for 0.5s
-		ltop1.whenPressed(Do_Cargo_Eject(robot))
+		ltop1.whileHeld(Do_Cargo_Eject(robot))
 		# Button 2 shuts down arm
 
 		ltop2.whileHeld(Do_Die_You_Gravy_Sucking_Pig(robot))
 		# Input desired angle of arm
-		ltop3.whenPressed(Do_Move_Arm(robot, 135.0))
+		ltop3.whenPressed(Do_Move_Arm(robot, 90.0))
 		#XXX
 		ltop4.whenPressed(Do_Encoder_Check(robot))
 		#ltop5.whileHeld(Do_Arm_Test(robot))
@@ -114,7 +114,7 @@ class OI():
 		rtop2.toggleWhenPressed(Do_Shifters_Toggle(robot))
 
 		# for testing in sim
-		rtop5.whenPressed(Do_Axis_Button_5(robot))
+		#rtop5.whenPressed(Do_Axis_Button_5(robot))
 
 
 		'''
@@ -122,8 +122,10 @@ class OI():
 		'''	
 		# when BACK pressed, turn on axis detection for cargo intake
 		#Cargo Outtake (near back of robot) / Cargo Intake (front of robot)
-		xboxBACK.whenPressed(Do_Axis_Button_5(robot))
+		#xboxBACK.whenPressed(Do_Axis_Button_5(robot))
 
+		# while RB pressed, cargo motor intakes
+		xboxRB.whileHeld(Do_Cargo_Intake(robot))
 		# when START pressed, deploy ramp and reset pneumatics to unactuated
 		xboxSTART.whenPressed(Command_Ramp(robot))
 

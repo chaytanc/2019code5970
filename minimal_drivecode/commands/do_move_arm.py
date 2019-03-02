@@ -21,7 +21,7 @@ class Do_Move_Arm(Command):
 
 		self.kp = 1.0
 		self.ki = 0.0
-		self.kd = 0.01
+		self.kd = 0.1
 		#XXX maybe too low; maybe need to tune other parts first
 		self.kf = 0.1
 
@@ -55,6 +55,7 @@ class Do_Move_Arm(Command):
 		#self.pid.setOutputRange(-318.0, 318.0)
 
 		self.pid.setContinuous(False)
+		
 
 		# Turn on pid
 		self.pid.enable()
@@ -68,14 +69,14 @@ class Do_Move_Arm(Command):
 		# per second.
 		setpoint_rate = self.robot.arm.get_setpoint(self.final_angle_1)
 		print("setpoint rate: " + str(setpoint_rate))
-		print(self.pid.getSetpoint())
+		#print(self.pid.getSetpoint())
 		self.pid.setSetpoint(setpoint_rate)
+		print ("pid error " + str(self.pid.getError()))
+		print ("output " + str(self.pid.get()))
 
 	def isFinished(self):
 		# A "close enough" value; returns true when within the tolerance.
-		angle_diff = self.robot.arm.get_current_angle() - self.final_angle_1
-		if angle_diff < 0.0:
-			angle_diff *= -1
+		angle_diff = abs(self.final_angle_1 - self.robot.arm.get_current_angle())
 
 		tolerance = 2.0
 		return (angle_diff < tolerance)
@@ -90,5 +91,7 @@ class Do_Move_Arm(Command):
 		print("Ending Command Do_Move_Arm")
 
 	def interrupted(self):
+		self.robot.arm.reset_motors()
 		self.end()
+
 

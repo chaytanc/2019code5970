@@ -14,7 +14,7 @@ class Do_Basic_Move_Arm(Command):
 		# uses motors ctre 1 and 3
 		'''
 		Basic Arm Movement can only be in one state:
-			1: Position Arm to robot back(180 degrees) at autonomousInit
+			1: Position Arm to robot front(180 degrees) at autonomousInit
 
 		State 1: possesses Arm
 		'''

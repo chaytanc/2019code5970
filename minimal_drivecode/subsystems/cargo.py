@@ -32,11 +32,11 @@ class Cargo(Subsystem):
 	def cargo_intake(self):
 		# motor rotates inward to intake ball
 		# 0.25 test intake value
-		self.cargo_motor.set(0.35)
+		self.cargo_motor.set(0.25)
 
 	def cargo_eject(self):
 		# motor rotates outward to eject ball
-		self.cargo_motor.set(-0.35)
+		self.cargo_motor.set(-0.25)
 
 	def cargo_reset(self):
 		# resets motor to 0 speed

@@ -7,7 +7,7 @@ import ctre
 #*********Robot-Side Initialization***************
 class Arm_Motors():
 	OUTPUT_SCALE = 0.25
-	MIN_SPEED = 0.20 / OUTPUT_SCALE
+	MIN_SPEED = 0.2 / OUTPUT_SCALE
 	
 	def __init__(self):
 		#Initialize Right motors
@@ -21,14 +21,20 @@ class Arm_Motors():
 		times this voltage.  We need lower voltages because we only get about
 		6 samples in a full range swing of the arm.
 		"""
-		
+
 		if use_min_speed:
 			if voltage >= 0.0:
 				if voltage < self.MIN_SPEED:
 					voltage = self.MIN_SPEED
+
+					
 			else:
 				if voltage > -self.MIN_SPEED:
 					voltage = -self.MIN_SPEED
+					
+		if use_min_speed == False:
+			voltage = 0.22
+				
 
 		# Scale the speed to fall within our maximums
 		voltage *= self.OUTPUT_SCALE
