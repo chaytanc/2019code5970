@@ -25,8 +25,8 @@ class Do_Cargo_Eject(Command):
 		# intake rollers rotate outwards, ejecting ball
 		print("cargo eject!")
 
-		# temp substitute for limit switch. Command lasts 0.5s
-		self.setTimeout(0.5)
+		# temp substitute for limit switch. Command lasts 0.2s
+		self.setTimeout(0.2)
 
 	def execute(self):
 		# move to initialize when limit switches are implemented 
