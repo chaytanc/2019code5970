@@ -13,7 +13,7 @@ from do_move_arm import Do_Move_Arm
 from do_die_you_gravy_sucking_pig import Do_Die_You_Gravy_Sucking_Pig
 from do_encoder_check import Do_Encoder_Check
 from do_cargo_intake import Do_Cargo_Intake
-from do_arm_test import Do_Arm_Test
+#from do_arm_test import Do_Arm_Test
 
 # Non-button commands
 from do_zeroed_clicks import Do_Zeroed_Clicks
@@ -32,7 +32,8 @@ from do_shifters_toggle import Do_Shifters_Toggle
 # command groups
 from command_hp_eject import Command_Hp_Eject
 from command_hp_intake import Command_Hp_Intake
-#from command_ramp import Command_Ramp
+from command_ramp import Command_Ramp
+from command_defense import Command_Defense
 
 # axis interpreters
 from do_axis_button_5 import Do_Axis_Button_5
@@ -53,6 +54,9 @@ class OI():
 		# third indicates which button of the position specified
 		# Ex: ltop0 is self.left top 0 
 
+		'''
+		JoystickButton and Xbox button assignments
+		'''
 		ltop1 = JoystickButton(self.left_joy, 1)
 		ltop2 = JoystickButton(self.left_joy, 2)
 		ltop3 = JoystickButton(self.left_joy, 3)
@@ -81,42 +85,60 @@ class OI():
 		xboxBACK = JoystickButton(self.xbox, 7)
 		xboxSTART = JoystickButton(self.xbox, 8)
 
+
+		# whenActive and whenInactive allows toggle between 2 commands
+		'''
+		Joystick 0 / Left Joystick Commands
+		'''
+		# Button 1 causes cargo motor to spin outwards for 0.5s
+		ltop1.whenPressed(Do_Cargo_Eject(robot))
+		# Button 2 shuts down arm
+
 		ltop2.whileHeld(Do_Die_You_Gravy_Sucking_Pig(robot))
 		# Input desired angle of arm
 		ltop3.whenPressed(Do_Move_Arm(robot, 50.0))
 		#XXX
 		ltop4.whenPressed(Do_Encoder_Check(robot))
-		ltop5.whileHeld(Do_Arm_Test(robot))
+		#ltop5.whileHeld(Do_Arm_Test(robot))
 
-		# whenActive and whenInactive allows toggle between 2 commands
-		
+
+		'''
+		Joystick 1 / Right Joystick Commands
+		'''
+		# Button 1 while held actuates hp_intake(tennis balls)
+		# when released, retract and actuate hp_intake
+		rtop1.whileHeld(Do_Hp_Eject(robot))
+		rtop1.whenReleased(Do_Hp_Intake(robot))
+
+		# Button 2 toggles shifters
+		rtop2.toggleWhenPressed(Do_Shifters_Toggle(robot))
+
 		# for testing in sim
-		rtop5.toggleWhenPressed(Do_Axis_Button_5(robot))
+		rtop5.whenPressed(Do_Axis_Button_5(robot))
 
-		# turns on axis for xbox button 5. Must be activated in beginning. Test			# making axis triggers send interrupts
 
-		# xbox left analog controls cargo eject/intake
-
-		# when START on xbox pressed first time, turns on axis detection
-		
-		# when START on xbox pressed second time, turns off axis detection
-		# and deploys ramp
-
+		'''
+		Joystick 2 / Xbox Controller Commands
+		'''	
+		# when BACK pressed, turn on axis detection for cargo intake
 		#Cargo Outtake (near back of robot) / Cargo Intake (front of robot)
-		xboxSTART.toggleWhenPressed(Do_Axis_Button_5(robot))
+		xboxBACK.whenPressed(Do_Axis_Button_5(robot))
 
-		xboxBACK.toggleWhenPressed(Do_Shifters_Toggle(robot))
-		# xbox XYBA controls arm positions
-		# xbox X = Cargo Intake/Hatch Panel Outtake (front of robot)
+		# when START pressed, deploy ramp and reset pneumatics to unactuated
+		xboxSTART.whenPressed(Command_Ramp(robot))
+
+		# XYBA controls arm positions
+		# X = Hatch Panel Outtake (front of robot, same angle as cargo intake)
 		xboxX.whenPressed(Command_Hp_Eject(robot))
-		# xbox Y = Defence Position (straight up)
 
-		# xbox B = Hatch Panel Intake (back of robot)
+		# Y = Defence Position (straight up)
+		xboxY.whenPressed(Command_Defense(robot))
+
+		# B = Hatch Panel Intake (back of robot)
 		xboxB.whenPressed(Command_Hp_Intake(robot))	
 
-		# xbox RB while held controls hp_intake(tennis balls)
-		xboxRB.whileHeld(Do_Hp_Eject(robot))
-		xboxRB.whenReleased(Do_Hp_Intake(robot))
+
+
 
 		# Commands to be checked continually by Scheduler but not run
 		# by direct button press:

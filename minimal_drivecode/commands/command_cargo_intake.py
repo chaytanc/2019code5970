@@ -3,25 +3,23 @@
 import wpilib
 from wpilib.command import CommandGroup
 
-from sys import path
-path.append('../')
 # commands used in commandgroup
 from do_cargo_intake import Do_Cargo_Intake
 from do_move_arm import Do_Move_Arm
 
-# Should intake and outtake cargo (bouncy ball). This should be done by
-# activating the motors for the rollers on the arm.
+# positions Arm for Cargo_Intake THEN Cargo Motor rotates inwards
 class Command_Cargo_Intake(CommandGroup):
 	def __init__(self, robot):
 		super().__init__()
 
 		# uses motor 6 and ctre motors 1 & 2
-		
-		# Cargo can only be in two states:
-		#	1: rotating inwards with Arm at front of robot
-		#	2: rotating outwards with Arm at back of robot
+		'''
+		Cargo Intake can only be in two states:
+			1: rotating inwards(intake) & Arm at robot front (0 degrees)
+			2: rotating outwards(eject) & Arm at robot back (135 degrees)
 
-		# state 2
+		State 1
+		'''
 
 		# BEING WEIRD
 		#self.addSequential(Do_Move_Arm(robot, 0))

@@ -7,14 +7,16 @@ class Ramp(Subsystem):
 	#*********Robot-Side Initialization***************
 	def __init__(self):
 		super().__init__()
-		# Command Dependencies:
-		#	Ramp Actuation (do_ramp.py)
+		'''
+		Command Dependencies:
+			Ramp Actuation (do_ramp.py)
+		
+		Initialize Pneumatics[ramp]
+			This solenoid is instantiated by 
+			only an "actuated" command
 
-		# Initialize Pneumatics[ramp]
-		#	This solenoid is instantiated by 
-		#	only an "actuated" command
-
-		#	Ramp is manually unactuated. Unactuated function exists for safety
+			Ramp is manually unactuated. Unactuated function exists for safety
+		'''
 		self.ramp_solenoid = wpilib.Solenoid(4)
 
 	def ramp_actuate(self):

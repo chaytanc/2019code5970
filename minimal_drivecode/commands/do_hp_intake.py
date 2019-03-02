@@ -3,33 +3,34 @@
 import wpilib
 from wpilib.command import Command
 		
-# Unactuates pistons for hatch panel manipulator. Default and intake state.
+# unactuates Hatch Panel Intake
 class Do_Hp_Intake(Command):
 	def __init__(self, robot):
-		
 		super().__init__()
 		
-		# instance of drivetrain
+		# inherited subsystems
 		self.robot_hatch_panel = robot.hatch_panel
+
+		# can be called when robot is disabled
 		self.setRunWhenDisabled(True)
 
 		# uses solenoid 3
-		
-		# Hatch Panel can only be in two states:
-		#	1: unactuated with Arm at back of robot. Primed for actuate
-		#	2: unactuated with Arm at front of robot
+		'''
+		Hatch Panel can only be in two states:
+			1: unactuated(intake) & Arm at robot front (155 degrees)
+			2: unactuated(eject) & Arm at robot back (0 degrees)
 
-		# state 2: possesses Hatch Panel
-
-
-		# hatch panel toggles between actuated and unactuated states
-		# by [hold] or [release] of "Xbox controller 'RB' button"
-
-		# [release] toggles to unactuated state
+		State 1: requires Hatch Panel
+		'''
 		self.requires(self.robot_hatch_panel)
 
+		# Hatch Panel Intake toggles between actuate and unactuate
+		# by [hold] or [release] of "Joystick1 '1' button"
+
+		# [release] toggles to unactuated state
+
 	def initialize(self):
-		# unactuate Hatch Panel pistons, grabbing hatch panel
+		# unactuate Hatch Panel Intake pistons, intaking hatch panel
 		self.robot_hatch_panel.hp_unactuate()
 		print("hatch panel unactuate!")
 	

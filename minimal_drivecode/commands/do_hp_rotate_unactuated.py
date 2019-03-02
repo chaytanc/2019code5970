@@ -3,29 +3,30 @@
 import wpilib
 from wpilib.command import Command
 
-# Unactuates pistons for hatch panel manipulator. Default and intake state.
+# rotates/actuates Hatch Panel Intake outwards (further from robot)
 class Do_Hp_Rotate_Unactuated(Command):
 	def __init__(self, robot):
-		
 		super().__init__()
 		
+		# inherited subsystems
 		self.robot_hatch_panel_rotate = robot.hatch_panel_rotate
-		self.robot = robot
+
+		# can be called when robot is disabled
 		self.setRunWhenDisabled(True)
 		
 		# uses solenoid 2
+		'''
+		Hatch Panel Intake can only be in two rotation states:
+			1: actuated(intake) & Arm at robot front (0 degrees)
+			2: unactuated(eject) & Arm at robot back (155 degrees)
+			
 
-		# Hatch Panel Rotation can only be in two states:
-		#	1: unactuated with Arm at back of robot
-		#	2: actuated with Arm at front of robot
-		
-		# state 1: possesses Hatch Panel Rotate
+		State 2: requires Hatch Panel Rotate
+		'''
 		self.requires(self.robot_hatch_panel_rotate)
 		
 	def initialize(self):
-		# move Arm to back of robot
-		# Do_Move_Arm(self.robot, 0)
-		# unactuate Hatch Panel Rotation pistons, loosening the intake
+		# unactuate Hatch Panel rotation pistons, loosening the intake
 		self.robot_hatch_panel_rotate.hp_unactuate()
 		print("hatch panel rotation unactuate!")
 

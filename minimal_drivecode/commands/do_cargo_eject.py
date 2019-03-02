@@ -3,30 +3,30 @@
 import wpilib
 from wpilib.command import Command
 
-# Should intake and outtake cargo (bouncy ball). This should be done by
-# activating the motors for the rollers on the arm.
+# Cargo Motor rotates outwards
 class Do_Cargo_Eject(Command):
 	def __init__(self, robot):
 		super().__init__()
-
+		
+		# inherited subsystems
 		self.robot_cargo = robot.cargo
 
 		# uses motor 6
-		
-		# Cargo can only be in two states:
-		#	1: rotating inwards with Arm at front of robot
-		#	2: rotating outwards with Arm at back of robot
+		'''
+		Cargo Intake can only be in two states:
+			1: rotating inwards(intake) & Arm at robot front (0 degrees)
+			2: rotating outwards(eject) & Arm at robot back (135 degrees)
 
-		# state 2: possesses Cargo
+		State 2: requires Cargo
+		'''
 		self.requires(robot.cargo)
 		
-
 	def initialize(self):
 		# intake rollers rotate outwards, ejecting ball
 		print("cargo eject!")
 
-		# temp substitute for limit switch. Command lasts 0.5s
-		self.setTimeout(0.5)
+		# temp substitute for limit switch. Command lasts 0.2s
+		self.setTimeout(0.2)
 
 	def execute(self):
 		# move to initialize when limit switches are implemented 

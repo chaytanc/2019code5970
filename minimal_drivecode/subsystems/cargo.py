@@ -18,24 +18,25 @@ class Cargo(Subsystem):
 		print("init")
 		super().__init__()
 		self.robot = robot
+		'''
+		Command Dependencies:
+			Cargo Intake/Eject
 
-		# Command Dependencies:
-		#	Cargo Intake/Eject
-
-		# Initialize Motor[cargo intake]
-		#	Cargo is instantiated by 
-		#	an "intake" and "eject" command
-		self.cargo_motor = wpilib.VictorSP(7)
+		Initialize Motor[cargo intake]
+			Cargo is instantiated by 
+			an "intake" and "eject" command
+		'''
+		self.cargo_motor = wpilib.VictorSP(6)
 
 	# Arm must be in position before intake/eject
 	def cargo_intake(self):
 		# motor rotates inward to intake ball
 		# 0.25 test intake value
-		self.cargo_motor.set(0.75)
+		self.cargo_motor.set(0.35)
 
 	def cargo_eject(self):
 		# motor rotates outward to eject ball
-		self.cargo_motor.set(-0.75)
+		self.cargo_motor.set(-0.35)
 
 	def cargo_reset(self):
 		# resets motor to 0 speed

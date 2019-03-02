@@ -7,12 +7,14 @@ class Hatch_Panel_Rotate(Subsystem):
 	#*********Robot-Side Initialization***************
 	def __init__(self):
 		super().__init__()
-		# Command Dependencies:
-		#	Hatch Panel Rotate Actuated/Unactuated
+		'''
+		Command Dependencies:
+			Hatch Panel Rotate Actuated/Unactuated
 
-		# Initialize Pneumatics[hatch panel intake]
-		#	Each solenoid is instantiated by 
-		#	an "actuated" and "unactuated" command
+		Initialize Pneumatics[hatch panel intake]
+			Each solenoid is instantiated by 
+			an "actuated" and "unactuated" command
+		'''
 		self.hp_rotate_solenoid = wpilib.Solenoid(2)
 
 	# Arm must be in position before actuate/unactuate

@@ -3,19 +3,22 @@
 import wpilib
 from wpilib.command import Command
 
-# Turns on solenoids for shifters. Shifts into high gear
+# actuates(high gear) Shifters
 class Do_Shifters_On(Command):
 	def __init__(self, robot):
 		super().__init__()
-
-		self.robot_shifters = robot.shifters
-		# uses solenoids 0 and 1
 		
-		# Shifters can be in two states:
-		#	1: actuated high gear
-		#	2: unactuated low gear
+		# inherited subsystems
+		self.robot_shifters = robot.shifters
 
-		# state 1: possesses Shifters
+		# uses solenoids 0 and 1
+		'''
+		Shifters can onlu be in two states:
+			1: actuated(high gear)
+			2: unactuated(low gear)
+
+		State 1: requires Shifters
+		'''
 		self.requires(self.robot_shifters)
 
 	def initialize(self):

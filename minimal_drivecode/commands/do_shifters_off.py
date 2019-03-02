@@ -3,24 +3,30 @@
 import wpilib
 from wpilib.command import Command
 
-# Turns on solenoids for shifters. Shifts into high gear
+# unactuates(low gear) Shifters
 class Do_Shifters_Off(Command):
 	def __init__(self, robot):
 		super().__init__()
 
+		# inherited subsystems
 		self.robot_shifters = robot.shifters
-		# uses solenoids 0 and 1
-		
-		# Shifters can be in two states:
-		#	1: actuated high gear
-		#	2: unactuated low gear
 
-		# state 2: possesses Shifters
-		self.requires(self.robot_shifters)
+		# can be called when robot is disabled
 		self.setRunWhenDisabled(True)
 
+		# uses solenoids 0 and 1
+		'''
+		Shifters can onlu be in two states:
+			1: actuated(high gear)
+			2: unactuated(low gear)
+
+		State 2: requires Shifters
+		'''
+		self.requires(self.robot_shifters)
+
+
 	def initialize(self):
-		# actuate solenoids for shifters
+		# unactuate solenoids for shifters
 		self.robot_shifters.shifters_off()
 		print("shifters off!")
 
