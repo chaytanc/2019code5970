@@ -22,9 +22,11 @@ class Command_Defense(CommandGroup):
 		'''
 
 		# BEING WEIRD
-		self.addParallel(Do_Zero_Encoder(robot))
-		self.addSequential(Do_Move_Arm(robot, 90))
-		print("commandgroup defense initialized")
+		#self.addParallel(Do_Zero_Encoder(robot))
+		# Estimated angle accounting for weird pid
+		#self.addSequential(Do_Move_Arm(robot, 90))
+		#self.addSequential(Do_Hp_Rotate_Actuated(robot))
+		print("defense!")
 
 
 

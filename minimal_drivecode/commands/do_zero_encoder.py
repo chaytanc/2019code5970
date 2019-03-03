@@ -16,6 +16,7 @@ class Do_Zero_Encoder(WaitForChildren):
 		# interrupt and set to zero.
 		self.requires(self.robot.b_limit)
 		self.encoder = self.robot.arm.l_arm_encoder
+		self.limit_counter = self.robot.b_limit.counter
 
 	def initialize(self):
 		return None
@@ -24,9 +25,11 @@ class Do_Zero_Encoder(WaitForChildren):
 		# Zeroes arm encoder when the limit switch was hit because the
 		# counter identifies when it has been hit
 		# Resetting encoder should stop moving the arm.
-		self.robot.b_limit.init_counter()
+		self.counter.reset()
+		print(self.counter.get())
 		print("Checking if limit was hit")
-		if self.robot.b_limit.check_counter():
+		limit_status = self.robot.b_limit.check_counter()
+		if limit_status:
 			print("*********Hit switch: Resetting encoder!************")
 			self.encoder.reset()
 			# Should also interrupt Do_Move_Arm??

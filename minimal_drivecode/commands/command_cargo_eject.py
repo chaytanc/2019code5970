@@ -21,8 +21,8 @@ class Command_Cargo_Eject(CommandGroup):
 		State 2
 		'''
 
-		self.addParallel(Do_Zero_Encoder(robot))
-		self.addSequential(Do_Move_Arm(robot, 45))
+		# Estimate, pid is bad still
+		#self.addSequential(Do_Move_Arm(robot, 35))
 		print("commandgroup cargo eject initialized")
 
 

@@ -23,8 +23,10 @@ class Command_Cargo_Intake(CommandGroup):
 		'''
 
 		# BEING WEIRD
-		self.addParallel(Do_Zero_Encoder(robot))
-		self.addSequential(Do_Move_Arm(robot, 0))
-
+		# Estimated angle accounting for weird pid
+		#XXX Can't input 0 move arm. WORKS 3/1
+		self.addSequential(Do_Move_Arm(robot, 0.1))
+		self.addSequential(Do_Cargo_Intake(robot))
+		print("cargo_intake!")
 
 

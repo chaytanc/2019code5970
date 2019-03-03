@@ -151,10 +151,8 @@ class Arm(Subsystem):
 		# negative values should move in opposite the last direction sensed
 		# by arm encoder
 		#XXX print for debugging
-		print("Setting arm.py motor speed: " + str(motor_voltage))
-		self.arm_motors.set_speed(motor_voltage, True)
-	
-	def reset_motors(self):
-		self.arm_motors.set_speed(0.22, False)
-		print("reset")
+		print("Arm: Setting motor speed: " + str(motor_voltage))
+		self.arm_motors.set_speed(motor_voltage, use_min_speed)
+			
+
 

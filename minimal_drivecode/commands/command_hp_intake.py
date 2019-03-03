@@ -21,10 +21,11 @@ class Command_Hp_Intake(CommandGroup):
 
 		State 1
 		'''
-
+		# Estimated angle accounting for weird pid
 		# BEING WEIRD
-		self.addParallel(Do_Zero_Encoder(robot))
-		self.addSequential(Do_Move_Arm(robot, 155))
+		self.addSequential(Do_Move_Arm(robot, 65))
 		self.addSequential(Do_Hp_Rotate_Unactuated(robot))
+		print("hp intake!")
+
 
 

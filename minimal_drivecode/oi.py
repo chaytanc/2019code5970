@@ -22,7 +22,10 @@ from do_zero_encoder import Do_Zero_Encoder
 
 # intake commands
 from do_cargo_eject import Do_Cargo_Eject
+<<<<<<< HEAD
 from do_cargo_intake import Do_Cargo_Intake
+=======
+>>>>>>> 034352a0d7f64e94a3ca6d6a02a30f05063df7a2
 from do_hp_intake import Do_Hp_Intake
 from do_hp_eject import Do_Hp_Eject
 
@@ -34,6 +37,7 @@ from command_hp_eject import Command_Hp_Eject
 from command_hp_intake import Command_Hp_Intake
 from command_ramp import Command_Ramp
 from command_defense import Command_Defense
+from command_cargo_intake import Command_Cargo_Intake
 
 # axis interpreters
 from do_axis_button_5 import Do_Axis_Button_5
@@ -96,7 +100,9 @@ class OI():
 
 		ltop2.whileHeld(Do_Die_You_Gravy_Sucking_Pig(robot))
 		# Input desired angle of arm
-		ltop3.whenPressed(Do_Move_Arm(robot, 90.0))
+
+		ltop3.whenPressed(Do_Move_Arm(robot, 25.0))
+
 		#XXX
 		ltop4.whenPressed(Do_Encoder_Check(robot))
 		#ltop5.whileHeld(Do_Arm_Test(robot))
@@ -107,11 +113,12 @@ class OI():
 		'''
 		# Button 1 while held actuates hp_intake(tennis balls)
 		# when released, retract and actuate hp_intake
-		rtop1.whileHeld(Do_Hp_Eject(robot))
+		#rtop1.whileHeld(Do_Hp_Eject(robot))
 		rtop1.whenReleased(Do_Hp_Intake(robot))
 
 		# Button 2 toggles shifters
 		rtop2.toggleWhenPressed(Do_Shifters_Toggle(robot))
+		rtop3.whenPressed(Command_Cargo_Intake(robot))
 
 		# for testing in sim
 		#rtop5.whenPressed(Do_Axis_Button_5(robot))
