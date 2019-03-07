@@ -22,10 +22,8 @@ from do_zero_encoder import Do_Zero_Encoder
 
 # intake commands
 from do_cargo_eject import Do_Cargo_Eject
-<<<<<<< HEAD
 from do_cargo_intake import Do_Cargo_Intake
-=======
->>>>>>> 034352a0d7f64e94a3ca6d6a02a30f05063df7a2
+
 from do_hp_intake import Do_Hp_Intake
 from do_hp_eject import Do_Hp_Eject
 
