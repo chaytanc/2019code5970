@@ -98,7 +98,7 @@ class Do_Move_Arm(Command):
 		print("Do_Move_Arm: Ending Command Do_Move_Arm")
 
 	def interrupted(self):
-		self.robot.arm.reset_motors()
+		#self.robot.arm.reset_motors()
 		self.end()
 
 
