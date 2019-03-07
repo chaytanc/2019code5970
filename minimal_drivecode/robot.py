@@ -19,13 +19,6 @@ import math
 sys.path.append('./subsystems') 
 sys.path.append('./commands') 
 
-#Windows RobotPyModules path
-#XXX wrong
-sys.path.append('C:/Users/Beavertronics/Desktop/2019code5970/drivingcode/\
-subsystems')
-sys.path.append('C:/Users/Beavertronics/Desktop/2019code5970/drivingcode/\
-commands') 
-
 #RoboRIO path
 sys.path.insert(0, '/home/lvuser/py/subsystems')
 sys.path.insert(0, '/home/lvuser/py/commands')
@@ -119,15 +112,14 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		self.loops = 0
 		self.timer.reset()
 		self.timer.start()
-		Do_Die_You_Gravy_Sucking_Pig(self).run()
 
-		print("encoder " + str(self.arm.l_arm_encoder.get()))
+		print("robot.py: encoder " + str(self.arm.l_arm_encoder.get()))
 		self.arm.l_arm_encoder.reset()
 		#Do_Basic_Move_Arm(self).start()
-
-		print(self.arm.l_arm_encoder.get())
-
 		#Do_Zero_Encoder(self).run()
+		#XXX Initialize profile stuff
+		Do_Die_You_Gravy_Sucking_Pig(self).run()
+
 		Scheduler.getInstance().removeAll()
 
 	def teleopPeriodic(self):
