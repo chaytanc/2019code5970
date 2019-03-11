@@ -1,11 +1,10 @@
 # vim: set sw=4 noet ts=4 fileencoding=utf-8:
 
 import wpilib
-from wpilib.command import PIDCommand
 from wpilib.command import Command
 from do_die_you_gravy_sucking_pig import Do_Die_You_Gravy_Sucking_Pig
 
-class Do_Move_Arm(Command):
+class Do_Profile_Move(Command):
 	'''
 	Each time PID is called in commands it can have a different input for
 	setpoint which guides how close it is to being at the final position.
@@ -14,7 +13,7 @@ class Do_Move_Arm(Command):
 
 	# XXX when directing where to move the arm, the angle which you want to move
 	# it to and the direction you want it to move must be supplied
-	def __init__(self, robot, final_angle):
+	def __init__(self, robot, end_angle):
 		super().__init__()
 		print("pid init")
 		self.robot = robot
@@ -22,18 +21,16 @@ class Do_Move_Arm(Command):
 
 		self.kp = 1.0
 		self.ki = 0.0
-		self.kd = 0.1
-
+		self.kd = 0.001
 		#XXX maybe too low; maybe need to tune other parts first
 		self.kf = 0.1
 
-		#self.robot.arm.l_arm_encoder.reset()
-
-		self.final_angle_1 = final_angle
-		print(self.final_angle_1)
-
+		self.end_angle = end_angle
 
 	def initialize(self):
+
+		# Initializes ticks and angle displacement
+		self.robot.arm.initialize(self.end_angle)
 
 		# Should move arm when instantiated
 		self.pid = wpilib.PIDController(
@@ -43,46 +40,25 @@ class Do_Move_Arm(Command):
 			self.kf,
 			# Gets arm encoder clicks per second
 			lambda: self.robot.arm.l_arm_encoder.get_new_rate(),
-			# Takes output clicks per sec and shove into given function
+			# Takes output clicks per sec and shoves into given function
 			self.robot.arm.set_motors)
 
 		self.pid.reset()
 
-		# Sets tolerable error to return onTarget() to be true, however
-		# setAbsoluteTolerance requires setInputRange etc...
-		#self.pid.setAbsoluteTolerance(0.5)
-
-		# Clicks per second range
-		#self.pid.setInputRange(-318.0, 318.0)
-		#self.pid.setOutputRange(-318.0, 318.0)
-
 		self.pid.setContinuous(False)
-		
 
 		# Turn on pid
 		self.pid.enable()
-		#XXX debugging neg encoder values
-		print(self.pid.getF())
 
+	# Continually run by pidloop
 	def execute(self):
-		# Should be continously set based on the current measured angle
-		# and returns the velocity the arm should be going to reach
-		# the "sweep" angle aka final position of arm. Returned in clicks
-		# per second.
-		setpoint_rate = self.robot.arm.get_setpoint(self.final_angle_1)
-		print("setpoint rate: " + str(setpoint_rate))
-		#print(self.pid.getSetpoint())
-		self.pid.setSetpoint(setpoint_rate)
-		print ("pid error " + str(self.pid.getError()))
-		print ("output " + str(self.pid.get()))
+		if self.robot.arm.back_switch.get():
+			self.robot.arm.rearward_limit()
+		self.robot.arm.generate(self.end_angle)
+		setpoint = self.robot.arm.pick_motor_value()
+		self.pid.setSetpoint(setpoint)
 
 	def isFinished(self):
-		# A "close enough" value; returns true when within the tolerance.
-
-		#angle_diff = abs(self.final_angle_1 - self.robot.arm.get_current_angle())
-
-		#tolerance = 2.0
-		#return (angle_diff < tolerance)
 		return False
 
 	def isInterruptible(self):
@@ -92,13 +68,11 @@ class Do_Move_Arm(Command):
 	# also sets motors to 0
 	def end(self):
 		#Don't use min speed. I want the motors to actually stop
-		#self.robot.arm.set_motors(0, False)
+		self.robot.arm.set_motors(0, False)
 		self.pid.disable()
 		self.pid.close()
 		print("Do_Move_Arm: Ending Command Do_Move_Arm")
 
 	def interrupted(self):
-		self.robot.arm.reset_motors()
 		self.end()
-
 

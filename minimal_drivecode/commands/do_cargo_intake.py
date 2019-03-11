@@ -14,8 +14,8 @@ class Do_Cargo_Intake(Command):
 		# uses motor 6
 		'''
 		Cargo Intake can only be in two states:
-			1: rotating inwards(intake) & Arm at robot front (0 degrees)
-			2: rotating outwards(eject) & Arm at robot back (135 degrees)
+			1: rotating inwards(intake) & Arm at robot back (0 degrees)
+			2: rotating outwards(eject) & Arm at robot front (135 degrees)
 
 		State 1: requires Cargo
 		'''
@@ -34,7 +34,8 @@ class Do_Cargo_Intake(Command):
 		self.robot_cargo.cargo_intake()
 
 	def isFinished(self):
-		return self.isTimedOut()
+		#return self.isTimedOut()
+		return None
 
 	def end(self):
 		# reset cargo motor speed to 0 at end of command

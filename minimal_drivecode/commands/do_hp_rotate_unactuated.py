@@ -17,8 +17,8 @@ class Do_Hp_Rotate_Unactuated(Command):
 		# uses solenoid 2
 		'''
 		Hatch Panel Intake can only be in two rotation states:
-			1: actuated(intake) & Arm at robot front (0 degrees)
-			2: unactuated(eject) & Arm at robot back (155 degrees)
+			1: actuated(intake) & Arm at robot back (0 degrees)
+			2: unactuated(eject) & Arm at robot front (155 degrees)
 			
 
 		State 2: requires Hatch Panel Rotate

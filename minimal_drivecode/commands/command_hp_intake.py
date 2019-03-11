@@ -6,6 +6,7 @@ from wpilib.command import CommandGroup
 # commands used in commandgroup
 from do_hp_rotate_unactuated import Do_Hp_Rotate_Unactuated 
 from do_move_arm import Do_Move_Arm
+from do_zero_encoder import Do_Zero_Encoder
 
 # positions Arm for Hatch_Panel_Intake
 class Command_Hp_Intake(CommandGroup):
