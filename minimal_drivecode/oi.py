@@ -10,6 +10,7 @@ path.append('../commands')
 
 # Button commands
 from do_move_arm import Do_Move_Arm
+from do_basic_move_arm import Do_Basic_Move_Arm
 from do_die_you_gravy_sucking_pig import Do_Die_You_Gravy_Sucking_Pig
 from do_encoder_check import Do_Encoder_Check
 from do_cargo_intake import Do_Cargo_Intake
@@ -111,7 +112,7 @@ class OI():
 		'''
 		# Button 1 while held actuates hp_intake(tennis balls)
 		# when released, retract and actuate hp_intake
-		#rtop1.whileHeld(Do_Hp_Eject(robot))
+		rtop1.whileHeld(Do_Hp_Eject(robot))
 		rtop1.whenReleased(Do_Hp_Intake(robot))
 
 		# Button 2 toggles shifters
@@ -136,13 +137,20 @@ class OI():
 
 		# XYBA controls arm positions
 		# X = Hatch Panel Outtake (front of robot, same angle as cargo intake)
-		xboxX.whenPressed(Command_Hp_Eject(robot))
+		#xboxX.whenPressed(Command_Hp_Eject(robot))
+
+		# back up simple code. Moves arm motors forwards while held
+		xboxX.whileHeld(Do_Basic_Move_Arm(robot, 0.2))
+
 
 		# Y = Defence Position (straight up)
 		xboxY.whenPressed(Command_Defense(robot))
 
 		# B = Hatch Panel Intake (back of robot)
-		xboxB.whenPressed(Command_Hp_Intake(robot))	
+		#xboxB.whenPressed(Command_Hp_Intake(robot))	
+
+		# back up simple code. Moves arm motors backwards while while held
+		xboxB.whileHeld(Do_Basic_Move_Arm(robot, -0.2))
 
 
 

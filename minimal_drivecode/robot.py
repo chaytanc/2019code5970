@@ -97,8 +97,8 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		self.timer = wpilib.Timer()
 		self.loops = 0
 
-		# untested vision
-		wpilib.CameraServer.launch("vision.py:main")
+		# camera temp disabled
+		#wpilib.CameraServer.launch("vision.py:main")
 		
 		
 		

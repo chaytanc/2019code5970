@@ -1,6 +1,7 @@
 # vim: set sw=4 noet ts=4 fileencoding=utf-8:
 
 import wpilib
+import math
 
 class My_Arm_Encoder(wpilib.Encoder):
 	""" Source for PID Loop """
@@ -9,6 +10,10 @@ class My_Arm_Encoder(wpilib.Encoder):
 	CLICKS_PER_360         = 12
 	DEGREE_PER_CLICK       = 360.0 / CLICKS_PER_360
 	DRIVE_RATIO            = 1.0/403.2
+	# 30 in. arm
+	# 139.34 degrees total rotation
+	# 12 counts per revolution = 3 pulses per revolution
+	# encoder count for arm 0-453
 	FINAL_DEGREE_PER_CLICK = DEGREE_PER_CLICK * DRIVE_RATIO
 
 	def __init__(self, DIO_1, DIO_2):
@@ -25,3 +30,7 @@ class My_Arm_Encoder(wpilib.Encoder):
 		# XXX for debugging
 		#print("Overwritten getRate of arm encoder: " + str(clicks_per_sec))
 		return clicks_per_sec
+
+	def get_angle(self):
+		distance = super().getDistance()
+		angular_distance = distance * math.pi

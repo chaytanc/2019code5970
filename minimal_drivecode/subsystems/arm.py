@@ -4,6 +4,7 @@ import math
 import wpilib
 from wpilib.command import Subsystem
 from wpilib import InterruptableSensorBase
+from wpilib import DigitalInput
 
 from arm_motors import Arm_Motors
 from encoder import My_Arm_Encoder
@@ -27,9 +28,13 @@ class Arm(Subsystem):
 
 		# Encoders
 		self.l_arm_encoder = My_Arm_Encoder(0,1)
+		#self.l_arm_encoder = wpilib.Encoder(0, 1)
 
 		# By empirical test
 		self.max_click_rate = 318.0 
+
+		# Limit Siwtches
+		self.forward_limit_switch = DigitalInput(8)
 
 
 	# Called after back limit switch is hit
@@ -87,6 +92,12 @@ class Arm(Subsystem):
 #		current_angle = rel_clicks * deg_per_click	
 #		print("current angle, degrees: " + str(current_angle))
 
+	def limit_switch_state(self):
+		if self.forward_limit_switch.get():
+			self.l_arm_encoder.reset()
+			print("limit switch state: " + str(self.forward_limit_switch.get()))
+
+
 	# Final angle is the absolute angle between position of the arm at zero
 	# clicks and when you want the arm to end up.
 	# Sweep angle is angle between the current and final angles; may be equal
@@ -136,7 +147,8 @@ class Arm(Subsystem):
 	# To define the setpoint, input the angle which you want the arm to stop at
 	# Relies on current_angle to be above 0 b/c of sin_angle
 	def get_setpoint(self, final_angle):
-		voltage = self.sin_angle(final_angle)
+		#voltage = self.sin_angle(final_angle)
+		voltage = final_angle
 		print("voltage " + str(voltage))
 		setpoint_rate = self.voltage_to_click_rate(voltage)
 		return setpoint_rate

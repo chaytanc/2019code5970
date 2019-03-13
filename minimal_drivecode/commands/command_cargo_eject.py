@@ -22,7 +22,7 @@ class Command_Cargo_Eject(CommandGroup):
 		'''
 
 		# Estimate, pid is bad still
-		#self.addSequential(Do_Move_Arm(robot, 35))
+		self.addSequential(Do_Move_Arm(robot, 35))
 		print("commandgroup cargo eject initialized")
 
 

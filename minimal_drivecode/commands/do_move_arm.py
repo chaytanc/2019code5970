@@ -22,10 +22,10 @@ class Do_Move_Arm(Command):
 
 		self.kp = 1.0
 		self.ki = 0.0
-		self.kd = 0.1
+		self.kd = 0.0
 
 		#XXX maybe too low; maybe need to tune other parts first
-		self.kf = 0.1
+		self.kf = 1.0
 
 		#self.robot.arm.l_arm_encoder.reset()
 
@@ -36,6 +36,7 @@ class Do_Move_Arm(Command):
 	def initialize(self):
 
 		# Should move arm when instantiated
+		
 		self.pid = wpilib.PIDController(
 			self.kp,
 			self.ki,
@@ -45,6 +46,18 @@ class Do_Move_Arm(Command):
 			lambda: self.robot.arm.l_arm_encoder.get_new_rate(),
 			# Takes output clicks per sec and shove into given function
 			self.robot.arm.set_motors)
+		'''
+		# Tentative PID using angles as input/output
+		self.pid = wpilib.PIDController(
+			self.kp,
+			self.ki,
+			self.kd,
+			self.kf,
+			# Gets arm encoder clicks per second
+			lambda: self.robot.arm.l_arm_encoder.get_angle(),
+			# Takes output clicks per sec and shove into given function
+			self.robot.arm.set_motors)
+		'''
 
 		self.pid.reset()
 
@@ -53,8 +66,8 @@ class Do_Move_Arm(Command):
 		#self.pid.setAbsoluteTolerance(0.5)
 
 		# Clicks per second range
-		#self.pid.setInputRange(-318.0, 318.0)
-		#self.pid.setOutputRange(-318.0, 318.0)
+		#self.pid.setInputRange(-10.0, 10.0)
+		#self.pid.setOutputRange(-10.0, 10.0)
 
 		self.pid.setContinuous(False)
 		
@@ -69,12 +82,14 @@ class Do_Move_Arm(Command):
 		# and returns the velocity the arm should be going to reach
 		# the "sweep" angle aka final position of arm. Returned in clicks
 		# per second.
-		setpoint_rate = self.robot.arm.get_setpoint(self.final_angle_1)
-		print("setpoint rate: " + str(setpoint_rate))
+		#setpoint_rate = self.robot.arm.get_setpoint(self.final_angle_1)
+		#print("setpoint rate: " + str(setpoint_rate))
 		#print(self.pid.getSetpoint())
-		self.pid.setSetpoint(setpoint_rate)
-		print ("pid error " + str(self.pid.getError()))
-		print ("output " + str(self.pid.get()))
+		#self.pid.setSetpoint(setpoint_rate)
+		self.pid.setSetpoint(self.final_angle_1)
+		print("pid input " + str(self.robot.arm.l_arm_encoder.get_new_rate()))
+		#print ("pid error " + str(self.pid.getError()))
+		#print ("output " + str(self.pid.get()))
 
 	def isFinished(self):
 		# A "close enough" value; returns true when within the tolerance.

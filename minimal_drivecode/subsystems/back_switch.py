@@ -9,6 +9,7 @@ class Back_Switch(Subsystem):
 	"""
 	def __init__(self):
 		super().__init__()
+	'''
 		# Back limit switch of arm
 		self.switch = wpilib.DigitalInput(8)
 		self.counter = wpilib.Counter(self.switch)
@@ -20,4 +21,4 @@ class Back_Switch(Subsystem):
 	def check_counter(self):
 		self.hit_limit = (self.counter.get() > 0)
 		return self.hit_limit 
-
+	'''

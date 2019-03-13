@@ -26,7 +26,7 @@ class Command_Ramp(CommandGroup):
 		'''
 
 		# BEING WEIRD
-		self.addParallel(Do_Zero_Encoder(robot))
+		#self.addParallel(Do_Zero_Encoder(robot))
 		self.addSequential(Do_Move_Arm(robot, 100))
 		self.addSequential(Do_Ramp(robot))
 		

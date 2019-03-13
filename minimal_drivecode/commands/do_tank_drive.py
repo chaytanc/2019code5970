@@ -15,6 +15,7 @@ class Do_Tank_Drive(Command):
 		# instance of drivetrain
 		self.robot_dt = robot.drivetrain
 		self.requires(self.robot_dt)
+		self.robot = robot
 
 		self.left_joy = robot.left_joy
 		self.right_joy = robot.right_joy
@@ -28,6 +29,7 @@ class Do_Tank_Drive(Command):
 		# Continuously sets motor speed to joystick inputs w/ Scheduler
 		self.robot_dt.set_tank_speed(
 			self.left_joy, self.right_joy, self.robot_dt.drive)
+		self.robot.arm.limit_switch_state()
 
 	def isFinished(self):
 		# This is how running tank driving is prioritized
