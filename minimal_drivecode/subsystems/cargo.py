@@ -36,7 +36,8 @@ class Cargo(Subsystem):
 
 	def cargo_eject(self):
 		# motor rotates outward to eject ball
-		self.cargo_motor.set(-0.7)
+
+		self.cargo_motor.set(-1.0)
 
 	def cargo_reset(self):
 		# resets motor to 0 speed

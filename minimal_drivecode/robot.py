@@ -19,13 +19,6 @@ import math
 sys.path.append('./subsystems') 
 sys.path.append('./commands') 
 
-#Windows RobotPyModules path
-#XXX wrong
-sys.path.append('C:/Users/Beavertronics/Desktop/2019code5970/drivingcode/\
-subsystems')
-sys.path.append('C:/Users/Beavertronics/Desktop/2019code5970/drivingcode/\
-commands') 
-
 #RoboRIO path
 sys.path.insert(0, '/home/lvuser/py/subsystems')
 sys.path.insert(0, '/home/lvuser/py/commands')
@@ -54,7 +47,7 @@ from do_axis_button_5 import Do_Axis_Button_5
 
 # Teleop init command
 from do_zero_encoder import Do_Zero_Encoder
-from do_die_you_gravy_sucking_pig import Do_Die_You_Gravy_Sucking_Pig
+#from do_die_you_gravy_sucking_pig import Do_Die_You_Gravy_Sucking_Pig
 
 # command groups
 from command_hp_eject import Command_Hp_Eject
@@ -74,10 +67,9 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		self.hatch_panel_rotate = Hatch_Panel_Rotate()
 		self.ramp = Ramp()
 		self.shifters = Shifters()
-		self.arm_motors = Arm_Motors()
 
-		self.b_limit = Back_Switch()
-		self.c_limit = Cargo_Switch()
+		#XXX back switch is no longer a subsystem, similar to arm motors
+		#self.b_limit = Back_Switch()
 
 		# instantiate Encoders for drivetrain?
 		#self.encoders = Encoders(self)
@@ -89,7 +81,6 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		# Instantiate Xbox
 		#XXX will probably look more like:
 		self.xbox = wpilib.Joystick(2)
-		#self.xbox = wpilib.XboxController(0)
 
 		# Instantiate OI; must be AFTER joysticks are inited
 		self.oi = OI(self)
@@ -97,7 +88,7 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		self.timer = wpilib.Timer()
 		self.loops = 0
 
-		# camera temp disabled
+		# untested vision
 		#wpilib.CameraServer.launch("vision.py:main")
 		
 		
@@ -124,15 +115,14 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		self.loops = 0
 		self.timer.reset()
 		self.timer.start()
-		Do_Die_You_Gravy_Sucking_Pig(self).run()
 
-		print("encoder " + str(self.arm.l_arm_encoder.get()))
+		print("robot.py: encoder " + str(self.arm.l_arm_encoder.get()))
 		self.arm.l_arm_encoder.reset()
 		#Do_Basic_Move_Arm(self).start()
-
-		print(self.arm.l_arm_encoder.get())
-
 		#Do_Zero_Encoder(self).run()
+		#XXX Initialize profile stuff
+		#Do_Die_You_Gravy_Sucking_Pig(self).run()
+
 		Scheduler.getInstance().removeAll()
 		Scheduler.getInstance().enable()
 		Do_Axis_Button_5(self).start()

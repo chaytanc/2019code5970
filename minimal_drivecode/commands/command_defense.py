@@ -4,6 +4,7 @@ import wpilib
 from wpilib.command import CommandGroup
 
 # commands used in commandgroup
+# vim: set sw=4 noet ts=4 fileencoding=utf-8:
 from do_hp_rotate_actuated import Do_Hp_Rotate_Actuated 
 from do_move_arm import Do_Move_Arm
 from do_zero_encoder import Do_Zero_Encoder
