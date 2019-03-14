@@ -3,10 +3,12 @@
 import math
 import wpilib
 from wpilib.command import Subsystem
+from wpilib import DigitalInput
 
 from arm_motors import Arm_Motors
 from encoder import My_Arm_Encoder
-from back_switch import Back_Switch
+
+#from back_switch import Back_Switch
 
 # Control game pieces with arm
 # Arm subsystem should contain arm commands to be called by scheduler.
@@ -23,11 +25,12 @@ class Arm(Subsystem):
 		# Added to current angle to account for max angle recalibration
 		# Motors
 		self.arm_motors = Arm_Motors()
-		limit = Back_Switch()
-		self.back_switch = limit.back_switch
+		#limit = Back_Switch()
+		#self.back_switch = limit.back_switch
 
 		# Encoders
 		self.l_arm_encoder = My_Arm_Encoder(0,1)
+		self.limit_switch = DigitalInput(8)
 		#self.l_arm_encoder = wpilib.Encoder(0, 1)
 
 		# By empirical test
@@ -48,11 +51,13 @@ class Arm(Subsystem):
 		self.max_accel = 0.536
 		self.min_decel = 0.536
 
+		self.time = 0
+
 	#XXX Run in command initialization. End angle will be passed in in command
 	def initialize(self, end_angle):
 		self.current_ticks = self.l_arm_encoder.get()
 		self.angle_displacement = self.get_angle_displacement(end_angle)
-
+	
 	def forward_limit(self):
 		self.arm_min_or_max = self.max_ticks
 		self.last_encoder = self.l_arm_encoder.get()
@@ -174,6 +179,18 @@ class Arm(Subsystem):
 		#XXX print for debugging
 		print("Arm: Setting motor speed: " + str(motor_voltage))
 		self.arm_motors.set_speed(motor_voltage)
-			
+	
+	def arm_encoder_get(self):
+		#return self.l_arm_encoder.getDistance()
+		self.time += 1
+		return self.time
+	
+	def adjust_arm(self, PID, target_angle):
+		if PID == 0:
+			self.arm_motors.set_speed(0)
+		elif PID > 0:
+			self.arm_motors.set_speed(0.2)
+		elif PID < 0:
+			self.arm_motors.set_speed(-0.2)
 
 

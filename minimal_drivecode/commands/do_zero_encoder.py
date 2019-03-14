@@ -14,7 +14,7 @@ class Do_Zero_Encoder(WaitForChildren):
 		#XXX Don't want it to interrupt the arm because then it will never get
 		# off the limit switch after zeroing because it will constantly
 		# interrupt and set to zero.
-		self.requires(self.robot.b_limit)
+		#self.requires(self.robot.b_limit)
 		self.encoder = self.robot.arm.l_arm_encoder
 		self.limit_counter = self.robot.b_limit.counter
 

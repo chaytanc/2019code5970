@@ -4,6 +4,7 @@ import wpilib
 from wpilib.command import PIDCommand
 from wpilib.command import Command
 from do_die_you_gravy_sucking_pig import Do_Die_You_Gravy_Sucking_Pig
+from wpilib import DigitalInput
 
 class Do_Move_Arm(Command):
 	'''
@@ -19,6 +20,7 @@ class Do_Move_Arm(Command):
 		print("pid init")
 		self.robot = robot
 		self.requires(robot.arm)
+		#self.limit_switch = wpilib.DigitalInput(8)
 
 		self.kp = 1.0
 		self.ki = 0.0

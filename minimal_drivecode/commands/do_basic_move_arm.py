@@ -2,6 +2,7 @@
 
 import wpilib
 from wpilib.command import Command
+from wpilib import DigitalInput
 
 # positions Arm to robot back for calibrating autonomous
 class Do_Basic_Move_Arm(Command):
@@ -9,6 +10,8 @@ class Do_Basic_Move_Arm(Command):
 		super().__init__()
 		# instantiate motor_speed and timeout variables
 		self.motor_speed = motor_speed
+
+		self.limit_switch = robot.arm.limit_switch
 
 		# inherited subsystems
 		self.robot_arm = robot.arm
@@ -24,17 +27,21 @@ class Do_Basic_Move_Arm(Command):
 		
 	def initialize(self):
 		# move arm backwards by setting motor speed to negative value
-		#self.robot_arm.arm_motors.left_arm_motor.set(self.motor_speed)
-		#self.robot_arm.arm_motors.right_arm_motor.set(-self.motor_speed)
+		self.robot_arm.arm_motors.left_arm_motor.set(self.motor_speed)
+		self.robot_arm.arm_motors.right_arm_motor.set(-self.motor_speed)
 		print("setting arm motor speed to: " + str(self.motor_speed))
 
 	def execute(self):
 
-		#print("encoder count: " + str(self.robot_arm.l_arm_encoder.getDistance()))
-		self.robot_arm.limit_switch_state()
+		#print("encoder count: " + str(self.robot_arm.l_arm_encoder.getDistance()))		
+		print(self.limit_switch.get())
+
+		return None
 
 	def isFinished(self):
-		return None
+		if not self.limit_switch.get():
+			return True
+		#return None
 
 	def end(self):
 		# stop arm ctre motors at end of command

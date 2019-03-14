@@ -37,8 +37,8 @@ from ramp import Ramp
 from shifters import Shifters
 
 # Limit switches
-from back_switch import Back_Switch
-from cargo_switch import Cargo_Switch
+#from back_switch import Back_Switch
+#from cargo_switch import Cargo_Switch
 
 
 # commands

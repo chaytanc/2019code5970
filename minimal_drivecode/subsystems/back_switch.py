@@ -11,8 +11,8 @@ class Back_Switch():
 		super().__init__()
 	'''
 		# Back limit switch of arm
-
-		self.back_switch = wpilib.DigitalInput(8)
+	'''
+		#self.back_switch = wpilib.DigitalInput(8)
 		#self.counter = wpilib.Counter(self.switch)
 		#self.counter.reset()
 
