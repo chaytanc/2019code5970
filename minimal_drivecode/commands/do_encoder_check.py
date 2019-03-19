@@ -22,10 +22,11 @@ class Do_Encoder_Check(Command):
 		self.right_joy = robot.right_joy
 
 		self.left_e = self.robot_arm.l_arm_encoder
+		self.left_e.reset()
 
 	def initialize(self):
 		"""Called just before this Command runs the first time"""
-		self.left_e.reset()
+		#self.left_e.reset()
 
 	def execute(self):
 		"""Called repeatedly when this Command is scheduled to run"""

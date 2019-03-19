@@ -53,6 +53,7 @@ from do_zero_encoder import Do_Zero_Encoder
 from command_hp_eject import Command_Hp_Eject
 
 from oi import OI
+#import vision
 
 class BeaverTronicsRobot(wpilib.TimedRobot): 
 
@@ -119,13 +120,12 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		print("robot.py: encoder " + str(self.arm.l_arm_encoder.get()))
 		self.arm.l_arm_encoder.reset()
 		#Do_Basic_Move_Arm(self).start()
-		#Do_Zero_Encoder(self).run()
 		#XXX Initialize profile stuff
 		#Do_Die_You_Gravy_Sucking_Pig(self).run()
 
 		Scheduler.getInstance().removeAll()
 		Scheduler.getInstance().enable()
-		Do_Axis_Button_5(self).start()
+		#Do_Axis_Button_5(self).start()
 
 	def teleopPeriodic(self):
 

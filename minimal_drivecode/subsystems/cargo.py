@@ -7,7 +7,7 @@ from sys import path
 path.append('../')
 
 # command groups
-from command_cargo_eject import Command_Cargo_Eject
+#from command_cargo_eject import Command_Cargo_Eject
 from command_cargo_intake import Command_Cargo_Intake
 
 # Control cargo intake

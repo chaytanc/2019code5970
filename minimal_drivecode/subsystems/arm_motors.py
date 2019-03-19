@@ -13,6 +13,7 @@ class Arm_Motors():
 		self.left_arm_motor = ctre.WPI_VictorSPX(3)
 		self.right_arm_motor = ctre.WPI_VictorSPX(1)
 
+
 	def set_speed(self, voltage):
 		"""
 		Sets the speed of the arm.  Max is 1.0 and moves the arm forward.

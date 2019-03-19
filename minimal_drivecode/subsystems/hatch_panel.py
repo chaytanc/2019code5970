@@ -16,7 +16,7 @@ class Hatch_Panel(Subsystem):
 			an "actuated" and "unactuated" command 
 			(intake and eject, respectively)
 		'''
-		self.hp_solenoid = wpilib.Solenoid(3)
+		self.hp_solenoid = wpilib.Solenoid(2)
 
 	# Arm must be in position before actuate/unactuate
 	def hp_actuate(self):

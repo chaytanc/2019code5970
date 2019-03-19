@@ -17,11 +17,14 @@ class My_Arm_Encoder(wpilib.Encoder):
 		self.setDistancePerPulse(self.FINAL_DEGREE_PER_CLICK)
 	
 	def get_new_rate(self):
-		#distance_per_seconds = self.getRate()
 		distance_per_seconds = super().getRate()
 		clicks_per_sec = (
 			distance_per_seconds / self.getDistancePerPulse()
 			)
-		# XXX for debugging
-		#print("Overwritten getRate of arm encoder: " + str(clicks_per_sec))
 		return clicks_per_sec
+
+	#XXX INVERSION XXX#
+	def get(self):
+		ticks = super().get()
+		print("ENCODER: " + str(ticks))
+		return ticks * -1

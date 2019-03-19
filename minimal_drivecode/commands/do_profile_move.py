@@ -21,16 +21,14 @@ class Do_Profile_Move(Command):
 
 		self.kp = 1.0
 		self.ki = 0.0
-		self.kd = 0.001
+		self.kd = 0.0
 		#XXX maybe too low; maybe need to tune other parts first
-		self.kf = 0.1
+		self.kf = 0.16
 
 		self.end_angle = end_angle
 
 	def initialize(self):
 
-		# Initializes ticks and angle displacement
-		self.robot.arm.initialize(self.end_angle)
 
 		# Should move arm when instantiated
 		self.pid = wpilib.PIDController(
@@ -39,7 +37,7 @@ class Do_Profile_Move(Command):
 			self.kd,
 			self.kf,
 			# Gets arm encoder clicks per second
-			lambda: self.robot.arm.l_arm_encoder.get_new_rate(),
+			self.robot.arm.arm_motors.left_arm_motor.get,
 			# Takes output clicks per sec and shoves into given function
 			self.robot.arm.set_motors)
 
@@ -50,13 +48,27 @@ class Do_Profile_Move(Command):
 		# Turn on pid
 		self.pid.enable()
 
+		#XXX
+		# Initializes ticks and angle displacement
+		self.robot.arm.initialize()
+		self.robot.arm.generate(self.end_angle)
+
 	# Continually run by pidloop
 	def execute(self):
-		if self.robot.arm.back_switch.get():
+		if not self.robot.arm.back_switch.get():
+			print("Do_Profile_Move: limit: " 
+					+ str(self.robot.arm.back_switch.get())
+					)
 			self.robot.arm.rearward_limit()
-		self.robot.arm.generate(self.end_angle)
-		setpoint = self.robot.arm.pick_motor_value()
-		self.pid.setSetpoint(setpoint)
+		try:
+			setpoint = self.robot.arm.pick_motor_value()
+			print("Do_Profile_Move: setpoint: " + str(setpoint))
+			self.pid.setSetpoint(setpoint)
+			print("Do_Profile_Move: pid output: " + str(self.pid.get()))
+
+		# Handles arm going past the end angle
+		except IndexError:
+			self.pid.setSetpoint(self.robot.arm.vp[-1])
 
 	def isFinished(self):
 		return False
@@ -68,10 +80,13 @@ class Do_Profile_Move(Command):
 	# also sets motors to 0
 	def end(self):
 		#Don't use min speed. I want the motors to actually stop
-		self.robot.arm.set_motors(0, False)
+		self.robot.arm.set_motors(0)
 		self.pid.disable()
 		self.pid.close()
 		print("Do_Move_Arm: Ending Command Do_Move_Arm")
+		#XXX NEED TO RAISE RUNTIME EXCEPTION IF ARM GOES PAST END ANGLE IT
+		# GOES OUT OF INDEX OF SETPOINTS SO NEED TO SET TO LAST ELEMENT OF 
+		# SETPOINT INDEX
 
 	def interrupted(self):
 		self.end()

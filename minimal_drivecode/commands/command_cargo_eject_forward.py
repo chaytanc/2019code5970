@@ -4,12 +4,10 @@ import wpilib
 from wpilib.command import CommandGroup
 
 # commands used in commandgroup
-from do_cargo_intake import Do_Cargo_Intake
 from do_profile_move import Do_Profile_Move
-from do_arm_go_back import Do_Arm_Go_Back
 
-# positions Arm for Cargo_Intake THEN Cargo Motor rotates inwards
-class Command_Cargo_Intake(CommandGroup):
+# positions Arm for Cargo_Eject
+class Command_Cargo_Eject_Forward(CommandGroup):
 	def __init__(self, robot):
 		super().__init__()
 
@@ -19,13 +17,11 @@ class Command_Cargo_Intake(CommandGroup):
 			1: rotating inwards(intake) & Arm at robot back (0 degrees)
 			2: rotating outwards(eject) & Arm at robot front (135 degrees)
 
-		State 1
+		State 2
 		'''
 
-		self.addSequential(Do_Profile_Move(robot, 0.1))
-		# STOOPID COMMAND
-		#self.addSequential(Do_Arm_Go_Back(robot))
-		self.addSequential(Do_Cargo_Intake(robot))
-		print("cargo_intake!")
+		#110? 120?
+		self.addSequential(Do_Profile_Move(robot, 120))
+		print("commandgroup cargo eject initialized")
 
 

@@ -5,8 +5,7 @@ from wpilib.command import CommandGroup
 
 # commands used in commandgroup
 from do_hp_rotate_unactuated import Do_Hp_Rotate_Unactuated 
-from do_move_arm import Do_Move_Arm
-from do_zero_encoder import Do_Zero_Encoder
+from do_profile_move import Do_Profile_Move
 
 # positions Arm for Hatch_Panel_Intake
 class Command_Hp_Intake(CommandGroup):
@@ -21,11 +20,10 @@ class Command_Hp_Intake(CommandGroup):
 
 		State 1
 		'''
-		# Estimated angle accounting for weird pid
-		# BEING WEIRD
-		self.addSequential(Do_Move_Arm(robot, 65))
+		# UNTESTED ANGLES
+		self.addSequential(Do_Profile_Move(robot, 0.1))
 		self.addSequential(Do_Hp_Rotate_Unactuated(robot))
-		print("hp intake!")
+		print("hp intake init!")
 
 
 

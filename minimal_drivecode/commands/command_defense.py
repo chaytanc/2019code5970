@@ -6,8 +6,7 @@ from wpilib.command import CommandGroup
 # commands used in commandgroup
 # vim: set sw=4 noet ts=4 fileencoding=utf-8:
 from do_hp_rotate_actuated import Do_Hp_Rotate_Actuated 
-from do_move_arm import Do_Move_Arm
-from do_zero_encoder import Do_Zero_Encoder
+from do_profile_move import Do_Profile_Move
 
 # positions Arm for playing defense
 class Command_Defense(CommandGroup):
@@ -22,11 +21,9 @@ class Command_Defense(CommandGroup):
 		State 1
 		'''
 
-		# BEING WEIRD
-		#self.addParallel(Do_Zero_Encoder(robot))
 		# Estimated angle accounting for weird pid
-		#self.addSequential(Do_Move_Arm(robot, 90))
-		#self.addSequential(Do_Hp_Rotate_Actuated(robot))
+		self.addSequential(Do_Profile_Move(robot, 90))
+		self.addSequential(Do_Hp_Rotate_Actuated(robot))
 		print("defense!")
 
 

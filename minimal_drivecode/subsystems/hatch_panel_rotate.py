@@ -15,7 +15,7 @@ class Hatch_Panel_Rotate(Subsystem):
 			Each solenoid is instantiated by 
 			an "actuated" and "unactuated" command
 		'''
-		self.hp_rotate_solenoid = wpilib.Solenoid(2)
+		self.hp_rotate_solenoid = wpilib.Solenoid(3)
 
 	# Arm must be in position before actuate/unactuate
 	def hp_actuate(self):

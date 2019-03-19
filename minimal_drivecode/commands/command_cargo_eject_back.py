@@ -4,11 +4,10 @@ import wpilib
 from wpilib.command import CommandGroup
 
 # commands used in commandgroup
-from do_move_arm import Do_Move_Arm
-from do_zero_encoder import Do_Zero_Encoder
+from do_profile_move import Do_Profile_Move
 
 # positions Arm for Cargo_Eject
-class Command_Cargo_Eject(CommandGroup):
+class Command_Cargo_Eject_Back(CommandGroup):
 	def __init__(self, robot):
 		super().__init__()
 
@@ -22,7 +21,7 @@ class Command_Cargo_Eject(CommandGroup):
 		'''
 
 		# Estimate, pid is bad still
-		self.addSequential(Do_Move_Arm(robot, 40))
+		self.addSequential(Do_Profile_Move(robot, 70))
 		print("commandgroup cargo eject initialized")
 
 
