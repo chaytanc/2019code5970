@@ -90,7 +90,8 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		self.loops = 0
 
 		# untested vision
-		#wpilib.CameraServer.launch("vision.py:main")
+		#XXX will make sim crash
+		wpilib.CameraServer.launch("vision.py:main")
 		
 		
 		
