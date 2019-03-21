@@ -29,7 +29,8 @@ class Arm(Subsystem):
 		#self.back_switch = limit.back_switch
 
 		# Encoders
-		self.l_arm_encoder = My_Arm_Encoder(0,1)
+		#self.l_arm_encoder = My_Arm_Encoder(0,1)
+		self.l_arm_encoder = My_Arm_Encoder(9,10)
 		self.limit_switch = DigitalInput(8)
 		#self.l_arm_encoder = wpilib.Encoder(0, 1)
 
@@ -51,7 +52,7 @@ class Arm(Subsystem):
 		self.max_accel = 0.536
 		self.min_decel = 0.536
 
-		self.time = 0
+		self.time = 10
 
 	#XXX Run in command initialization. End angle will be passed in in command
 	def initialize(self, end_angle):
@@ -181,16 +182,22 @@ class Arm(Subsystem):
 		self.arm_motors.set_speed(motor_voltage)
 	
 	def arm_encoder_get(self):
-		#return self.l_arm_encoder.getDistance()
-		self.time += 1
-		return self.time
+		return self.l_arm_encoder.getDistance()
+		
+		# testing
+		#self.time += 1
+		#return self.time
 	
-	def adjust_arm(self, PID, target_angle):
-		if PID == 0:
+	#def adjust_arm(self, PID, target_angle):
+	def adjust_arm(self, PID):
+		print("tree")
+		
+		if PID == 0.0:
 			self.arm_motors.set_speed(0)
-		elif PID > 0:
+		elif PID > 0.0:
 			self.arm_motors.set_speed(0.2)
-		elif PID < 0:
+		elif PID < 0.0:
 			self.arm_motors.set_speed(-0.2)
+	
 
 

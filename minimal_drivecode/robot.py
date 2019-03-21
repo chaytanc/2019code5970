@@ -27,6 +27,7 @@ sys.path.insert(0, '/home/lvuser/py/commands')
 from arm_motors import Arm_Motors
 from left_motors import Left_Motors
 from right_motors import Right_Motors
+from arm_pid import Arm_Pid
 
 from drivetrain import Drivetrain
 from arm import Arm
@@ -67,6 +68,7 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		self.hatch_panel_rotate = Hatch_Panel_Rotate()
 		self.ramp = Ramp()
 		self.shifters = Shifters()
+		self.arm_pid = Arm_Pid(self)
 
 		#XXX back switch is no longer a subsystem, similar to arm motors
 		#self.b_limit = Back_Switch()
@@ -89,7 +91,7 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		self.loops = 0
 
 		# untested vision
-		#wpilib.CameraServer.launch("vision.py:main")
+		wpilib.CameraServer.launch("vision.py:main")
 		
 		
 		

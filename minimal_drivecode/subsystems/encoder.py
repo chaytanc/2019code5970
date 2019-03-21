@@ -19,9 +19,7 @@ class My_Arm_Encoder(wpilib.Encoder):
 	def __init__(self, DIO_1, DIO_2):
 		super().__init__(DIO_1, DIO_2)
 		# Amount some gear in motor configuration turns per encoder click
-		#self.setDistancePerPulse(self.FINAL_DEGREE_PER_CLICK)
-		# 30 degrees per click
-		self.setDistancePerPulse(30)
+		self.setDistancePerPulse(self.FINAL_DEGREE_PER_CLICK)
 	
 	def get_new_rate(self):
 		#distance_per_seconds = self.getRate()

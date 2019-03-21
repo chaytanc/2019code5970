@@ -106,11 +106,12 @@ class OI():
 
 		# Input desired angle of arm
 
-		ltop3.whenPressed(Do_Profile_Move(robot, 25.0))
+		#ltop3.whenPressed(Do_Profile_Move(robot, 25.0))
+		ltop3.whileHeld(Do_Pid_Loop_Test(robot, 25))
 
 		#XXX
 		#ltop4.whenPressed(Do_Encoder_Check(robot))
-		ltop4.whileHeld(Do_Pid_Loop_Test(robot, 25.0))
+		ltop4.whileHeld(Do_Pid_Loop_Test(robot, 50))
 
 		ltop5.whileHeld(Do_Cargo_Intake(robot))
 
@@ -120,12 +121,12 @@ class OI():
 		'''
 		# Button 1 while held actuates hp_intake(tennis balls)
 		# when released, retract and actuate hp_intake
-		#rtop1.whileHeld(Do_Hp_Eject(robot))
-		#rtop1.whenReleased(Do_Hp_Intake(robot))
+		rtop1.whileHeld(Do_Hp_Eject(robot))
+		rtop1.whenReleased(Do_Hp_Intake(robot))
 
 		# Button 2 toggles shifters
-		#rtop2.toggleWhenPressed(Do_Shifters_Toggle(robot))
-		rtop2.whileHeld(Do_Cargo_Eject(robot))
+		rtop2.toggleWhenPressed(Do_Shifters_Toggle(robot))
+		#rtop2.whileHeld(Do_Cargo_Eject(robot))
 
 		# All the way back, 0 deg
 		#rtop3.whenPressed(Command_Cargo_Intake(robot))

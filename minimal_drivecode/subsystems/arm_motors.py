@@ -22,7 +22,7 @@ class Arm_Motors():
 		"""
 
 
-		print("Arm motors: Setting to:" + str(voltage))
+		#print("Arm motors: Setting to:" + str(voltage))
 
 		self.left_arm_motor.set(
 			self.left_arm_motor.ControlMode.PercentOutput, voltage)
