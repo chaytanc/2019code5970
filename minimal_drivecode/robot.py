@@ -3,6 +3,9 @@
 
 # Robotics specifc libraries
 import wpilib
+from wpilib.command import Scheduler
+# for Automous Scheduler
+# from commands.autonomous import Autonomous
 from wpilib.buttons.joystickbutton import JoystickButton
 import time
 from networktables import NetworkTables
@@ -13,88 +16,133 @@ import sys
 import math
 
 #Linux path
-sys.path.append('./modules') 
-sys.path.append('./logic') 
-
-#Windows RobotPyModules path
-sys.path.append('C:/Users/Beavertronics/Desktop/2019code5970/drivingcode/\
-robot_py_modules') 
-sys.path.append('C:/Users/Beavertronics/Desktop/2019code5970/drivingcode/\
-robot_logic') 
+sys.path.append('./subsystems') 
+sys.path.append('./commands') 
 
 #RoboRIO path
-sys.path.insert(0, '/home/lvuser/py/modules')
-sys.path.insert(0, '/home/lvuser/py/logic')
+sys.path.insert(0, '/home/lvuser/py/subsystems')
+sys.path.insert(0, '/home/lvuser/py/commands')
 
 # Subsidiary objects on the robot. Ex: Cube Intake from 2017/18 season
+from arm_motors import Arm_Motors
 from left_motors import Left_Motors
 from right_motors import Right_Motors
-import tank
-import joysticks as js
 
-class BeaverTronicsRobot(wpilib.IterativeRobot): 
+from drivetrain import Drivetrain
+from arm import Arm
+from cargo import Cargo
+from hatch_panel import Hatch_Panel
+from hatch_panel_rotate import Hatch_Panel_Rotate
+from ramp import Ramp
+from shifters import Shifters
+
+# Limit switches
+#from back_switch import Back_Switch
+#from cargo_switch import Cargo_Switch
+
+# Teleop init command
+#from do_die_you_gravy_sucking_pig import Do_Die_You_Gravy_Sucking_Pig
+
+# command groups
+from command_hp_eject import Command_Hp_Eject
+
+from oi import OI
+
+class BeaverTronicsRobot(wpilib.TimedRobot): 
 
 	def robotInit(self):
-
 		# Instances of classes
 
-		# Motors
-		left_motors_instance = Left_Motors()
-		right_motors_instance = Right_Motors()
-		left_motors = left_motors_instance.left_motor_group
-		right_motors = right_motors_instance.right_motor_group
-		
-		# Tank Drive mode
-		self.lj = wpilib.Joystick(0)
-		self.rj = wpilib.Joystick(1)
+		# Instantiate Subsystems
+		self.drivetrain = Drivetrain(self)
+		self.arm = Arm(self)
+		self.cargo = Cargo(self)
+		self.hatch_panel = Hatch_Panel()
+		self.hatch_panel_rotate = Hatch_Panel_Rotate()
+		self.ramp = Ramp()
+		self.shifters = Shifters()
 
-		self.drive = tank.set_tank_drive(left_motors, right_motors)
+		#XXX back switch is no longer a subsystem, similar to arm motors
+		#self.b_limit = Back_Switch()
+
+		# instantiate Encoders for drivetrain?
+		#self.encoders = Encoders(self)
+
+		# Instantiate Joysticks
+		self.left_joy = wpilib.Joystick(0) 
+		self.right_joy = wpilib.Joystick(1)
 		
-			
+		# Instantiate Xbox
+		#XXX will probably look more like:
+		self.xbox = wpilib.Joystick(2)
+
+		# Instantiate OI; must be AFTER joysticks are inited
+		self.oi = OI(self)
+
+		self.timer = wpilib.Timer()
+		self.loops = 0
+
+		# untested vision
+		wpilib.CameraServer.launch("vision.py:main")
+		
+		
+		
 	def autonomousInit(self):
-		"""This function is run once each time the robot enters 
-		autonomous mode."""
-
+		Scheduler.getInstance().removeAll()
 		# Set up encoders
-
 		# Loop counter to stop/start auto?
-
 		# Reset encoders (zero them) upon init
-		
 		# Get Driverstation data from field
+
 		data = wpilib.DriverStation.getInstance().getGameSpecificMessage()
-		self.error = 0
-		self.total_error = 0
+		# Initialize pid variables
+
+		# Autonomous Scheduler
+		# self.autonomousCommand.start()
 		
 	def autonomousPeriodic(self):
-   
-	# Begin auto loop counter for controlling auto? Loop if less than x val
-			data = wpilib.DriverStation.getInstance().getGameSpecificMessage()
+		#XXX hatch panel
+		Scheduler.getInstance().run()
+		#return None
+
+	def teleopInit(self):
+		self.loops = 0
+		self.timer.reset()
+		self.timer.start()
+
+		print("robot.py: encoder " + str(self.arm.l_arm_encoder.get()))
+		self.arm.l_arm_encoder.reset()
+		#Do_Basic_Move_Arm(self).start()
+		#Do_Zero_Encoder(self).run()
+		#XXX Initialize profile stuff
+		#Do_Die_You_Gravy_Sucking_Pig(self).run()
+
+		Scheduler.getInstance().removeAll()
+		Scheduler.getInstance().enable()
+		Do_Axis_Button_5(self).start()
 
 	def teleopPeriodic(self):
-		"""This function is called periodically during operator control."""
 
-		# Set speed of motors based on joysticks
-		tank.set_tank_speed(self.lj, self.rj, self.drive)
-
-		# Executing button functions
-		#js.do(cargo_eject_butt, arm.cargo_eject(), xxxargs) 
-		#js.do(ramp_deploy_butt, arm.ramp_deploy(), xxxargs)
-		### etc
-
-		#intake/outakes
-		### Test this later
-		#js.do(
-		#	cargo_intake_butt, arm.cargo_intake, self.intake_motor_group) 
-
-		
-
-		#shifters
-
-	# any lineup code used for teleop 
+	# Before, button functions were executed here. Now scheduler will do that
 	
-	def testPeriodic(self):
-		"""This function is called periodically during test mode."""
+		Scheduler.getInstance().run()
+
+		# Keeping track of TimedRobot loops through code
+		self.loops += 1
+		if self.timer.hasPeriodPassed(1):
+			self.logger.info("%d loops / second", self.loops)
+			self.loops = 0
+
+	def disabledInit(self):
+		# remove all commands from scheduler
+		#self.arm_motors.set_speed(0, False)
+		Scheduler.getInstance().removeAll()
+		
+		return None
+
+	def disabledPeriodic(self):
+		return None
+
 	
 if __name__ == "__main__":
 	wpilib.run(BeaverTronicsRobot)

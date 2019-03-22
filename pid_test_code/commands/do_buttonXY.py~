@@ -1,0 +1,55 @@
+# vim: set sw=4 noet ts=4 fileencoding=utf-8:
+
+import wpilib
+import wpilib.drive
+from wpilib.command import Command
+
+class Do_ButtonXY(Command):
+
+	def __init__(self, robot):
+		'''
+		Command functionally equivalent to "when controller axis is triggered, do [command or command group]
+		'''
+		# Recognize as a wpilib command
+		super().__init__()
+		
+
+		# an instance of BeaverTronicsRobot from robot.py containing its
+		self.robot = robot
+		self.robot_cargo = robot.cargo
+		
+		# keeps track of axis inputs over time
+		self.previous_xbox_left_XY = 0
+	
+	def initialize(self):
+		"""Called just before this Command runs the first time"""
+			
+		
+	
+	def execute(self):
+		"""Called iteratively by Scheduler"""
+		# Continuously check current button axis input
+		self.xbox_left_XY = self.robot.xbox.getAxis(1)	
+		# Calls command based on button axis input
+		self.robot_cargo.cargo_button_check(self.xbox_left_XY, 
+				self.previous_xbox_left_XY)
+		
+		# record previous button axis input
+		self.previous_xbox_left_XY = self.xbox_left_XY
+
+		#self.cargo.cargo_button_check(self.oi.xbox_left_XY)
+
+	def isFinished(self):
+		# This is how running tank driving is prioritized
+		# In other words, runs til interrupted
+		return None
+
+	def end(self):
+		return None
+	
+	### Maybe don't want to stop motors when interrupted
+	def interrupted(self):
+		self.end()
+
+
+	

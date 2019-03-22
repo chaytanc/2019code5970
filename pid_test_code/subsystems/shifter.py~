@@ -1,0 +1,36 @@
+# vim: set sw=4 noet ts=4 fileencoding=utf-8:
+
+import wpilib
+from wpilib.command import Subsystem
+
+
+class Shifter(Subsystem):
+	#*********Robot-Side Initialization***************
+	def __init__(self):
+		super().__init__()
+		# Command Dependencies:
+		#	Shifter On/Off
+
+		# Initialize Pneumatics[shifters]
+		#	Each solenoid is instantiated by 
+		#	an "actuated" and "unactuated" command (on and off, respectively)
+		self.shifter_left = wpilib.Solenoid(0)
+		self.shifter_right = wpilib.Solenoid(1)
+
+	'''
+	Control shifters
+	'''
+
+	def Pop(self):
+		if self.pop.get():
+			self.shiftL.set(True)
+			self.shiftR.set(True)
+			#for motor in self.pop_motor:
+				#motor.set(1)
+		else:
+			self.shiftL.set(False)
+			self.shiftR.set(False)
+			#for motor in self.pop_motor:
+				#motor.set(0)
+
+
