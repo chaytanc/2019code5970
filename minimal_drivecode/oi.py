@@ -10,17 +10,12 @@ path.append('../commands')
 
 # Button commands
 from do_move_arm import Do_Move_Arm
-from do_basic_move_arm import Do_Basic_Move_Arm
 from do_die_you_gravy_sucking_pig import Do_Die_You_Gravy_Sucking_Pig
 from do_encoder_check import Do_Encoder_Check
 from do_cargo_intake import Do_Cargo_Intake
 #from do_arm_test import Do_Arm_Test
-from do_profile_move import Do_Profile_Move
 
 # Non-button commands
-from do_zeroed_clicks import Do_Zeroed_Clicks
-from do_recal_clicks import Do_Recal_Clicks
-from do_zero_encoder import Do_Zero_Encoder
 
 # intake commands
 from do_cargo_eject import Do_Cargo_Eject
@@ -98,11 +93,9 @@ class OI():
 		'''
 		# Button 1 causes cargo motor to spin outwards for 0.5s
 		#ltop1.whileHeld(Do_Cargo_Eject(robot))
-		ltop1.whenPressed(Do_Basic_Move_Arm(robot, 0.2))
 
 		# Button 2 shuts down arm
 		#ltop2.whileHeld(Do_Die_You_Gravy_Sucking_Pig(robot))
-		ltop2.whenPressed(Do_Basic_Move_Arm(robot, -0.2))
 
 		# Input desired angle of arm
 

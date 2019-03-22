@@ -6,10 +6,9 @@ from wpilib.command import CommandGroup
 # commands used in commandgroup
 from do_ramp import Do_Ramp
 from do_move_arm import Do_Move_Arm
-from do_shifters_off import Do_Shifters_Off
+#from do_shifters_off import Do_Shifters_Off
 from do_hp_rotate_unactuated import Do_Hp_Rotate_Unactuated
 from do_hp_intake import Do_Hp_Intake
-from do_zero_encoder import Do_Zero_Encoder
 
 # activated at end of match
 # positions Arm for Do_Ramp THEN resets pneumatics
@@ -32,7 +31,7 @@ class Command_Ramp(CommandGroup):
 		
 		# reset uses solenoids 0, 1, 2, 3
 		# reset all non-ramp pneumatics to unactuated
-		self.addParallel(Do_Shifters_Off(robot))
+		#self.addParallel(Do_Shifters_Off(robot))
 		self.addParallel(Do_Hp_Rotate_Unactuated(robot))
 		self.addParallel(Do_Hp_Intake(robot))
 

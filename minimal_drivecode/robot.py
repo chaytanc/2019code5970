@@ -43,11 +43,9 @@ from shifters import Shifters
 
 
 # commands
-from do_basic_move_arm import Do_Basic_Move_Arm
 from do_axis_button_5 import Do_Axis_Button_5
 
 # Teleop init command
-from do_zero_encoder import Do_Zero_Encoder
 #from do_die_you_gravy_sucking_pig import Do_Die_You_Gravy_Sucking_Pig
 
 # command groups

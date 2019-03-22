@@ -5,7 +5,6 @@ from wpilib.command import CommandGroup
 
 # commands used in commandgroup
 from do_move_arm import Do_Move_Arm
-from do_zero_encoder import Do_Zero_Encoder
 
 # positions Arm for Cargo_Eject
 class Command_Cargo_Eject(CommandGroup):
