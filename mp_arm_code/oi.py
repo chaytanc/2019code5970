@@ -8,7 +8,6 @@ from sys import path
 path.append('../commands')
 
 # Button commands
-#from do_move_arm import Do_Move_Arm
 from do_die_you_gravy_sucking_pig import Do_Die_You_Gravy_Sucking_Pig
 from do_encoder_check import Do_Encoder_Check
 from do_cargo_intake import Do_Cargo_Intake
@@ -22,29 +21,20 @@ from do_hp_rotate_actuated import Do_Hp_Rotate_Actuated
 
 
 # Non-button commands
-from do_zeroed_clicks import Do_Zeroed_Clicks
-from do_recal_clicks import Do_Recal_Clicks
 from do_zero_encoder import Do_Zero_Encoder
 
 # shifter commands
 from do_shifters_toggle import Do_Shifters_Toggle
-from do_shifters_on import Do_Shifters_On
 
 # command groups
 from command_hp_eject import Command_Hp_Eject
 from command_hp_intake import Command_Hp_Intake
-from command_ramp import Command_Ramp
+#XXX need to change for redesigned beak
+#from command_ramp import Command_Ramp
 from command_defense import Command_Defense
 from command_cargo_intake import Command_Cargo_Intake
 from command_cargo_eject_back import Command_Cargo_Eject_Back
 from command_cargo_eject_forward import Command_Cargo_Eject_Forward
-
-# axis interpreters
-#from do_axis_button_5 import Do_Axis_Button_5
-
-#test
-from do_pid_loop_test import Do_Pid_Loop_Test
-
 
 class OI():
 	def __init__(self, robot):

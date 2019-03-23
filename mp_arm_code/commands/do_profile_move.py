@@ -1,5 +1,6 @@
 # vim: set sw=4 noet ts=4 fileencoding=utf-8:
 
+#XXX ERRORS OUT IN SIM
 import wpilib
 from wpilib.command import Command
 from do_die_you_gravy_sucking_pig import Do_Die_You_Gravy_Sucking_Pig

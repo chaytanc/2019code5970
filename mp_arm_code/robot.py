@@ -41,10 +41,6 @@ from shifters import Shifters
 #from cargo_switch import Cargo_Switch
 
 
-# commands
-from do_basic_move_arm import Do_Basic_Move_Arm
-from do_axis_button_5 import Do_Axis_Button_5
-
 # Teleop init command
 from do_zero_encoder import Do_Zero_Encoder
 #from do_die_you_gravy_sucking_pig import Do_Die_You_Gravy_Sucking_Pig
@@ -53,7 +49,8 @@ from do_zero_encoder import Do_Zero_Encoder
 from command_hp_eject import Command_Hp_Eject
 
 from oi import OI
-import vision
+#XXX crashes in sim; no cscore
+#import vision
 
 class BeaverTronicsRobot(wpilib.TimedRobot): 
 
@@ -91,7 +88,7 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 
 		# untested vision
 		#XXX will make sim crash
-		wpilib.CameraServer.launch("vision.py:main")
+		#wpilib.CameraServer.launch("vision.py:main")
 		
 		
 		
