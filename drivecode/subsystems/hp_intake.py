@@ -3,7 +3,7 @@
 import wpilib
 from wpilib.command import Subsystem
 
-class Hatch_Panel(Subsystem):
+class Hp_Intake(Subsystem):
 	#*********Robot-Side Initialization***************
 	def __init__(self):
 		super().__init__()
@@ -16,15 +16,26 @@ class Hatch_Panel(Subsystem):
 			an "actuated" and "unactuated" command 
 			(intake and eject, respectively)
 		'''
-		self.hp_solenoid = wpilib.Solenoid(3)
+		# BEAK
+		self.beak = wpilib.Solenoid(2)
 
-	# Arm must be in position before actuate/unactuate
-	def hp_actuate(self):
-		# actuate hatch panel intake solenoid & corresponding pistons
-		self.hp_solenoid.set(True)
+		# 4 BAR
+		self.bars = wpilib.Solenoid(3)
 
-	def hp_unactuate(self):
+	# OPENS beak
+	def beak_actuate(self):
+		self.beak.set(True)
+
+	# CLOSES BEAK
+	def beak_unactuate(self):
+		self.beak.set(False)
+
+	def bars_actuate(self):
+		# actuate 4 bar pistons such that beak is out of frame 
+		self.bars.set(True)
+
+	def bars_unactuate(self):
 		# actuate hatch panel intake solenoid & corresponding pistons
-		self.hp_solenoid.set(False)
+		self.bars.set(False)
 
 

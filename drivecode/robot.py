@@ -29,22 +29,15 @@ from left_motors import Left_Motors
 from right_motors import Right_Motors
 
 from drivetrain import Drivetrain
-from arm import Arm
-from cargo import Cargo
-from hatch_panel import Hatch_Panel
-from hatch_panel_rotate import Hatch_Panel_Rotate
+from hp_intake import Hp_Intake
 from ramp import Ramp
 from shifters import Shifters
 
 # Limit switches
 #from back_switch import Back_Switch
-#from cargo_switch import Cargo_Switch
 
 # Teleop init command
 #from do_die_you_gravy_sucking_pig import Do_Die_You_Gravy_Sucking_Pig
-
-# command groups
-from command_hp_eject import Command_Hp_Eject
 
 from oi import OI
 
@@ -55,10 +48,7 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 
 		# Instantiate Subsystems
 		self.drivetrain = Drivetrain(self)
-		self.arm = Arm(self)
-		self.cargo = Cargo(self)
-		self.hatch_panel = Hatch_Panel()
-		self.hatch_panel_rotate = Hatch_Panel_Rotate()
+		self.hp_intake = Hp_Intake()
 		self.ramp = Ramp()
 		self.shifters = Shifters()
 
@@ -110,16 +100,8 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		self.timer.reset()
 		self.timer.start()
 
-		print("robot.py: encoder " + str(self.arm.l_arm_encoder.get()))
-		self.arm.l_arm_encoder.reset()
-		#Do_Basic_Move_Arm(self).start()
-		#Do_Zero_Encoder(self).run()
-		#XXX Initialize profile stuff
-		#Do_Die_You_Gravy_Sucking_Pig(self).run()
-
 		Scheduler.getInstance().removeAll()
 		Scheduler.getInstance().enable()
-		Do_Axis_Button_5(self).start()
 
 	def teleopPeriodic(self):
 

@@ -5,7 +5,6 @@ from wpilib.command import CommandGroup
 
 # commands used in commandgroup
 from do_ramp import Do_Ramp
-from do_move_arm import Do_Move_Arm
 #from do_shifters_off import Do_Shifters_Off
 from do_hp_rotate_unactuated import Do_Hp_Rotate_Unactuated
 from do_hp_intake import Do_Hp_Intake
@@ -26,7 +25,6 @@ class Command_Ramp(CommandGroup):
 
 		# BEING WEIRD
 		#self.addParallel(Do_Zero_Encoder(robot))
-		self.addSequential(Do_Move_Arm(robot, 100))
 		self.addSequential(Do_Ramp(robot))
 		
 		# reset uses solenoids 0, 1, 2, 3

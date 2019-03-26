@@ -9,29 +9,20 @@ from sys import path
 path.append('../commands')
 
 # Button commands
-from do_move_arm import Do_Move_Arm
 from do_die_you_gravy_sucking_pig import Do_Die_You_Gravy_Sucking_Pig
 from do_encoder_check import Do_Encoder_Check
-from do_cargo_intake import Do_Cargo_Intake
-#from do_arm_test import Do_Arm_Test
+from do_beak_open import Do_Beak_Open
+from do_four_bar import Do_Four_Bar
+from do_undo_four_bar import Do_Undo_Four_Bar
 
 # Non-button commands
-
-# intake commands
-from do_cargo_eject import Do_Cargo_Eject
-from do_cargo_intake import Do_Cargo_Intake
-from do_hp_intake import Do_Hp_Intake
-from do_hp_eject import Do_Hp_Eject
 
 # shifter commands
 from do_shifters_toggle import Do_Shifters_Toggle
 
 # command groups
-from command_hp_eject import Command_Hp_Eject
-from command_hp_intake import Command_Hp_Intake
-from command_ramp import Command_Ramp
-from command_defense import Command_Defense
-from command_cargo_intake import Command_Cargo_Intake
+#from command_ramp import Command_Ramp
+#from command_defense import Command_Defense
 
 class OI():
 	def __init__(self, robot):
@@ -90,78 +81,38 @@ class OI():
 		# Button 2 shuts down arm
 		#ltop2.whileHeld(Do_Die_You_Gravy_Sucking_Pig(robot))
 
-		# Input desired angle of arm
-
-		#ltop3.whenPressed(Do_Profile_Move(robot, 25.0))
-
 		#XXX
 		#ltop4.whenPressed(Do_Encoder_Check(robot))
 
-		ltop5.whileHeld(Do_Cargo_Intake(robot))
+		ltop5.whileHeld(Do_Beak_Open(robot))
 
 
 		'''
 		Joystick 1 / Right Joystick Commands
 		'''
-		# Button 1 while held actuates hp_intake(tennis balls)
-		# when released, retract and actuate hp_intake
-		rtop1.whileHeld(Do_Hp_Eject(robot))
-		rtop1.whenReleased(Do_Hp_Intake(robot))
-
 		# Button 2 toggles shifters
 		rtop2.toggleWhenPressed(Do_Shifters_Toggle(robot))
-		#rtop2.whileHeld(Do_Cargo_Eject(robot))
 
 		# All the way back, 0 deg
-		#rtop3.whenPressed(Command_Cargo_Intake(robot))
 
 		# for testing in sim
-		rtop5.whileHeld(Do_Cargo_Intake(robot))
 		#rtop5.whenPressed(Do_Axis_Button_5(robot))
 
 
 		'''
 		Joystick 2 / Xbox Controller Commands
 		'''	
-		# when BACK pressed, turn on axis detection for cargo intake
-		#Cargo Outtake (near back of robot) / Cargo Intake (front of robot)
-		#xboxBACK.whenPressed(Do_Axis_Button_5(robot))
-		#xboxBACK.whenPressed(Command_Cargo_Intake(robot))
-
-		# while RB pressed, cargo motor intakes
-		#xboxRB.whileHeld(Do_Cargo_Intake(robot))
-		# when START pressed, deploy ramp and reset pneumatics to unactuated
-		xboxSTART.whenPressed(Command_Ramp(robot))
-
-		# XYBA controls arm positions
-		# X = Hatch Panel Outtake (front of robot, same angle as cargo intake)
-		# All the way over, 150ish deg in reality
-		#xboxX.whenPressed(Command_Hp_Eject(robot))
-
-		# back up simple code. Moves arm motors forwards while held
-		#xboxX.whileHeld(Do_Basic_Move_Arm(robot, 0.2))
+		#xboxSTART.whenPressed(Command_Ramp(robot))
 
 		# Y = Defence Position (straight up)
 		#xboxY.whenPressed(Command_Defense(robot))
 
-		# B = Hatch Panel Intake (back of robot)
-		# 0 degrees ish
-		xboxB.whenPressed(Command_Hp_Intake(robot))	
-
-		# back up simple code. Moves arm motors backwards while while held
-		#xboxB.whileHeld(Do_Basic_Move_Arm(robot, -0.2))
-
-
-
-
-
-		# Commands to be checked continually by Scheduler but not run
-		# by direct button press:
-
-		# Doesn't work because robotpy?
-		#self.robot.arm_limit_switches.f_limit.requestInterrupts(
-				#Do_Max_Encoder(robot))
-
-
+		# B = Hatch Panel Intake (front of robot)
+		# B for BEAK
+		xboxB.whileHeld(Do_Beak_Open(robot))	
+		# Out of Frame
+		xboxX.whenPressed(Do_Four_Bar(robot))
+		# In frame
+		xboxA.whenPressed(Do_Undo_Four_Bar(robot))
 
 

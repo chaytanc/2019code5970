@@ -8,9 +8,9 @@ class Left_Motors():
  
 	def __init__(self):
 		#Initialize Left motors
-		left_front = (wpilib.VictorSP(0))
-		left_mid = (wpilib.VictorSP(1))
-		left_rear = (wpilib.VictorSP(2))
+		left_front = (wpilib.VictorSP(3))
+		left_mid = (wpilib.VictorSP(4))
+		left_rear = (wpilib.VictorSP(5))
 		self.left_motor_group = wpilib.SpeedControllerGroup(
 			left_front, left_mid, left_rear)
 
