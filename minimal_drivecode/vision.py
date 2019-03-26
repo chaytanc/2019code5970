@@ -25,9 +25,8 @@ def main():
     camera = cs.startAutomaticCapture()
 
     camera.setResolution(320, 240)
-    camera.setPixelFormat(VideoMode.PixelFormat.kGray)
-
-    #camera_mode.PixelFormat.kGray
+    #camera.setPixelFormat(VideoMode.PixelFormat.kGray)
+    camera.setFPS(24)
 
     # Get a CvSink. This will capture images from the camera
     cvSink = cs.getVideo()
