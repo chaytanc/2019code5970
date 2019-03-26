@@ -24,7 +24,7 @@ class Command_Hp_Eject(CommandGroup):
 		# BEING WEIRD
 		# Estimated angle accounting for weird pid
 		#self.addParallel(Do_Zero_Encoder(robot))
-		self.addSequential(Do_Move_Arm(robot, 0.1))
+		#self.addSequential(Do_Move_Arm(robot, 0.1))
 		self.addSequential(Do_Hp_Rotate_Actuated(robot))
 		print("hp eject!")
 

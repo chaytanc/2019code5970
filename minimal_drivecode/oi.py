@@ -145,7 +145,7 @@ class OI():
 		# XYBA controls arm positions
 		# X = Hatch Panel Outtake (front of robot, same angle as cargo intake)
 		# All the way over, 150ish deg in reality
-		#xboxX.whenPressed(Command_Hp_Eject(robot))
+		xboxX.whenPressed(Command_Hp_Eject(robot))
 
 		# back up simple code. Moves arm motors forwards while held
 		#xboxX.whileHeld(Do_Basic_Move_Arm(robot, 0.2))

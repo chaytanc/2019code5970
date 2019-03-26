@@ -22,7 +22,7 @@ class Command_Hp_Intake(CommandGroup):
 		'''
 		# Estimated angle accounting for weird pid
 		# BEING WEIRD
-		self.addSequential(Do_Move_Arm(robot, 65))
+		#self.addSequential(Do_Move_Arm(robot, 65))
 		self.addSequential(Do_Hp_Rotate_Unactuated(robot))
 		print("hp intake!")
 
