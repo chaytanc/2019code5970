@@ -50,8 +50,8 @@ def main():
         # Put a rectangle on the image
         #cv2.rectangle(img, (100, 100), (300, 300), (240, 240, 240), 5)
         #cv2.SHAPE(img, (coordinate 1), (coordinate 2), (RGB colors), PIXEL THICKNESS)
-        cv2.line(img, (100,100), (100, 300), (255, 0, 0), 5)
-        cv2.line(img, (150, 150), (300, 150), (0, 255, 0), 5)
+        cv2.line(img, (100,100), (100, 200), (240, 240, 240), 5)
+        cv2.line(img, (150, 150), (200, 150), (240, 240, 240), 5)
 
         # Give the output stream a new image to display
         outputStream.putFrame(img)
