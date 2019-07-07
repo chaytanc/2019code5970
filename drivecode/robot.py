@@ -68,8 +68,7 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		self.timer = wpilib.Timer()
 		self.loops = 0
 
-		# untested vision
-		#XXX might crash sim
+		# slightly untested vision
 		wpilib.CameraServer.launch("vision.py:main")
 		
 		
@@ -78,11 +77,9 @@ class BeaverTronicsRobot(wpilib.TimedRobot):
 		Scheduler.getInstance().removeAll()
 		# Set up encoders
 		# Loop counter to stop/start auto?
-		# Reset encoders (zero them) upon init
 		# Get Driverstation data from field
 
 		data = wpilib.DriverStation.getInstance().getGameSpecificMessage()
-		# Initialize pid variables
 
 		# Autonomous Scheduler
 		# self.autonomousCommand.start()
